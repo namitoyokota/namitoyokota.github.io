@@ -2,181 +2,181 @@
     {
         "id": 1,
         "alt": "Condo - Isabella",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_6166.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_6166.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_6166.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_6166.jpg"
     },
     {
         "id": 2,
         "alt": "Condo - Girls Porch Swing",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_5989.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_5989.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_5989.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_5989.jpg"
     },
     {
         "id": 3,
         "alt": "Condo - Girls Close Up",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_5978.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_5978.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_5978.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_5978.jpg"
     },
     {
         "id": 4,
         "alt": "Hiking - Isabella",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_5869.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_5869.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_5869.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_5869.jpg"
     },
     {
         "id": 5,
         "alt": "Hiking - Boys",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_4137.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_4137.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_4137.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_4137.jpg"
     },
     {
         "id": 6,
         "alt": "Horse - Anna",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_3852.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_3852.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3852.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3852.jpg"
     },
     {
         "id": 7,
         "alt": "Horse - Isabella Portrait",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_3736.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_3736.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3736.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3736.jpg"
     },
     {
         "id": 8,
         "alt": "Horse - Isabella Ride",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_3726.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_3726.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3726.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3726.jpg"
     },
     {
         "id": 9,
         "alt": "Beach - Chloe Portrait",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_3564.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_3564.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3564.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3564.jpg"
     },
     {
         "id": 10,
         "alt": "Beach - Girls Portrait",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_3375.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_3375.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3375.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3375.jpg"
     },
     {
         "id": 11,
         "alt": "Beach - Isabella Thumbs Up",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_3144.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_3144.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3144.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3144.jpg"
     },
     {
         "id": 12,
         "alt": "Beach - Chloe Jump",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_3042.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_3042.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3042.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3042.jpg"
     },
     {
         "id": 13,
         "alt": "Beach - Lifeguard",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_2711.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_2711.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2711.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2711.jpg"
     },
     {
         "id": 14,
         "alt": "Beach - Lemonade Stand Interaction",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_2704.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_2704.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2704.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2704.jpg"
     },
     {
         "id": 15,
         "alt": "Beach - Best Friends",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_2643.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_2643.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2643.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2643.jpg"
     },
     {
         "id": 16,
         "alt": "Beach - Best Friends Holding Hands",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_2621.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_2621.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2621.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2621.jpg"
     },
     {
         "id": 17,
         "alt": "Beach - Lemonade Stand Portrait",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_2572.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_2572.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2572.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2572.jpg"
     },
     {
         "id": 28,
         "alt": "Beach - Girls Tattoos",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_2214.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_2214.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2214.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2214.jpg"
     },
     {
         "id": 19,
         "alt": "Beach - Girls Porch Portrait",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_2113.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_2113.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2113.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2113.jpg"
     },
     {
         "id": 20,
         "alt": "Gulf Coast Getaway - Worship Leader",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_2067.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_2067.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2067.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2067.jpg"
     },
     {
         "id": 21,
         "alt": "Gulf Coast Getaway - Crowd Worship",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1986.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1986.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1986.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1986.jpg"
     },
     {
         "id": 22,
         "alt": "Graduation - Haylee Shelby Building",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1894.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1894.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1894.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1894.jpg"
     },
     {
         "id": 23,
         "alt": "Graduation - Hannah Shelby Building",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1887.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1887.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1887.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1887.jpg"
     },
     {
         "id": 24,
         "alt": "Graduation - Hannah Walk of Champions",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1853.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1853.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1853.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1853.jpg"
     },
     {
         "id": 25,
         "alt": "Graduation - Haylee Bryant Denny Stadium",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1849.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1849.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1849.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1849.jpg"
     },
     {
         "id": 26,
         "alt": "Graduation - Twins Denny Chimes",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1649.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1649.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1649.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1649.jpg"
     },
     {
         "id": 27,
         "alt": "Japan - Friends Street Portrait",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1453.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1453.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1453.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1453.jpg"
     },
     {
         "id": 28,
         "alt": "Japan - Fish Market Bargaining",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1452.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1452.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1452.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1452.jpg"
     },
     {
         "id": 29,
         "alt": "Japan - Fish Market Street",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1450.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1450.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1450.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1450.jpg"
     },
     {
         "id": 30,
         "alt": "Gulf Coast Getaway - Speaker",
-        "fullImageUrl": "https://namitoyokota.github.io/assets/images/JAN_1267.jpg",
-        "blurredImageUrl": "https://namitoyokota.github.io/assets/images-compressed/JAN_1267.jpg"
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_1267.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_1267.jpg"
     }
 ]

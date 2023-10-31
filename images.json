@@ -24,6 +24,12 @@
         "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_5869.jpg"
     },
     {
+        "id": 32,
+        "alt": "Kappa Delta Formal",
+        "fullImageUrl": "https://api.namitoyokota.com/assets/images/IMG_8555.jpg",
+        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/IMG_8555.jpg"
+    },
+    {
         "id": 31,
         "alt": "Phoenix - Church",
         "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_5066.jpg",

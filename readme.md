@@ -5,3 +5,7 @@
 
 ## compress images
 `optimizt /path_to_image.jpg`
+
+## convert jpg to webp
+`cwebp -q 50 ./image.jpg -o ./image.webp`
+`for FILE in *; do cwebp -q 50 ./$FILE -o ${FILE%%.*}.webp; done`

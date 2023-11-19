@@ -1,5 +1,6 @@
 {
     "metaImageUrl": "https://api.namitoyokota.com/assets/meta.png",
+    "metaPhotosImageUrl": "https://api.namitoyokota.com/assets/meta-photos.jpg",
     "logoBlackUrl": "https://api.namitoyokota.com/assets/logos/black.svg",
     "logoWhiteUrl": "https://api.namitoyokota.com/assets/logos/white.svg",
     "loaderBlackUrl": "https://api.namitoyokota.com/assets/loaders/oval-black.svg",

@@ -1,11 +1,8 @@
-## blur images
+# Namito's API
 
-`convert -blur 0x500 ./image.jpg ../images-compressed/image.jpg`
-`for FILE in *; do convert -blur 0x500 ./$FILE ../images-compressed/$FILE; done`
+> This project takes advantage of GitHub and it's web hosting service - GitHub Pages - to act as a readonly API.
 
-## compress images
-`optimizt /path_to_image.jpg`
+## Endpoints
 
-## convert jpg to webp
-`cwebp -q 50 ./image.jpg -o ./image.webp`
-`for FILE in *; do cwebp -q 50 ./$FILE -o ${FILE%%.*}.webp; done`
+-   [https://api.namitoyokota.com/images.json](./images.json) - List of images for the photography portfolio.
+-   [https://api.namitoyokota.com/utils.json](./utils.json) - Utility object data like logos, meta images, and loading icons.

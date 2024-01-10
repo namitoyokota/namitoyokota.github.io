@@ -1,0 +1,68 @@
+{
+    "api": {
+        "name": "API",
+        "description": "Public API for my projects",
+        "url": "https://api.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/namitoyokota.github.io"
+    },
+    "todo-today": {
+        "name": "Todo Today",
+        "description": "To do app that resets every midnight",
+        "url": "https://todo.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/todo-today"
+    },
+    "steeeve": {
+        "name": "Steeeve",
+        "description": "For your uncle that says, 'I had the idea for Uber first.' 💡",
+        "url": "https://ideas.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/steeeve"
+    },
+    "chrome-cursor-highlighter": {
+        "name": "Chrome Cursor Highlighter",
+        "description": "Chrome extension to highlight mouse movement",
+        "url": "",
+        "codebase": "https://github.com/namitoyokota/chrome-cursor-highlighter"
+    },
+    "chrome-keypress-visualizer": {
+        "name": "Chrome Keypress Visualizer",
+        "description": "Chrome extension to visualize keypresses",
+        "url": "",
+        "codebase": "https://github.com/namitoyokota/chrome-keypress-visualizer"
+    },
+    "ngx-monochrome": {
+        "name": "ngx-monochrome",
+        "description": "Angular component library for my own side projects",
+        "url": "https://monochrome.namitoyokota.com",
+        "codebase": "https://github.com/namitoyokota/ngx-monochrome"
+    },
+    "nico": {
+        "name": "Nico",
+        "description": "My second brain: universal search engine for all of my data",
+        "url": "https://search.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/nico"
+    },
+    "portfolio": {
+        "name": "Portfolio",
+        "description": "My personal web portfolio built with Next.js 😎",
+        "url": "https://www.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/portfolio"
+    },
+    "photos": {
+        "name": "Photography Portfolio",
+        "description": "Photography portfolio",
+        "url": "https://photos.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/photos"
+    },
+    "keep-in-touch": {
+        "name": "Keep In Touch",
+        "description": "Website for keeping track of when you last caught up with your friends 🤓",
+        "url": "https://friends.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/keep-in-touch"
+    },
+    "jeep": {
+        "name": "Jeep",
+        "description": "Gives you a yes or no on whether you should take your doors off",
+        "url": "https://weather.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/jeep"
+    }
+}

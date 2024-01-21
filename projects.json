@@ -9,25 +9,37 @@
         "name": "Todo Today",
         "description": "To do app that resets every midnight",
         "url": "https://todo.namitoyokota.com/",
-        "codebase": "https://github.com/namitoyokota/todo-today"
+        "codebase": "https://github.com/namitoyokota/todo-today",
+        "icon": "https://api.namitoyokota.com/assets/icons/task.png"
     },
     "steeeve": {
         "name": "Steeeve",
         "description": "For your uncle that says, 'I had the idea for Uber first.' 💡",
         "url": "https://ideas.namitoyokota.com/",
-        "codebase": "https://github.com/namitoyokota/steeeve"
+        "codebase": "https://github.com/namitoyokota/steeeve",
+        "icon": "https://api.namitoyokota.com/assets/icons/steeeve.png"
     },
     "chrome-cursor-highlighter": {
         "name": "Chrome Cursor Highlighter",
         "description": "Chrome extension to highlight mouse movement",
         "url": "",
-        "codebase": "https://github.com/namitoyokota/chrome-cursor-highlighter"
+        "codebase": "https://github.com/namitoyokota/chrome-cursor-highlighter",
+        "icon": {
+            "16": "https://api.namitoyokota.com/assets/icons/cursor/16.png",
+            "48": "https://api.namitoyokota.com/assets/icons/cursor/48.png",
+            "128": "https://api.namitoyokota.com/assets/icons/cursor/128.png"
+        }
     },
     "chrome-keypress-visualizer": {
         "name": "Chrome Keypress Visualizer",
         "description": "Chrome extension to visualize keypresses",
         "url": "",
-        "codebase": "https://github.com/namitoyokota/chrome-keypress-visualizer"
+        "codebase": "https://github.com/namitoyokota/chrome-keypress-visualizer",
+        "icon": {
+            "16": "https://api.namitoyokota.com/assets/icons/keycap/16.png",
+            "48": "https://api.namitoyokota.com/assets/icons/keycap/48.png",
+            "128": "https://api.namitoyokota.com/assets/icons/keycap/128.png"
+        }
     },
     "ngx-monochrome": {
         "name": "ngx-monochrome",

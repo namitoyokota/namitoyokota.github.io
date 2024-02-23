@@ -11,8 +11,8 @@
         "url": "https://todo.namitoyokota.com/",
         "codebase": "https://github.com/namitoyokota/todo-today",
         "icon": "https://api.namitoyokota.com/assets/icons/task.png",
-        "demo-image": "https://api.namitoyokota/assets/demo-images/todo.png",
-        "og-image": "https://api.namitoyokota/assets/og-images/todo.png"
+        "demo-image": "https://api.namitoyokota.com/assets/demo-images/todo.png",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/todo.png"
     },
     "steeeve": {
         "name": "Steeeve",

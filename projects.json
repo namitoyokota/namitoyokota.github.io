@@ -65,7 +65,8 @@
         "name": "Photography Portfolio",
         "description": "Photography portfolio",
         "url": "https://photos.namitoyokota.com/",
-        "codebase": "https://github.com/namitoyokota/photos"
+        "codebase": "https://github.com/namitoyokota/photos",
+        "icon": "https://api.namitoyokota.com/assets/icons/photos.png"
     },
     "keep-in-touch": {
         "name": "Keep In Touch",

@@ -59,14 +59,16 @@
         "name": "Portfolio",
         "description": "My personal web portfolio built with Next.js 😎",
         "url": "https://www.namitoyokota.com/",
-        "codebase": "https://github.com/namitoyokota/portfolio"
+        "codebase": "https://github.com/namitoyokota/portfolio",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/portfolio.png"
     },
     "photos": {
         "name": "Photography Portfolio",
         "description": "Photography portfolio",
         "url": "https://photos.namitoyokota.com/",
         "codebase": "https://github.com/namitoyokota/photos",
-        "icon": "https://api.namitoyokota.com/assets/icons/photos.png"
+        "icon": "https://api.namitoyokota.com/assets/icons/photos.png",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/photos.png"
     },
     "keep-in-touch": {
         "name": "Keep In Touch",

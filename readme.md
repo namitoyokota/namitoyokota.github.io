@@ -1,6 +1,9 @@
-# Namito's API
+![My API website preview](https://api.namitoyokota.com/assets/og-images/api.png)
 
-> This project takes advantage of GitHub and it's web hosting service - GitHub Pages - to act as a readonly API.
+# api.namitoyokota.com
+
+-   **Host**: [GitHub](https://github.com)
+-   **Format**: [JSON](https://www.json.org/json-en.html)
 
 ## Endpoints
 
@@ -12,6 +15,4 @@
 
 ## Resources
 
--   Sounds
-    -   [Submit](https://opengameart.org/content/menu-selection-click)
-    -   [Complete](https://opengameart.org/content/completion-sound)
+-   Sounds: [Submit](https://opengameart.org/content/menu-selection-click), [Complete](https://opengameart.org/content/completion-sound)

@@ -3,7 +3,9 @@
         "name": "API",
         "description": "Public API for my projects",
         "url": "https://api.namitoyokota.com/",
-        "codebase": "https://github.com/namitoyokota/namitoyokota.github.io"
+        "codebase": "https://github.com/namitoyokota/namitoyokota.github.io",
+        "demo-image": "https://api.namitoyokota.com/assets/demo-images/api.png",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/api.png"
     },
     "todo-today": {
         "name": "Todo Today",
@@ -19,7 +21,9 @@
         "description": "For your uncle that says, 'I had the idea for Uber first.' 💡",
         "url": "https://ideas.namitoyokota.com/",
         "codebase": "https://github.com/namitoyokota/steeeve",
-        "icon": "https://api.namitoyokota.com/assets/icons/steeeve.png"
+        "icon": "https://api.namitoyokota.com/assets/icons/steeeve.png",
+        "demo-image": "https://api.namitoyokota.com/assets/demo-images/steeeve.png",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/steeeve.png"
     },
     "chrome-cursor-highlighter": {
         "name": "Chrome Cursor Highlighter",
@@ -30,7 +34,9 @@
             "16": "https://api.namitoyokota.com/assets/icons/cursor/16.png",
             "48": "https://api.namitoyokota.com/assets/icons/cursor/48.png",
             "128": "https://api.namitoyokota.com/assets/icons/cursor/128.png"
-        }
+        },
+        "demo-image": "https://api.namitoyokota.com/assets/demo-images/cursor.png",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/cursor.png"
     },
     "chrome-keypress-visualizer": {
         "name": "Chrome Keypress Visualizer",
@@ -47,13 +53,17 @@
         "name": "ngx-monochrome",
         "description": "Angular component library for my own side projects",
         "url": "https://monochrome.namitoyokota.com",
-        "codebase": "https://github.com/namitoyokota/ngx-monochrome"
+        "codebase": "https://github.com/namitoyokota/ngx-monochrome",
+        "demo-image": "https://api.namitoyokota.com/assets/demo-images/monochrome.png",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/monochrome.png"
     },
     "nico": {
         "name": "Nico",
         "description": "My second brain: universal search engine for all of my data",
         "url": "https://search.namitoyokota.com/",
-        "codebase": "https://github.com/namitoyokota/nico"
+        "codebase": "https://github.com/namitoyokota/nico",
+        "demo-image": "https://api.namitoyokota.com/assets/demo-images/nico.png",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/nico.png"
     },
     "portfolio": {
         "name": "Portfolio",
@@ -74,12 +84,15 @@
         "name": "Keep In Touch",
         "description": "Website for keeping track of when you last caught up with your friends 🤓",
         "url": "https://friends.namitoyokota.com/",
-        "codebase": "https://github.com/namitoyokota/keep-in-touch"
+        "codebase": "https://github.com/namitoyokota/keep-in-touch",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/friends.png"
     },
     "jeep": {
         "name": "Jeep",
         "description": "Gives you a yes or no on whether you should take your doors off",
         "url": "https://weather.namitoyokota.com/",
-        "codebase": "https://github.com/namitoyokota/jeep"
+        "codebase": "https://github.com/namitoyokota/jeep",
+        "demo-image": "https://api.namitoyokota.com/assets/demo-images/jeep.png",
+        "og-image": "https://api.namitoyokota.com/assets/og-images/jeep.png"
     }
 }

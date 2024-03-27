@@ -2,8 +2,9 @@
 
 # api.namitoyokota.com
 
--   **Host**: [GitHub](https://github.com)
+-   **Deployment**: [GitHub](https://github.com)
 -   **Format**: [JSON](https://www.json.org/json-en.html)
+-   **Documentation**: [Markdown](https://commonmark.org/)
 
 ## Endpoints
 
@@ -16,3 +17,25 @@
 ## Resources
 
 -   Sounds: [Submit](https://opengameart.org/content/menu-selection-click), [Complete](https://opengameart.org/content/completion-sound)
+
+## Contribution Guides
+
+### Blug Images
+
+```shell
+$ convert -blur 0x500 ./image.jpg ../images-compressed/image.jpg
+$ for FILE in *; do convert -blur 0x500 ./$FILE ../images-compressed/$FILE; done
+```
+
+## Compress Images
+
+```shell
+$ optimizt /path_to_image.jpg
+```
+
+## Convert JPG to WEBP
+
+```$
+$ cwebp -q 50 ./image.jpg -o ./image.webp
+$ for FILE in *; do cwebp -q 50 ./$FILE -o ${FILE%%.*}.webp; done
+```

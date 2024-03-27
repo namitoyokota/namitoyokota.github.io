@@ -85,6 +85,7 @@
         "description": "Website for keeping track of when you last caught up with your friends 🤓",
         "url": "https://friends.namitoyokota.com/",
         "codebase": "https://github.com/namitoyokota/keep-in-touch",
+        "demo-image": "https://api.namitoyokota.com/assets/demo-images/friends.png",
         "og-image": "https://api.namitoyokota.com/assets/og-images/friends.png"
     },
     "jeep": {

@@ -54,6 +54,7 @@
         "description": "Angular component library for my own side projects",
         "url": "https://monochrome.namitoyokota.com",
         "codebase": "https://github.com/namitoyokota/ngx-monochrome",
+        "icon": "https://api.namitoyokota.com/assets/icons/monochrome.png",
         "demo-image": "https://api.namitoyokota.com/assets/demo-images/monochrome.png",
         "og-image": "https://api.namitoyokota.com/assets/og-images/monochrome.png"
     },
@@ -62,6 +63,7 @@
         "description": "My second brain: universal search engine for all of my data",
         "url": "https://search.namitoyokota.com/",
         "codebase": "https://github.com/namitoyokota/nico",
+        "icon": "https://api.namitoyokota.com/assets/icons/nico.png",
         "demo-image": "https://api.namitoyokota.com/assets/demo-images/nico.png",
         "og-image": "https://api.namitoyokota.com/assets/og-images/nico.png"
     },
@@ -85,6 +87,7 @@
         "description": "Website for keeping track of when you last caught up with your friends 🤓",
         "url": "https://friends.namitoyokota.com/",
         "codebase": "https://github.com/namitoyokota/keep-in-touch",
+        "icon": "https://api.namitoyokota.com/assets/icons/friends.png",
         "demo-image": "https://api.namitoyokota.com/assets/demo-images/friends.png",
         "og-image": "https://api.namitoyokota.com/assets/og-images/friends.png"
     },

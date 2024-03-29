@@ -96,6 +96,7 @@
         "description": "Gives you a yes or no on whether you should take your doors off",
         "url": "https://weather.namitoyokota.com/",
         "codebase": "https://github.com/namitoyokota/jeep",
+        "icon": "https://api.namitoyokota.com/assets/icons/jeep.png",
         "demo-image": "https://api.namitoyokota.com/assets/demo-images/jeep.png",
         "og-image": "https://api.namitoyokota.com/assets/og-images/jeep.png"
     }

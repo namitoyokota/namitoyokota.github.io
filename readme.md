@@ -8,6 +8,7 @@
 
 ## Endpoints
 
+-   [https://api.namitoyokota.com/bookmarks.json](./bookmarks.json) - List of useful links.
 -   [https://api.namitoyokota.com/images.json](./images.json) - List of images for the photography portfolio.
 -   [https://api.namitoyokota.com/projects.json](./projects.json) - List of side projects.
 -   [https://api.namitoyokota.com/socials.json](./socials.json) - List of social medias.

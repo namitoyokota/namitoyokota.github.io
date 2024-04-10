@@ -4,5 +4,11 @@
         "website": "CSS Working Group Wiki",
         "url": "https://wiki.csswg.org/ideas/mistakes?utm_source=pocket_saves",
         "tags": ["css"]
+    },
+    {
+        "title": "Web Interface Guidelines",
+        "website": "Rauno Freiberg",
+        "url": "https://interfaces.rauno.me/",
+        "tags": ["user experience", "accessibility"]
     }
 ]

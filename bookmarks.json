@@ -86,8 +86,8 @@
             },
             {
                 "title": "Loadership",
-                "website": "",
-                "url": "https://loadership.com/",
+                "website": "GitHub",
+                "url": "https://github.com/ccc159/loadership",
                 "description": "The ultimate CSS-only loader configuration tool that allows you to effortlessly customize and generate stunning loaders for your website. Simply Copy & Paste without any installation or dependency hassle.",
                 "tags": ["css"]
             },
@@ -157,7 +157,7 @@
             },
             {
                 "title": "Spark",
-                "website": "John J. Ratey, Eric Hagerman",
+                "website": "Eric Hagerman",
                 "url": "https://www.goodreads.com/book/show/721609.Spark?from_search=true&from_srp=true&qid=YqUDao4acg&rank=5",
                 "description": "In SPARK, John J. Ratey, M.D., embarks upon a fascinating and entertaining journey through the mind-body connection, presenting startling research to prove that exercise is truly our best defense against everything from depression to ADD to addiction to aggression to menopause to Alzheimer's. Filled with amazing case studies (such as the revolutionary fitness program in Naperville, Illinois, which has put this school district of 19,000 kids first in the world of science test scores), SPARK is the first book to explore comprehensively the connection between exercise and the brain. It will change forever the way you think about your morning run---or, for that matter, simply the way you think",
                 "tags": []

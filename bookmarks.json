@@ -10,6 +10,13 @@
                 "tags": ["css"]
             },
             {
+                "title": "Load Balancing",
+                "website": "Sam Rose",
+                "url": "https://samwho.dev/load-balancing/",
+                "description": "",
+                "tags": ["load balancer"]
+            },
+            {
                 "title": "Web Interface Guidelines",
                 "website": "Rauno Freiberg",
                 "url": "https://interfaces.rauno.me/",
@@ -45,13 +52,6 @@
                 "tags": []
             },
             {
-                "title": "Micro Frontend: A Microservice Approach to Developing Web UIs",
-                "website": "altexsoft",
-                "url": "https://www.altexsoft.com/blog/micro-frontend/",
-                "description": "",
-                "tags": []
-            },
-            {
                 "title": "How does the internet work?",
                 "website": "Kamran Ahmed",
                 "url": "https://roadmap.sh/guides/what-is-internet",
@@ -64,6 +64,40 @@
                 "url": "https://blog.webdevsimplified.com/2020-08/cookies-localstorage-sessionstorage/",
                 "description": "",
                 "tags": []
+            }
+        ]
+    },
+
+    {
+        "category": "Useful tutorials",
+        "list": [
+            {
+                "title": "An Interactive Guide to CSS Transitions",
+                "website": "Josh Comeau",
+                "url": "https://www.joshwcomeau.com/animation/css-transitions/",
+                "description": "",
+                "tags": ["css"]
+            },
+            {
+                "title": "How to Center a Div",
+                "website": "Josh Comeau",
+                "url": "https://www.joshwcomeau.com/css/center-a-div/",
+                "description": "",
+                "tags": ["html", "css"]
+            },
+            {
+                "title": "An Interactive Guide to CSS Grid",
+                "website": "Josh Comeau",
+                "url": "https://www.joshwcomeau.com/css/interactive-guide-to-grid/",
+                "description": "",
+                "tags": ["html", "css"]
+            },
+            {
+                "title": "Designing Beautiful Shadows in CSS",
+                "website": "Josh Comeau",
+                "url": "https://www.joshwcomeau.com/css/designing-shadows/",
+                "description": "",
+                "tags": ["css"]
             }
         ]
     },

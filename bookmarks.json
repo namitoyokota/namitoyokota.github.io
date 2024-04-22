@@ -135,44 +135,6 @@
         ]
     },
     {
-        "category": "Hidden gem documents",
-        "list": [
-            {
-                "title": "Letter from Mark Zuckerberg",
-                "website": "Facebook",
-                "url": "https://m.facebook.com/nt/screen/?params=%7B%22note_id%22:261129471966151%7D&path=/notes/note/&_rdr",
-                "description": "",
-                "tags": []
-            },
-            {
-                "title": "Is abstraction the key to computing?",
-                "website": "ACM Digital Library",
-                "url": "https://dl.acm.org/doi/10.1145/1232743.1232745",
-                "description": "",
-                "tags": []
-            },
-            {
-                "title": "Stanford Prison Experiment",
-                "website": "Stanford Libraries",
-                "url": "https://exhibits.stanford.edu/spe",
-                "description": "",
-                "tags": []
-            }
-        ]
-    },
-    {
-        "category": "Pure inspirations",
-        "list": [
-            {
-                "title": "Monocle",
-                "website": "Linus Lee",
-                "url": "https://monocle.surge.sh/",
-                "description": "Universal personal search engine, powered by a full text search algorithm written in pure Ink, indexing Linus's blogs and private note archives, contacts, tweets, and over a decade of journals.",
-                "tags": []
-            }
-        ]
-    },
-    {
         "category": "Top 5 books",
         "list": [
             {

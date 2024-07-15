@@ -99,5 +99,14 @@
         "icon": "https://api.namitoyokota.com/assets/icons/jeep.png",
         "demo-image": "https://api.namitoyokota.com/assets/demo-images/jeep.png",
         "og-image": "https://api.namitoyokota.com/assets/og-images/jeep.png"
+    },
+    "chat-bubbles": {
+        "name": "Chat Bubbles",
+        "description": "YouTuber's video editing companion",
+        "url": "https://chat.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/chat-bubbles",
+        "icon": "https://api.namitoyokota.com/assets/icons/chat-bubbles.png",
+        "demo-image": "",
+        "og-image": ""
     }
 }

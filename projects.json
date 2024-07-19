@@ -108,5 +108,14 @@
         "icon": "https://api.namitoyokota.com/assets/icons/chat-bubbles.png",
         "demo-image": "",
         "og-image": ""
+    },
+    "blips": {
+        "name": "Blips",
+        "description": "A blip is a proposal to use a new tool, technique, platform, or language with a technical documentation",
+        "url": "https://blips.namitoyokota.com/",
+        "codebase": "https://github.com/namitoyokota/blips",
+        "icon": "https://api.namitoyokota.com/assets/icons/blips.png",
+        "demo-image": "",
+        "og-image": ""
     }
 }

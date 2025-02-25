@@ -21,10 +21,10 @@ load_dotenv()
 email = os.getenv("EMAIL")
 token = os.getenv("TOKEN")
 organization = os.getenv("ORGANIZATION")
-creatorId = os.getenv("CREATOR_ID")
+creator_id = os.getenv("CREATOR_ID")
 
 # Check if all required environment variables are set
-if not all([email, token, organization, creatorId]):
+if not all([email, token, organization, creator_id]):
     raise ValueError(Fore.RED + "One or more required environment variables are missing")
 
 # Settings
@@ -53,12 +53,12 @@ async def get_repositories(session, organization):
     return response.get("value", [])
 
 async def get_total_pull_requests(session, organization, repository_id, creator_id):
-    endpoint = f"https://dev.azure.com/{organization}/_apis/git/repositories/{repository_id}/pullrequests?api-version=7.0&searchCriteria.status=completed&searchCriteria.creatorId={creator_id}&$top=1"
+    endpoint = f"https://dev.azure.com/{organization}/_apis/git/repositories/{repository_id}/pullrequests?api-version=7.0&searchCriteria.status=completed&searchCriteria.creator_id={creator_id}&$top=1"
     response = await fetch(session, endpoint)
     return response.get("count", 0)
 
 async def get_next_pull_requests(session, organization, repository_id, creator_id, skip):
-    endpoint = f"https://dev.azure.com/{organization}/_apis/git/repositories/{repository_id}/pullrequests?api-version=7.0&searchCriteria.status=completed&searchCriteria.creatorId={creator_id}&$top={take}&$skip={skip}"
+    endpoint = f"https://dev.azure.com/{organization}/_apis/git/repositories/{repository_id}/pullrequests?api-version=7.0&searchCriteria.status=completed&searchCriteria.creator_id={creator_id}&$top={take}&$skip={skip}"
     response = await fetch(session, endpoint)
     return response.get("value", [])
 
@@ -150,11 +150,11 @@ async def main():
         repos = await get_repositories(session, organization)
         total_pull_requests = 0
         for repo in repos:
-            total_pull_requests += await get_total_pull_requests(session, organization, repo["id"], creatorId)
+            total_pull_requests += await get_total_pull_requests(session, organization, repo["id"], creator_id)
 
         repo_stats_by_year_list = []
         with tqdm(total=total_pull_requests, desc="Processing pull requests") as progress_bar:
-            tasks = [process_repository(session, repo, creatorId, author, progress_bar) for repo in repos]
+            tasks = [process_repository(session, repo, creator_id, author, progress_bar) for repo in repos]
             for task in asyncio.as_completed(tasks):
                 repo_stats_by_year_list.append(await task)
 

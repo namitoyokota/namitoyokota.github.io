@@ -22,6 +22,17 @@
 
 ## Contribution Guides
 
+### Getting Statistics
+
+Create a new file within the root directory with the name `.env` and fill in the below information:
+
+```
+EMAIL="Namito.Yokota@ncontracts.com"
+TOKEN=""
+ORGANIZATION="venminder"
+CREATOR_ID=""
+```
+
 ### Blug Images
 
 ```shell

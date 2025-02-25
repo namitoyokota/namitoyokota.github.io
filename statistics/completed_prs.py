@@ -212,7 +212,7 @@ async def main():
                     repo_stats["average_commits"] = 0
                     repo_stats["average_turnaround_hours"] = 0
 
-                repo_name = repo_stats["repository"].replace(" ", "_")
+                repo_name = repo_stats["repository"].replace(" ", "-").lower()
                 with open(os.path.join(year_dir, f"{repo_name}.json"), "w") as f:
                     json.dump(repo_stats, f, indent=4)
 
@@ -229,7 +229,7 @@ async def main():
                 total_stats["average_commits"] = 0
                 total_stats["average_turnaround_hours"] = 0
 
-            with open(os.path.join(year_dir, "Total.json"), "w") as f:
+            with open(os.path.join(year_dir, "total.json"), "w") as f:
                 json.dump(total_stats, f, indent=4)
 
         overall_total_stats = {
@@ -257,7 +257,7 @@ async def main():
                 if key != "repository":
                     overall_total_stats[key] += stats[key]
 
-            repo_name = stats["repository"].replace(" ", "_")
+            repo_name = stats["repository"].replace(" ", "-").lower()
             with open(os.path.join(output_dir, f"{repo_name}.json"), "w") as f:
                 json.dump(stats, f, indent=4)
 
@@ -272,7 +272,7 @@ async def main():
             overall_total_stats["average_commits"] = 0
             overall_total_stats["average_turnaround_hours"] = 0
 
-        with open(os.path.join(output_dir, "Total.json"), "w") as f:
+        with open(os.path.join(output_dir, "total.json"), "w") as f:
             json.dump(overall_total_stats, f, indent=4)
 
     end_time = time.time()

@@ -1,12 +1,10 @@
 {
     "repository": "Venminder",
     "pull_requests_completed": 17,
-    "threads_received": 106,
-    "comments_received": 108,
+    "comments_received": 88,
     "total_commits": 73,
     "total_turnaround_hours": 222.83119156499998,
-    "average_threads_received": 6.235294117647059,
-    "average_comments_received": 6.352941176470588,
+    "average_comments_received": 5.176470588235294,
     "average_commits": 4.294117647058823,
     "average_turnaround_hours": 13.107717150882351
 }

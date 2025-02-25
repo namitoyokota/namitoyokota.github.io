@@ -1,12 +1,10 @@
 {
     "repository": "Control Assessments",
     "pull_requests_completed": 1,
-    "threads_received": 6,
-    "comments_received": 6,
-    "total_commits": 90,
+    "comments_received": 3,
+    "total_commits": 101,
     "total_turnaround_hours": 0.034444444444444444,
-    "average_threads_received": 6.0,
-    "average_comments_received": 6.0,
-    "average_commits": 90.0,
+    "average_comments_received": 3.0,
+    "average_commits": 101.0,
     "average_turnaround_hours": 0.034444444444444444
 }

@@ -1,12 +1,10 @@
 {
     "repository": "Utilities",
     "pull_requests_completed": 1,
-    "threads_received": 7,
-    "comments_received": 9,
+    "comments_received": 7,
     "total_commits": 3,
     "total_turnaround_hours": 1.4552777777777777,
-    "average_threads_received": 7.0,
-    "average_comments_received": 9.0,
+    "average_comments_received": 7.0,
     "average_commits": 3.0,
     "average_turnaround_hours": 1.4552777777777777
 }

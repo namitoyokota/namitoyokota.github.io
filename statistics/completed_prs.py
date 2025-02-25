@@ -98,7 +98,6 @@ async def process_repository(session, repo, creator_id, author, progress_bar):
                 repo_stats_by_year[year] = {
                     "repository": repo["name"],
                     "pull_requests_completed": 0,
-                    "threads_received": 0,
                     "comments_received": 0,
                     "total_commits": 0,
                     "total_turnaround_hours": 0,
@@ -106,7 +105,6 @@ async def process_repository(session, repo, creator_id, author, progress_bar):
 
             repo_stats_by_year[year]["pull_requests_completed"] += 1
             threads = await get_threads(session, organization, repo["id"], pr["pullRequestId"])
-            repo_stats_by_year[year]["threads_received"] += len(threads)
             for thread in threads:
                 for comment in thread["comments"]:
                     if comment["author"]["id"] != creator_id:
@@ -133,7 +131,6 @@ async def process_repository(session, repo, creator_id, author, progress_bar):
                 repo_stats_by_year[year] = {
                     "repository": repo["name"],
                     "pull_requests_completed": 0,
-                    "threads_received": 0,
                     "comments_received": 0,
                     "total_commits": 0,
                     "total_turnaround_hours": 0,
@@ -169,7 +166,6 @@ async def main():
                     total_stats_by_year[year] = {
                         "repository": "Total",
                         "pull_requests_completed": 0,
-                        "threads_received": 0,
                         "comments_received": 0,
                         "total_commits": 0,
                         "total_turnaround_hours": 0,
@@ -184,7 +180,6 @@ async def main():
                     total_stats_overall[repo_name] = {
                         "repository": repo_name,
                         "pull_requests_completed": 0,
-                        "threads_received": 0,
                         "comments_received": 0,
                         "total_commits": 0,
                         "total_turnaround_hours": 0,
@@ -204,12 +199,10 @@ async def main():
                 os.makedirs(year_dir, exist_ok=True)
 
                 if repo_stats["pull_requests_completed"] > 0:
-                    repo_stats["average_threads_received"] = repo_stats["threads_received"] / repo_stats["pull_requests_completed"]
                     repo_stats["average_comments_received"] = repo_stats["comments_received"] / repo_stats["pull_requests_completed"]
                     repo_stats["average_commits"] = repo_stats["total_commits"] / repo_stats["pull_requests_completed"]
                     repo_stats["average_turnaround_hours"] = repo_stats["total_turnaround_hours"] / repo_stats["pull_requests_completed"]
                 else:
-                    repo_stats["average_threads_received"] = 0
                     repo_stats["average_comments_received"] = 0
                     repo_stats["average_commits"] = 0
                     repo_stats["average_turnaround_hours"] = 0
@@ -221,12 +214,10 @@ async def main():
         for year, total_stats in total_stats_by_year.items():
             year_dir = os.path.join(output_dir, str(year))
             if total_stats["pull_requests_completed"] > 0:
-                total_stats["average_threads_received"] = total_stats["threads_received"] / total_stats["pull_requests_completed"]
                 total_stats["average_comments_received"] = total_stats["comments_received"] / total_stats["pull_requests_completed"]
                 total_stats["average_commits"] = total_stats["total_commits"] / total_stats["pull_requests_completed"]
                 total_stats["average_turnaround_hours"] = total_stats["total_turnaround_hours"] / total_stats["pull_requests_completed"]
             else:
-                total_stats["average_threads_received"] = 0
                 total_stats["average_comments_received"] = 0
                 total_stats["average_commits"] = 0
                 total_stats["average_turnaround_hours"] = 0
@@ -237,7 +228,6 @@ async def main():
         overall_total_stats = {
             "repository": "Total",
             "pull_requests_completed": 0,
-            "threads_received": 0,
             "comments_received": 0,
             "total_commits": 0,
             "total_turnaround_hours": 0,
@@ -245,12 +235,10 @@ async def main():
 
         for repo_name, stats in total_stats_overall.items():
             if stats["pull_requests_completed"] > 0:
-                stats["average_threads_received"] = stats["threads_received"] / stats["pull_requests_completed"]
                 stats["average_comments_received"] = stats["comments_received"] / stats["pull_requests_completed"]
                 stats["average_commits"] = stats["total_commits"] / stats["pull_requests_completed"]
                 stats["average_turnaround_hours"] = stats["total_turnaround_hours"] / stats["pull_requests_completed"]
             else:
-                stats["average_threads_received"] = 0
                 stats["average_comments_received"] = 0
                 stats["average_commits"] = 0
                 stats["average_turnaround_hours"] = 0
@@ -264,12 +252,10 @@ async def main():
                 json.dump(stats, f, indent=4)
 
         if overall_total_stats["pull_requests_completed"] > 0:
-            overall_total_stats["average_threads_received"] = overall_total_stats["threads_received"] / overall_total_stats["pull_requests_completed"]
             overall_total_stats["average_comments_received"] = overall_total_stats["comments_received"] / overall_total_stats["pull_requests_completed"]
             overall_total_stats["average_commits"] = overall_total_stats["total_commits"] / overall_total_stats["pull_requests_completed"]
             overall_total_stats["average_turnaround_hours"] = overall_total_stats["total_turnaround_hours"] / overall_total_stats["pull_requests_completed"]
         else:
-            overall_total_stats["average_threads_received"] = 0
             overall_total_stats["average_comments_received"] = 0
             overall_total_stats["average_commits"] = 0
             overall_total_stats["average_turnaround_hours"] = 0

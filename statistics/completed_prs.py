@@ -108,7 +108,9 @@ async def process_repository(session, repo, creator_id, author, progress_bar):
             threads = await get_threads(session, organization, repo["id"], pr["pullRequestId"])
             repo_stats_by_year[year]["threads_received"] += len(threads)
             for thread in threads:
-                repo_stats_by_year[year]["comments_received"] += len(thread["comments"])
+                for comment in thread["comments"]:
+                    if comment["author"]["id"] != creator_id:
+                        repo_stats_by_year[year]["comments_received"] += 1
 
             created_time = parse_datetime(pr["creationDate"])
             completed_time = parse_datetime(pr["closedDate"])

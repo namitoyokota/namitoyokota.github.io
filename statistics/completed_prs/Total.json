@@ -1,0 +1,12 @@
+{
+    "repository": "Total",
+    "pull_requests_completed": 546,
+    "threads_received": 3376,
+    "comments_received": 3882,
+    "total_commits": 4102,
+    "total_turnaround_hours": 6091.318090756944,
+    "average_threads_received": 6.183150183150183,
+    "average_comments_received": 7.1098901098901095,
+    "average_commits": 7.512820512820513,
+    "average_turnaround_hours": 11.156260239481583
+}

@@ -1,0 +1,12 @@
+{
+    "repository": "vm-library",
+    "pull_requests_completed": 17,
+    "threads_received": 107,
+    "comments_received": 118,
+    "total_commits": 78,
+    "total_turnaround_hours": 235.85176421944445,
+    "average_threads_received": 6.294117647058823,
+    "average_comments_received": 6.9411764705882355,
+    "average_commits": 4.588235294117647,
+    "average_turnaround_hours": 13.873633189379085
+}

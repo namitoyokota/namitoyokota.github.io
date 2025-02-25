@@ -53,12 +53,12 @@ async def get_repositories(session, organization):
     return response.get("value", [])
 
 async def get_total_pull_requests(session, organization, repository_id, creator_id):
-    endpoint = f"https://dev.azure.com/{organization}/_apis/git/repositories/{repository_id}/pullrequests?api-version=7.0&searchCriteria.status=completed&searchCriteria.creator_id={creator_id}&$top=1"
+    endpoint = f"https://dev.azure.com/{organization}/_apis/git/repositories/{repository_id}/pullrequests?api-version=7.0&searchCriteria.status=completed&searchCriteria.creatorId={creator_id}&$top=1"
     response = await fetch(session, endpoint)
     return response.get("count", 0)
 
 async def get_next_pull_requests(session, organization, repository_id, creator_id, skip):
-    endpoint = f"https://dev.azure.com/{organization}/_apis/git/repositories/{repository_id}/pullrequests?api-version=7.0&searchCriteria.status=completed&searchCriteria.creator_id={creator_id}&$top={take}&$skip={skip}"
+    endpoint = f"https://dev.azure.com/{organization}/_apis/git/repositories/{repository_id}/pullrequests?api-version=7.0&searchCriteria.status=completed&searchCriteria.creatorId={creator_id}&$top={take}&$skip={skip}"
     response = await fetch(session, endpoint)
     return response.get("value", [])
 

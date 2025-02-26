@@ -1,0 +1,18 @@
+{
+    "stories": {
+        "completed": 167,
+        "written": 63,
+        "total_turnaround_hours": 119808.97612972223,
+        "total_development_hours": 45627.927003888886,
+        "average_turnaround_hours": 717.4190187408517,
+        "average_development_hours": 273.2211197837658
+    },
+    "bugs": {
+        "completed": 105,
+        "written": 23,
+        "total_turnaround_hours": 58812.355462777785,
+        "total_development_hours": 21682.023208611114,
+        "average_turnaround_hours": 560.1176710740741,
+        "average_development_hours": 206.49545912962967
+    }
+}

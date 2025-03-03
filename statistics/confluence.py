@@ -50,45 +50,58 @@ def check_if_created_and_get_date(document_id):
     history_url = f"{confluence_url}/{document_id}/history"
     response = requests.get(history_url, auth=auth)
 
+    created_date = None
+    created = False
+    edited = False
+
     if response.status_code == 200:
         history = response.json()
         created_date = datetime.strptime(history["createdDate"], "%Y-%m-%dT%H:%M:%S.%f%z")
-        if "Namito" in history["createdBy"]["displayName"]:
-            return True, created_date
+        created = "Namito" in history["createdBy"]["displayName"]
+        edited = "Namito" in history["lastUpdated"]["by"]["displayName"]
 
-    return False, None
+    return created, edited, created_date
 
-def display_documents(documents):
+def process_documents(documents):
     created_count = 0
+    edited_count = 0
     stats_by_year = {}
 
     for doc in documents:
         title = doc['title']
         url = f"https://{organization}.atlassian.net/wiki{doc['_links']['webui']}"
-
-        created, created_date = check_if_created_and_get_date(doc['id'])
-        if created:
-            created_count += 1
+        created, edited, created_date = check_if_created_and_get_date(doc['id'])
+        if created or edited:
             year = created_date.year
             if year not in stats_by_year:
                 stats_by_year[year] = {
                     "documents_created": 0,
+                    "documents_edited": 0,
                 }
-            stats_by_year[year]["documents_created"] += 1
+            if created:
+                created_count += 1
+                stats_by_year[year]["documents_created"] += 1
+            if edited:
+                edited_count += 1
+                stats_by_year[year]["documents_edited"] += 1
 
         print(f"Title: {title}")
         print(f"URL: {url}")
         print(f"Created by me: {'Yes' if created else 'No'}")
+        print(f"Edited by me: {'Yes' if edited else 'No'}")
         print("="*50)
 
     print(f"Total documents created: {created_count}")
+    print(f"Total documents edited: {edited_count}")
 
-    return created_count, stats_by_year
+    return created_count, edited_count, stats_by_year
 
-def save_results(created_count, stats_by_year):
+def save_results(created_count, edited_count, stats_by_year):
     results = {
         "documents_created": created_count,
+        "documents_edited": edited_count,
     }
+
     output_dir = os.path.join(os.path.dirname(__file__), "confluence")
     os.makedirs(output_dir, exist_ok=True)
 
@@ -101,5 +114,5 @@ def save_results(created_count, stats_by_year):
 
 if __name__ == "__main__":
     documents = get_documents()
-    created_count, stats_by_year = display_documents(documents)
-    save_results(created_count, stats_by_year)
+    created_count, edited_count, stats_by_year = process_documents(documents)
+    save_results(created_count, edited_count, stats_by_year)

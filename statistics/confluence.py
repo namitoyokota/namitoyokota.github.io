@@ -1,9 +1,10 @@
-import requests
-from requests.auth import HTTPBasicAuth
+import aiohttp
+import asyncio
 import json
 import os
 from datetime import datetime
 from dotenv import load_dotenv
+import base64
 
 load_dotenv()
 
@@ -16,61 +17,70 @@ if not all([email, token, organization, username]):
     raise ValueError("One or more required environment variables are missing")
 
 confluence_url = f'https://{organization}.atlassian.net/wiki/rest/api/content'
-
-auth = HTTPBasicAuth(email, token)
+auth_header = {"Authorization": f"Basic {base64.b64encode(f'{email}:{token}'.encode()).decode()}"}
 params = {
     'expand': 'body.storage',
     'type': 'page',
     'limit': 100,
 }
 
-def get_documents():
+async def fetch_documents(session, url):
+    async with session.get(url, headers=auth_header, params=params) as response:
+        return await response.json()
+
+async def fetch_document(session, url):
+    async with session.get(url, headers=auth_header) as response:
+        return await response.json()
+
+async def get_documents(session):
     all_documents = []
     start = 0
 
     while True:
         params['start'] = start
-        response = requests.get(confluence_url, auth=auth, params=params)
+        response = await fetch_documents(session, confluence_url)
 
-        if response.status_code == 200:
-            data = response.json()
-            all_documents.extend(data['results'])
+        if response:
+            all_documents.extend(response['results'])
 
-            if 'next' in data['_links']:
+            if 'next' in response['_links']:
                 start += 100
+                print(f"Fetching documents {start} to {start+100}")
             else:
                 break
         else:
-            print(f"Error fetching data: {response.status_code} - {response.text}")
+            print(f"Error fetching data: {response}")
             break
 
     return all_documents
 
-def check_if_created_and_get_date(document_id):
-    history_url = f"{confluence_url}/{document_id}/history"
-    response = requests.get(history_url, auth=auth)
+async def check_if_created_and_get_date(session, doc_id):
+    history_url = f"{confluence_url}/{doc_id}/history"
+    response = await fetch_document(session, history_url)
 
     created_date = None
     created = False
     edited = False
 
-    if response.status_code == 200:
-        history = response.json()
-        created_date = datetime.strptime(history["createdDate"], "%Y-%m-%dT%H:%M:%S.%f%z")
-        created = "Namito" in history["createdBy"]["displayName"]
-        edited = "Namito" in history["lastUpdated"]["by"]["displayName"]
+    if response:
+        created_date = datetime.strptime(response["createdDate"], "%Y-%m-%dT%H:%M:%S.%f%z")
+        created = "Namito" in response["createdBy"]["displayName"]
+        edited = "Namito" in response["lastUpdated"]["by"]["displayName"]
 
     return created, edited, created_date
 
-def process_documents(documents):
+async def process_documents(session, documents):
     created_count = 0
     edited_count = 0
     stats_by_year = {}
 
+    tasks = []
     for doc in documents:
-        title = doc['title']
-        url = f"https://{organization}.atlassian.net/wiki{doc['_links']['webui']}"
-        created, edited, created_date = check_if_created_and_get_date(doc['id'])
+        tasks.append(check_if_created_and_get_date(session, doc['id']))
+
+    results = await asyncio.gather(*tasks)
+
+    for doc, (created, edited, created_date) in zip(documents, results):
         if created or edited:
             year = created_date.year
             if year not in stats_by_year:
@@ -78,18 +88,14 @@ def process_documents(documents):
                     "documents_created": 0,
                     "documents_edited": 0,
                 }
+
             if created:
                 created_count += 1
                 stats_by_year[year]["documents_created"] += 1
+
             if edited:
                 edited_count += 1
                 stats_by_year[year]["documents_edited"] += 1
-
-        print(f"Title: {title}")
-        print(f"URL: {url}")
-        print(f"Created by me: {'Yes' if created else 'No'}")
-        print(f"Edited by me: {'Yes' if edited else 'No'}")
-        print("="*50)
 
     print(f"Total documents created: {created_count}")
     print(f"Total documents edited: {edited_count}")
@@ -101,7 +107,6 @@ def save_results(created_count, edited_count, stats_by_year):
         "documents_created": created_count,
         "documents_edited": edited_count,
     }
-
     output_dir = os.path.join(os.path.dirname(__file__), "confluence")
     os.makedirs(output_dir, exist_ok=True)
 
@@ -112,7 +117,14 @@ def save_results(created_count, edited_count, stats_by_year):
         with open(os.path.join(output_dir, f"{year}.json"), "w") as f:
             json.dump(stats, f, indent=4)
 
+async def main():
+    async with aiohttp.ClientSession() as session:
+        print('Getting documents...')
+        documents = await get_documents(session)
+        print(f"{len(documents)} documents found.")
+        print('Parsing documents...')
+        created_count, edited_count, stats_by_year = await process_documents(session, documents)
+        save_results(created_count, edited_count, stats_by_year)
+
 if __name__ == "__main__":
-    documents = get_documents()
-    created_count, edited_count, stats_by_year = process_documents(documents)
-    save_results(created_count, edited_count, stats_by_year)
+    asyncio.run(main())

@@ -1,0 +1,37 @@
+[
+  {
+    "title": "React Basics",
+    "star": false,
+    "description": "",
+    "createdDate": "06-23-2024",
+    "url": "https://api.namitoyokota.com/notes/react-basics.md"
+  },
+  {
+    "title": "Technical Writing",
+    "star": true,
+    "description": "Research aiming to improve your technical documentation.",
+    "createdDate": "05-25-2024",
+    "url": "https://api.namitoyokota.com/notes/technical-writing.md"
+  },
+  {
+    "title": "Agile Project Management",
+    "star": false,
+    "description": "",
+    "createdDate": "11-13-2023",
+    "url": "https://api.namitoyokota.com/notes/agile.md"
+  },
+  {
+    "title": "Foundations of User Experience",
+    "star": false,
+    "description": "",
+    "createdDate": "06-18-2024",
+    "url": "https://api.namitoyokota.com/notes/ux-foundations.md"
+  },
+  {
+    "title": "Agile with Atlassian Jira",
+    "star": false,
+    "description": "",
+    "createdDate": "06-23-2024",
+    "url": "https://api.namitoyokota.com/notes/agile-with-jira.md"
+  }
+]

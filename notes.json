@@ -1,37 +1,42 @@
 [
   {
+    "slug": "react-basics",
     "title": "React Basics",
-    "star": false,
-    "description": "",
-    "createdDate": "06-23-2024",
+    "reactionCount": 0,
+    "subtitle": "",
+    "pubishedAt": "06-23-2024",
     "url": "https://api.namitoyokota.com/notes/react-basics.md"
   },
   {
+    "slug": "technical-writing",
     "title": "Technical Writing",
-    "star": true,
-    "description": "Research aiming to improve your technical documentation.",
-    "createdDate": "05-25-2024",
+    "reactionCount": 1,
+    "subtitle": "Research aiming to improve your technical documentation.",
+    "pubishedAt": "05-25-2024",
     "url": "https://api.namitoyokota.com/notes/technical-writing.md"
   },
   {
+    "slug": "agile",
     "title": "Agile Project Management",
-    "star": false,
-    "description": "",
-    "createdDate": "11-13-2023",
+    "reactionCount": 0,
+    "subtitle": ""
+    "pubishedAt": "11-13-2023",
     "url": "https://api.namitoyokota.com/notes/agile.md"
   },
   {
+    "slug": "ux-foundations",
     "title": "Foundations of User Experience",
-    "star": false,
-    "description": "",
-    "createdDate": "06-18-2024",
+    "reactionCount": 0,
+    "subtitle": "",
+    "pubishedAt": "06-18-2024",
     "url": "https://api.namitoyokota.com/notes/ux-foundations.md"
   },
   {
+    "slug": "agile-with-jira",
     "title": "Agile with Atlassian Jira",
-    "star": false,
-    "description": "",
-    "createdDate": "06-23-2024",
+    "reactionCount": 0,
+    "subtitle": "",
+    "pubishedAt": "06-23-2024",
     "url": "https://api.namitoyokota.com/notes/agile-with-jira.md"
   }
 ]

@@ -4,7 +4,7 @@
     "title": "React Basics",
     "reactionCount": 0,
     "subtitle": "",
-    "pubishedAt": "2024-06-23",
+    "pubishedAt": "2024-06-23T00:00:00.000Z",
     "url": "https://api.namitoyokota.com/notes/react-basics.md"
   },
   {
@@ -12,7 +12,7 @@
     "title": "Technical Writing",
     "reactionCount": 1,
     "subtitle": "Research aiming to improve your technical documentation.",
-    "pubishedAt": "2024-05-25",
+    "pubishedAt": "2024-05-25T00:00:00.000Z",
     "url": "https://api.namitoyokota.com/notes/technical-writing.md"
   },
   {
@@ -20,7 +20,7 @@
     "title": "Agile Project Management",
     "reactionCount": 0,
     "subtitle": "",
-    "pubishedAt": "2023-11-13",
+    "pubishedAt": "2023-11-13T00:00:00.000Z",
     "url": "https://api.namitoyokota.com/notes/agile.md"
   },
   {
@@ -28,7 +28,7 @@
     "title": "Foundations of User Experience",
     "reactionCount": 0,
     "subtitle": "",
-    "pubishedAt": "2024-06-18",
+    "pubishedAt": "2024-06-18T00:00:00.000Z",
     "url": "https://api.namitoyokota.com/notes/ux-foundations.md"
   },
   {
@@ -36,7 +36,7 @@
     "title": "Agile with Atlassian Jira",
     "reactionCount": 0,
     "subtitle": "",
-    "pubishedAt": "2024-06-23",
+    "pubishedAt": "2024-06-23T00:00:00.000Z",
     "url": "https://api.namitoyokota.com/notes/agile-with-jira.md"
   }
 ]

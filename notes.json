@@ -1,42 +1,10 @@
 [
   {
-    "slug": "react-basics",
-    "title": "React Basics",
-    "reactionCount": 0,
-    "subtitle": "",
-    "publishedAt": "2024-06-23",
-    "url": "https://api.namitoyokota.com/notes/react-basics.md"
-  },
-  {
     "slug": "technical-writing",
     "title": "Technical Writing",
     "reactionCount": 1,
     "subtitle": "Research aiming to improve your technical documentation.",
     "publishedAt": "2024-05-25",
-    "url": "https://api.namitoyokota.com/notes/technical-writing.md"
-  },
-  {
-    "slug": "agile",
-    "title": "Agile Project Management",
-    "reactionCount": 0,
-    "subtitle": "",
-    "publishedAt": "2023-11-13",
-    "url": "https://api.namitoyokota.com/notes/agile.md"
-  },
-  {
-    "slug": "ux-foundations",
-    "title": "Foundations of User Experience",
-    "reactionCount": 0,
-    "subtitle": "",
-    "publishedAt": "2024-06-18",
-    "url": "https://api.namitoyokota.com/notes/ux-foundations.md"
-  },
-  {
-    "slug": "agile-with-jira",
-    "title": "Agile with Atlassian Jira",
-    "reactionCount": 0,
-    "subtitle": "",
-    "publishedAt": "2024-06-23",
-    "url": "https://api.namitoyokota.com/notes/agile-with-jira.md"
+    "url": "https://namito.notion.site/Technical-Writing-1d830b554836806baad1ce98b86569b6"
   }
 ]

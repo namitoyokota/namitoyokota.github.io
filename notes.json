@@ -5,7 +5,7 @@
     "reactionCount": 1,
     "subtitle": "Research aiming to improve your technical documentation.",
     "publishedAt": "2024-05-25",
-    "url": "https://namitos-brain.gitbook.io/namitos-notes/technical-writing"
+    "url": "https://namitos-brain.gitbook.io/notes/technical-writing"
   },
   {
     "slug": "should-a-tab-be-2-spaces-or-4",
@@ -13,7 +13,7 @@
     "reactionCount": 0,
     "subtitle": "Why frontend projects favor 2 spaces.",
     "publishedAt": "2025-04-25",
-    "url": "https://namitos-brain.gitbook.io/namitos-notes/should-a-tab-be-2-spaces-or-4"
+    "url": "https://namitos-brain.gitbook.io/notes/should-a-tab-be-2-spaces-or-4"
   },
   {
     "slug": "dependencies-in-package.json",
@@ -21,7 +21,7 @@
     "reactionCount": 0,
     "subtitle": "Breakdown of how JavaScript projects handles different types of dependencies.",
     "publishedAt": "2025-04-25",
-    "url": "https://namitos-brain.gitbook.io/namitos-notes/dependencies-in-package.json"
+    "url": "https://namitos-brain.gitbook.io/notes/dependencies-in-package.json"
   },
   {
     "slug": "no-more-iframe",
@@ -29,6 +29,6 @@
     "reactionCount": 0,
     "subtitle": "Stop using iframes, it's 2025.",
     "publishedAt": "2025-04-25",
-    "url": "https://namitos-brain.gitbook.io/namitos-notes/no-more-iframe"
+    "url": "https://namitos-brain.gitbook.io/notes/no-more-iframe"
   }
 ]

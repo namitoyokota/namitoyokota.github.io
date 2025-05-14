@@ -5,30 +5,30 @@
     "reactionCount": 1,
     "subtitle": "Research aiming to improve your technical documentation.",
     "publishedAt": "2024-05-25",
-    "url": "https://namito.notion.site/Technical-Writing-1d830b554836806baad1ce98b86569b6"
+    "url": "https://namitos-brain.gitbook.io/namitos-notes/technical-writing"
   },
   {
-    "slug": "2-spaces-vs-4-spaces",
-    "title": "2 spaces vs 4 spaces",
+    "slug": "should-a-tab-be-2-spaces-or-4",
+    "title": "Should a tab be 2 spaces or 4?",
     "reactionCount": 0,
     "subtitle": "Why frontend projects favor 2 spaces.",
     "publishedAt": "2025-04-25",
-    "url": "https://namito.notion.site/2-spaces-vs-4-spaces-1d930b554836804dbd8af23e37db9b3b"
+    "url": "https://namitos-brain.gitbook.io/namitos-notes/should-a-tab-be-2-spaces-or-4"
   },
   {
-    "slug": "package-json-dependencies",
-    "title": "package.json dependencies",
+    "slug": "dependencies-in-package.json",
+    "title": "Dependencies in package.json",
     "reactionCount": 0,
     "subtitle": "Breakdown of how JavaScript projects handles different types of dependencies.",
     "publishedAt": "2025-04-25",
-    "url": "https://namito.notion.site/package-json-dependencies-1d930b55483680e59e44c6a423fb34b7"
+    "url": "https://namitos-brain.gitbook.io/namitos-notes/dependencies-in-package.json"
   },
   {
-    "slug": "no-iframe",
-    "title": "No, iframe",
+    "slug": "no-more-iframe",
+    "title": "No more iframe",
     "reactionCount": 0,
-    "subtitle": "Stop using iframes, it’s 2025.",
+    "subtitle": "Stop using iframes, it's 2025.",
     "publishedAt": "2025-04-25",
-    "url": "https://namito.notion.site/No-iframe-1d930b554836806fb6a6c413feefa049"
+    "url": "https://namitos-brain.gitbook.io/namitos-notes/no-more-iframe"
   }
 ]

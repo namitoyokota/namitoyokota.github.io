@@ -18,8 +18,8 @@
 
 ## Projects
 
--   [https://api.namitoyokota.com/projects/decision-making-seesaw/index.html](decision-making.seesaw.html) - Help comparing 2 ideas.
--   [https://api.namitoyokota.com/projects/every-day-calendar/index.html](every-day-calendar.html) - Digital version of the Everyday Goal Calendar.
+-   [https://api.namitoyokota.com/projects/decision-making-seesaw/index.html](./projects/decision-making-seesaw/index.html) - Help comparing 2 ideas.
+-   [https://api.namitoyokota.com/projects/every-day-calendar/index.html](./projects/every-day-calendar/index.html) - Digital version of the Everyday Goal Calendar.
 
 ## Resources
 

@@ -18,6 +18,7 @@
 
 ## Projects
 
+-   [https://api.namitoyokota.com/projects/workout/index.html](./projects/workout/index.html) - Workout exercise list.
 -   [https://api.namitoyokota.com/projects/decision-making-seesaw/index.html](./projects/decision-making-seesaw/index.html) - Help comparing 2 ideas.
 -   [https://api.namitoyokota.com/projects/every-day-calendar/index.html](./projects/every-day-calendar/index.html) - Digital version of the Everyday Goal Calendar.
 

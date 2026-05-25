@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Workout Reference Plan</title>
+    <style>
+        :root {
+            --bg-color: #0f1015;
+            --card-bg: #171923;
+            --accent-color: #38bdf8;
+            --accent-gradient: linear-gradient(135deg, #38bdf8, #818cf8);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #2d3748;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Responsive Filter Tabs */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.35rem;
+            margin-bottom: 2.5rem;
+            background: rgba(23, 25, 35, 0.7);
+            padding: 0.4rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Hide scrollbars for absolute clean look on mobile */
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+        .tabs-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.6rem 1.1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-gradient);
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .split-section {
+            margin-bottom: 3.5rem;
+            scroll-margin-top: 20px;
+        }
+
+        .split-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 0.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .split-title span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        /* Responsive Adaptive Grid */
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .exercise-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 180px;
+            background-color: #1e293b;
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .exercise-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        /* Mobile Viewport Customizations */
+        @media (max-width: 600px) {
+            body {
+                padding: 1.5rem 0.75rem;
+            }
+            
+            header h1 {
+                font-size: 1.85rem;
+            }
+
+            .tabs-container {
+                justify-content: flex-start;
+                padding: 0.4rem;
+            }
+
+            .exercise-grid {
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 1.25rem;
+            }
+
+            .image-container {
+                height: 160px;
+            }
+            
+            .split-title {
+                font-size: 1.35rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Workout Reference Dashboard</h1>
+            <p>Your streamlined muscle-split index</p>
+        </header>
+
+        <!-- Dynamic Filter Controls -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="filterSplit('all')">All Splits</button>
+            <button class="tab-btn" onclick="filterSplit('chest')">Chest</button>
+            <button class="tab-btn" onclick="filterSplit('triceps')">Triceps</button>
+            <button class="tab-btn" onclick="filterSplit('shoulders')">Shoulders</button>
+            <button class="tab-btn" onclick="filterSplit('back')">Back</button>
+            <button class="tab-btn" onclick="filterSplit('biceps')">Biceps</button>
+            <button class="tab-btn" onclick="filterSplit('hamstrings')">Hamstrings</button>
+            <button class="tab-btn" onclick="filterSplit('quads')">Quads</button>
+            <button class="tab-btn" onclick="filterSplit('core')">Core</button>
+        </div>
+
+        <!-- CHEST SECTION -->
+        <section class="split-section" id="section-chest">
+            <div class="split-title">Chest <span>Day 4: Push</span></div>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=80" alt="Chest Press Machine">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Chest Press Machine</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Cable Standing Chest Fly">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Cable Standing Chest Fly</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRICEPS SECTION -->
+        <section class="split-section" id="section-triceps">
+            <div class="split-title">Triceps <span>Day 2: Arms / Push</span></div>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80" alt="Cable Bent Over Tricep Extension">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Cable Bent Over Tricep Extension</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80" alt="Barbell Standing Overhead Tricep Extension">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Barbell Standing Overhead Tricep Extension</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SHOULDERS SECTION -->
+        <section class="split-section" id="section-shoulders">
+            <div class="split-title">Shoulders <span>Day 4: Push</span></div>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80" alt="Shoulder Press Machine">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Shoulder Press Machine</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1593079350742-1e7a99185a30?q=80&w=600&auto=format&fit=crop" alt="Cable Lateral Raise">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Cable Lateral Raise</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80" alt="Dumbbell Bent Over Reverse Fly">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Dumbbell Bent Over Reverse Fly</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=600&auto=format&fit=crop" alt="Plate Front Raise">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Plate Front Raise</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BACK SECTION -->
+        <section class="split-section" id="section-back">
+            <div class="split-title">Back <span>Day 5: Pull</span></div>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1603287634276-ae3f148ec736?q=80&w=600&auto=format&fit=crop" alt="Cable V Bar Seated Row">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Cable V Bar Seated Row</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?q=80&w=600&auto=format&fit=crop" alt="Wide Grip Lat Pulldown">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Wide Grip Lat Pulldown</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Row Machine">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Row Machine</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1434608519344-49d77a699e1d?auto=format&fit=crop&w=500&q=80" alt="Smith Machine Bent Over Row">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Smith Machine Bent Over Row</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BICEPS SECTION -->
+        <section class="split-section" id="section-biceps">
+            <div class="split-title">Biceps <span>Day 5: Pull / Day 2: Arms</span></div>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80" alt="Dumbbell Bicep Curl">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Dumbbell Bicep Curl</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Preacher Curl">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Preacher Curl</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1637666062717-1c6bcfa4a4df?q=80&w=600&auto=format&fit=crop" alt="Dumbbell Cross Body Hammer Curl">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Dumbbell Cross Body Hammer Curl</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Cable Rope Hammer Curl">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Cable Rope Hammer Curl</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HAMSTRINGS SECTION -->
+        <section class="split-section" id="section-hamstrings">
+            <div class="split-title">Hamstrings <span>Legs Split</span></div>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1434608519344-49d77a699e1d?auto=format&fit=crop&w=500&q=80" alt="Seated Hamstring Curl Machine">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Seated Hamstring Curl Machine</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=500&q=80" alt="Single Leg Prone Hamstring Curl">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Single Leg Prone Hamstring Curl</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a25f1?q=80&w=600&auto=format&fit=crop" alt="Dumbbell Romanian Deadlift">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Dumbbell Romanian Deadlift</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Machine Kickbacks">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Machine Kickbacks</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80" alt="Body Weight Side Lunges">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Body Weight Side Lunges</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUADS SECTION -->
+        <section class="split-section" id="section-quads">
+            <div class="split-title">Quads <span>Legs Split</span></div>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1591258370814-01609b341790?auto=format&fit=crop&w=500&q=80" alt="Seated Leg Extension Machine">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Seated Leg Extension Machine</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=500&q=80" alt="Smith Machine Bulgarian Split Squats">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Smith Machine Bulgarian Split Squats</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=500&q=80" alt="Dumbbell Goblet Squat">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Dumbbell Goblet Squat</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Leg Press">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Leg Press</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80" alt="Barbell Walking Lunges">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Barbell Walking Lunges</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CORE SECTION -->
+        <section class="split-section" id="section-core">
+            <div class="split-title">Core <span>Abdominals Split</span></div>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=500&q=80" alt="Cable Rope Crunch">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Cable Rope Crunch</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=500&q=80" alt="Bent Knee Leg Raise">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Bent Knee Leg Raise</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=500&q=80" alt="Bicycle Crunch">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Bicycle Crunch</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1566241477600-ac026ad43874?auto=format&fit=crop&w=500&q=80" alt="Low Plank">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Low Plank</div>
+                    </div>
+                </div>
+                <div class="exercise-card">
+                    <div class="image-container">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Ab Crunch Machine">
+                    </div>
+                    <div class="card-content">
+                        <div class="exercise-name">Ab Crunch Machine</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function filterSplit(category) {
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if(window.event) {
+                window.event.target.classList.add('active');
+            }
+
+            const sections = document.querySelectorAll('.split-section');
+            sections.forEach(section => {
+                if (category === 'all') {
+                    section.style.display = 'block';
+                } else if (section.id === 'section-' + category) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

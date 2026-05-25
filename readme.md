@@ -16,6 +16,11 @@
 -   [https://api.namitoyokota.com/sounds.json](./sounds.json) - List of sound effects.
 -   [https://api.namitoyokota.com/utils.json](./utils.json) - Utility object data like logos, meta images, and loading icons.
 
+## Projects
+
+-   [https://api.namitoyokota.com/projects/decision-making-seesaw/index.html](decision-making.seesaw.html) - Help comparing 2 ideas.
+-   [https://api.namitoyokota.com/projects/every-day-calendar/index.html](every-day-calendar.html) - Digital version of the Everyday Goal Calendar.
+
 ## Resources
 
 -   Sounds: [Submit](https://opengameart.org/content/menu-selection-click), [Complete](https://opengameart.org/content/completion-sound)

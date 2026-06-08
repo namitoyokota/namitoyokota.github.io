@@ -1,552 +1,450 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Workout Reference Plan</title>
-    <style>
-        :root {
-            --bg-color: #0f1015;
-            --card-bg: #171923;
-            --accent-color: #38bdf8;
-            --accent-gradient: linear-gradient(135deg, #38bdf8, #818cf8);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #2d3748;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 2rem 1rem;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        header h1 {
-            font-size: 2.25rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            margin-bottom: 0.5rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        /* Responsive Filter Tabs */
-        .tabs-container {
-            display: flex;
-            justify-content: center;
-            gap: 0.35rem;
-            margin-bottom: 2.5rem;
-            background: rgba(23, 25, 35, 0.7);
-            padding: 0.4rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* Hide scrollbars for absolute clean look on mobile */
-        .tabs-container::-webkit-scrollbar {
-            display: none;
-        }
-        .tabs-container {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 0.6rem 1.1rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .tab-btn:hover {
-            color: var(--text-main);
-        }
-
-        .tab-btn.active {
-            background: var(--accent-gradient);
-            color: #000000;
-            font-weight: 700;
-        }
-
-        .split-section {
-            margin-bottom: 3.5rem;
-            scroll-margin-top: 20px;
-        }
-
-        .split-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 0.75rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .split-title span {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 500;
-        }
-
-        /* Responsive Adaptive Grid */
-        .exercise-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .exercise-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .image-container {
-            width: 100%;
-            height: 180px;
-            background-color: #1e293b;
-            position: relative;
-        }
-
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex-grow: 1;
-        }
-
-        .exercise-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-main);
-            line-height: 1.4;
-        }
-
-        /* Mobile Viewport Customizations */
-        @media (max-width: 600px) {
-            body {
-                padding: 1.5rem 0.75rem;
-            }
-            
-            header h1 {
-                font-size: 1.85rem;
-            }
-
-            .tabs-container {
-                justify-content: flex-start;
-                padding: 0.4rem;
-            }
-
-            .exercise-grid {
-                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-                gap: 1.25rem;
-            }
-
-            .image-container {
-                height: 160px;
-            }
-            
-            .split-title {
-                font-size: 1.35rem;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <header>
-            <h1>Workout Reference Dashboard</h1>
-            <p>Your streamlined muscle-split index</p>
-        </header>
-
-        <!-- Dynamic Filter Controls -->
-        <div class="tabs-container">
-            <button class="tab-btn active" onclick="filterSplit('all')">All Splits</button>
-            <button class="tab-btn" onclick="filterSplit('chest')">Chest</button>
-            <button class="tab-btn" onclick="filterSplit('triceps')">Triceps</button>
-            <button class="tab-btn" onclick="filterSplit('shoulders')">Shoulders</button>
-            <button class="tab-btn" onclick="filterSplit('back')">Back</button>
-            <button class="tab-btn" onclick="filterSplit('biceps')">Biceps</button>
-            <button class="tab-btn" onclick="filterSplit('hamstrings')">Hamstrings</button>
-            <button class="tab-btn" onclick="filterSplit('quads')">Quads</button>
-            <button class="tab-btn" onclick="filterSplit('core')">Core</button>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Workout Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "Inter",
+                "ui-sans-serif",
+                "system-ui",
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "Segoe UI",
+                "sans-serif",
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="min-h-screen bg-white text-black antialiased">
+    <main class="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 px-4 py-5 sm:px-6 lg:px-8">
+      <header class="flex flex-col gap-4 border-b border-black pb-5 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.28em]">Personal log</p>
+          <h1 class="mt-2 text-3xl font-black leading-none sm:text-5xl">Workout Tracker</h1>
         </div>
+        <div id="todaySummary" class="border border-black px-4 py-3 text-sm font-semibold"></div>
+      </header>
 
-        <!-- CHEST SECTION -->
-        <section class="split-section" id="section-chest">
-            <div class="split-title">Chest <span>Day 4: Push</span></div>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=80" alt="Chest Press Machine">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Chest Press Machine</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Cable Standing Chest Fly">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Cable Standing Chest Fly</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <section class="grid gap-6 lg:grid-cols-[17rem_1fr]">
+        <aside class="lg:sticky lg:top-5 lg:self-start">
+          <h2 class="mb-3 text-sm font-black uppercase tracking-[0.2em]">Body Part</h2>
+          <nav id="bodyPartNav" class="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1" aria-label="Body parts"></nav>
+        </aside>
 
-        <!-- TRICEPS SECTION -->
-        <section class="split-section" id="section-triceps">
-            <div class="split-title">Triceps <span>Day 2: Arms / Push</span></div>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80" alt="Cable Bent Over Tricep Extension">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Cable Bent Over Tricep Extension</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80" alt="Barbell Standing Overhead Tricep Extension">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Barbell Standing Overhead Tricep Extension</div>
-                    </div>
-                </div>
+        <div class="grid gap-6">
+          <section>
+            <div class="mb-3 flex items-center justify-between gap-3">
+              <h2 id="exerciseListTitle" class="text-sm font-black uppercase tracking-[0.2em]">Exercises</h2>
+              <span id="exerciseCount" class="text-sm font-semibold"></span>
             </div>
-        </section>
+            <div id="exerciseGrid" class="grid gap-3 sm:grid-cols-2"></div>
+          </section>
 
-        <!-- SHOULDERS SECTION -->
-        <section class="split-section" id="section-shoulders">
-            <div class="split-title">Shoulders <span>Day 4: Push</span></div>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80" alt="Shoulder Press Machine">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Shoulder Press Machine</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1593079350742-1e7a99185a30?q=80&w=600&auto=format&fit=crop" alt="Cable Lateral Raise">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Cable Lateral Raise</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80" alt="Dumbbell Bent Over Reverse Fly">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Dumbbell Bent Over Reverse Fly</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1517963879433-6ad2b056d712?q=80&w=600&auto=format&fit=crop" alt="Plate Front Raise">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Plate Front Raise</div>
-                    </div>
-                </div>
+          <section id="trackerPanel" class="border border-black bg-white p-4 sm:p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p id="selectedBodyPart" class="text-xs font-black uppercase tracking-[0.24em]"></p>
+                <h2 id="selectedExercise" class="mt-2 text-2xl font-black leading-tight"></h2>
+              </div>
+              <button
+                id="clearExercise"
+                type="button"
+                class="hidden shrink-0 border border-black px-3 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              >
+                Clear
+              </button>
             </div>
-        </section>
 
-        <!-- BACK SECTION -->
-        <section class="split-section" id="section-back">
-            <div class="split-title">Back <span>Day 5: Pull</span></div>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1603287634276-ae3f148ec736?q=80&w=600&auto=format&fit=crop" alt="Cable V Bar Seated Row">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Cable V Bar Seated Row</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?q=80&w=600&auto=format&fit=crop" alt="Wide Grip Lat Pulldown">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Wide Grip Lat Pulldown</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Row Machine">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Row Machine</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1434608519344-49d77a699e1d?auto=format&fit=crop&w=500&q=80" alt="Smith Machine Bent Over Row">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Smith Machine Bent Over Row</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <img id="selectedImage" class="mt-5 aspect-square w-full border border-black object-contain" alt="" />
 
-        <!-- BICEPS SECTION -->
-        <section class="split-section" id="section-biceps">
-            <div class="split-title">Biceps <span>Day 5: Pull / Day 2: Arms</span></div>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=80" alt="Dumbbell Bicep Curl">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Dumbbell Bicep Curl</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Preacher Curl">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Preacher Curl</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1637666062717-1c6bcfa4a4df?q=80&w=600&auto=format&fit=crop" alt="Dumbbell Cross Body Hammer Curl">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Dumbbell Cross Body Hammer Curl</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Cable Rope Hammer Curl">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Cable Rope Hammer Curl</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <p id="lastWorkedOut" class="mt-5 min-h-5 text-sm font-semibold"></p>
 
-        <!-- HAMSTRINGS SECTION -->
-        <section class="split-section" id="section-hamstrings">
-            <div class="split-title">Hamstrings <span>Legs Split</span></div>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1434608519344-49d77a699e1d?auto=format&fit=crop&w=500&q=80" alt="Seated Hamstring Curl Machine">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Seated Hamstring Curl Machine</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=500&q=80" alt="Single Leg Prone Hamstring Curl">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Single Leg Prone Hamstring Curl</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a25f1?q=80&w=600&auto=format&fit=crop" alt="Dumbbell Romanian Deadlift">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Dumbbell Romanian Deadlift</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Machine Kickbacks">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Machine Kickbacks</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80" alt="Body Weight Side Lunges">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Body Weight Side Lunges</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- QUADS SECTION -->
-        <section class="split-section" id="section-quads">
-            <div class="split-title">Quads <span>Legs Split</span></div>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1591258370814-01609b341790?auto=format&fit=crop&w=500&q=80" alt="Seated Leg Extension Machine">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Seated Leg Extension Machine</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=500&q=80" alt="Smith Machine Bulgarian Split Squats">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Smith Machine Bulgarian Split Squats</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=500&q=80" alt="Dumbbell Goblet Squat">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Dumbbell Goblet Squat</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Leg Press">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Leg Press</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=500&q=80" alt="Barbell Walking Lunges">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Barbell Walking Lunges</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CORE SECTION -->
-        <section class="split-section" id="section-core">
-            <div class="split-title">Core <span>Abdominals Split</span></div>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=500&q=80" alt="Cable Rope Crunch">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Cable Rope Crunch</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=500&q=80" alt="Bent Knee Leg Raise">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Bent Knee Leg Raise</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=500&q=80" alt="Bicycle Crunch">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Bicycle Crunch</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1566241477600-ac026ad43874?auto=format&fit=crop&w=500&q=80" alt="Low Plank">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Low Plank</div>
-                    </div>
-                </div>
-                <div class="exercise-card">
-                    <div class="image-container">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=500&q=80" alt="Ab Crunch Machine">
-                    </div>
-                    <div class="card-content">
-                        <div class="exercise-name">Ab Crunch Machine</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+            <form id="setsForm" class="mt-5">
+              <div class="grid grid-cols-[3.25rem_1fr_1fr] gap-2 border-b border-black pb-2 text-xs font-black uppercase tracking-[0.16em]">
+                <span>Set</span>
+                <span>Weight</span>
+                <span>Reps</span>
+              </div>
+              <div id="setRows" class="grid gap-2 pt-3"></div>
+            </form>
+          </section>
+        </div>
+      </section>
+    </main>
 
     <script>
-        function filterSplit(category) {
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            if(window.event) {
-                window.event.target.classList.add('active');
-            }
+      const STORAGE_KEY = "workout-tracker:v1";
+      const bodyParts = [
+        {
+          id: "back",
+          name: "Back",
+          exercises: [],
+        },
+        {
+          id: "biceps",
+          name: "Biceps",
+          exercises: [
+            "DUMBBELL-BICEP-CURL.png",
+            "DUMBBELL-CROSS-BODY-HAMMER-CURLS.png",
+            "DUMBBELL-PREACHER-CURL.png",
+            "EZ-BAR-CLOSE-GRIP-CURL.png",
+          ],
+        },
+        {
+          id: "chest",
+          name: "Chest",
+          exercises: [
+            "CABLE-STANDING-CHEST-FLY.png",
+            "CHEST-PRESS-MACHINE.png",
+            "INCLINE-CHEST-PRESS-MACHINE.png",
+          ],
+        },
+        {
+          id: "core",
+          name: "Core",
+          exercises: [
+            "AB-CRUNCH-MACHINE.png",
+            "BENT-KNEE-LEG-RAISE.png",
+            "BICYCLE-CRUNCH.png",
+            "CABLE-ROPE-CRUNCH.png",
+            "LOW-PLANK.png",
+          ],
+        },
+        {
+          id: "hamstrings",
+          name: "Hamstrings",
+          exercises: [
+            "DUMBBELL-GOBLET-SQUAT.png",
+            "DUMBBELL-ROMANIAN-DEADLIFT.png",
+            "SEATED-HAMSTRING-CURL-MACHINE.png",
+          ],
+        },
+        {
+          id: "quads",
+          name: "Quads",
+          exercises: [
+            "SEATED-LEG-EXTENSION-MACHINE.png",
+            "SMITH-MACHINE-BULGARIAN-SPLIT-SQUATS.png",
+          ],
+        },
+        {
+          id: "shoulders",
+          name: "Shoulders",
+          exercises: [
+            "CABLE-LATERAL-RAISE.png",
+            "DUMBBELL-BENT-OVER-REVERSE-FLY.png",
+            "DUMBBELL-LATERAL-RAISE.png",
+            "PLATE-FRONT-RAISE.png",
+            "SHOULDER-PRESS-MACHINE.png",
+          ],
+        },
+        {
+          id: "triceps",
+          name: "Triceps",
+          exercises: ["CABLE-BENT-OVER-TRICEP-EXTENSION.png"],
+        },
+      ];
 
-            const sections = document.querySelectorAll('.split-section');
-            sections.forEach(section => {
-                if (category === 'all') {
-                    section.style.display = 'block';
-                } else if (section.id === 'section-' + category) {
-                    section.style.display = 'block';
-                } else {
-                    section.style.display = 'none';
-                }
-            });
+      const state = {
+        activeBodyPart: bodyParts.find((part) => part.exercises.length)?.id ?? bodyParts[0].id,
+        activeExerciseId: null,
+        entries: loadEntries(),
+      };
+
+      const elements = {
+        bodyPartNav: document.querySelector("#bodyPartNav"),
+        exerciseListTitle: document.querySelector("#exerciseListTitle"),
+        exerciseCount: document.querySelector("#exerciseCount"),
+        exerciseGrid: document.querySelector("#exerciseGrid"),
+        trackerPanel: document.querySelector("#trackerPanel"),
+        selectedBodyPart: document.querySelector("#selectedBodyPart"),
+        selectedExercise: document.querySelector("#selectedExercise"),
+        selectedImage: document.querySelector("#selectedImage"),
+        lastWorkedOut: document.querySelector("#lastWorkedOut"),
+        setRows: document.querySelector("#setRows"),
+        clearExercise: document.querySelector("#clearExercise"),
+        todaySummary: document.querySelector("#todaySummary"),
+      };
+
+      function loadEntries() {
+        try {
+          const stored = window.localStorage.getItem(STORAGE_KEY);
+          return stored ? JSON.parse(stored) : {};
+        } catch {
+          return {};
         }
+      }
+
+      function saveEntries() {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.entries));
+      }
+
+      function formatExerciseName(fileName) {
+        return fileName
+          .replace(/\.[^.]+$/, "")
+          .split("-")
+          .map((word) => word.charAt(0) + word.slice(1).toLowerCase())
+          .join(" ");
+      }
+
+      function getExerciseId(bodyPartId, fileName) {
+        return `${bodyPartId}/${fileName.replace(/\.[^.]+$/, "")}`;
+      }
+
+      function getExercisePath(bodyPartId, fileName) {
+        return `assets/${bodyPartId}/${fileName}`;
+      }
+
+      function todayDateString() {
+        const now = new Date();
+        const offset = now.getTimezoneOffset();
+        const localDate = new Date(now.getTime() - offset * 60000);
+        return localDate.toISOString().slice(0, 10);
+      }
+
+      function prettyDate(dateString) {
+        if (!dateString) return "";
+        return new Intl.DateTimeFormat(undefined, {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        }).format(new Date(`${dateString}T00:00:00`));
+      }
+
+      function hasLoggedData(entry) {
+        return Boolean(
+          entry?.updatedAt ||
+            entry?.sets?.some((set) => String(set.weight || "").length || String(set.reps || "").length)
+        );
+      }
+
+      function escapeAttribute(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;");
+      }
+
+      function getEntry(exerciseId) {
+        if (!state.entries[exerciseId]) {
+          state.entries[exerciseId] = {
+            workoutDate: todayDateString(),
+            updatedAt: "",
+            sets: Array.from({ length: 5 }, () => ({ weight: "", reps: "" })),
+          };
+        }
+
+        const entry = state.entries[exerciseId];
+        while (entry.sets.length < 5) entry.sets.push({ weight: "", reps: "" });
+        entry.sets = entry.sets.slice(0, 5);
+        entry.workoutDate ||= todayDateString();
+        return entry;
+      }
+
+      function findActiveExercise() {
+        for (const bodyPart of bodyParts) {
+          for (const fileName of bodyPart.exercises) {
+            const id = getExerciseId(bodyPart.id, fileName);
+            if (id === state.activeExerciseId) {
+              return {
+                id,
+                bodyPart,
+                fileName,
+                name: formatExerciseName(fileName),
+                path: getExercisePath(bodyPart.id, fileName),
+              };
+            }
+          }
+        }
+        return null;
+      }
+
+      function renderBodyParts() {
+        elements.bodyPartNav.innerHTML = "";
+
+        bodyParts.forEach((bodyPart) => {
+          const button = document.createElement("button");
+          const isActive = bodyPart.id === state.activeBodyPart;
+          button.type = "button";
+          button.className = [
+            "flex h-12 items-center justify-between border px-3 text-left text-sm font-black uppercase tracking-[0.14em] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2",
+            isActive ? "border-black bg-black text-white" : "border-black bg-white text-black hover:bg-black hover:text-white",
+          ].join(" ");
+          button.setAttribute("aria-current", isActive ? "true" : "false");
+          button.innerHTML = `<span>${bodyPart.name}</span><span>${bodyPart.exercises.length}</span>`;
+          button.addEventListener("click", () => {
+            state.activeBodyPart = bodyPart.id;
+            const firstExercise = bodyPart.exercises[0];
+            state.activeExerciseId = firstExercise ? getExerciseId(bodyPart.id, firstExercise) : null;
+            render();
+          });
+          elements.bodyPartNav.append(button);
+        });
+      }
+
+      function renderExercises() {
+        const bodyPart = bodyParts.find((part) => part.id === state.activeBodyPart);
+        elements.exerciseListTitle.textContent = bodyPart.name;
+        elements.exerciseCount.textContent = `${bodyPart.exercises.length} exercise${bodyPart.exercises.length === 1 ? "" : "s"}`;
+        elements.exerciseGrid.innerHTML = "";
+
+        if (!bodyPart.exercises.length) {
+          const empty = document.createElement("div");
+          empty.className = "border border-black p-6 text-center text-sm font-bold sm:col-span-2";
+          empty.textContent = "No exercises yet";
+          elements.exerciseGrid.append(empty);
+          return;
+        }
+
+        bodyPart.exercises.forEach((fileName) => {
+          const id = getExerciseId(bodyPart.id, fileName);
+          const entry = state.entries[id];
+          const button = document.createElement("button");
+          const isActive = id === state.activeExerciseId;
+          button.type = "button";
+          button.className = [
+            "group grid min-h-36 grid-cols-[6.5rem_minmax(0,1fr)] gap-3 overflow-hidden border p-3 text-left focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2",
+            isActive ? "border-black bg-black text-white" : "border-black bg-white text-black hover:bg-black hover:text-white",
+          ].join(" ");
+          button.setAttribute("aria-current", isActive ? "true" : "false");
+          button.innerHTML = `
+            <img class="aspect-square w-full border border-current bg-white object-contain" src="${getExercisePath(bodyPart.id, fileName)}" alt="" loading="lazy" />
+            <span class="flex min-w-0 flex-col justify-between gap-3">
+              <span class="break-words text-lg font-black leading-tight">${formatExerciseName(fileName)}</span>
+              <span class="text-xs font-bold uppercase tracking-[0.16em]">${hasLoggedData(entry) ? prettyDate(entry.workoutDate) : "Not logged"}</span>
+            </span>
+          `;
+          button.addEventListener("click", () => {
+            state.activeExerciseId = id;
+            render();
+          });
+          elements.exerciseGrid.append(button);
+        });
+      }
+
+      function renderTracker() {
+        const activeExercise = findActiveExercise();
+
+        if (!activeExercise) {
+          elements.selectedBodyPart.textContent = "No exercise selected";
+          elements.selectedExercise.textContent = "Choose an exercise";
+          elements.selectedImage.removeAttribute("src");
+          elements.selectedImage.alt = "";
+          elements.selectedImage.classList.add("hidden");
+          elements.lastWorkedOut.textContent = "";
+          elements.setRows.innerHTML = "";
+          elements.clearExercise.classList.add("hidden");
+          return;
+        }
+
+        const entry = getEntry(activeExercise.id);
+        elements.selectedBodyPart.textContent = activeExercise.bodyPart.name;
+        elements.selectedExercise.textContent = activeExercise.name;
+        elements.selectedImage.src = activeExercise.path;
+        elements.selectedImage.alt = activeExercise.name;
+        elements.selectedImage.classList.remove("hidden");
+        elements.clearExercise.classList.remove("hidden");
+
+        const today = todayDateString();
+        elements.lastWorkedOut.textContent =
+          hasLoggedData(entry) && entry.workoutDate && entry.workoutDate < today
+            ? `Last worked out ${prettyDate(entry.workoutDate)}`
+            : "";
+
+        elements.setRows.innerHTML = "";
+        entry.sets.forEach((set, index) => {
+          const row = document.createElement("div");
+          row.className = "grid grid-cols-[3.25rem_1fr_1fr] gap-2";
+          row.innerHTML = `
+            <div class="flex h-11 items-center border border-black px-3 text-sm font-black">${index + 1}</div>
+            <label class="sr-only" for="set-${index}-weight">Set ${index + 1} weight in pounds</label>
+            <input
+              id="set-${index}-weight"
+              inputmode="decimal"
+              min="0"
+              step="0.5"
+              type="number"
+              value="${escapeAttribute(set.weight)}"
+              class="h-11 min-w-0 border border-black bg-white px-3 text-base font-semibold focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              data-set-index="${index}"
+              data-field="weight"
+              placeholder="lbs"
+            />
+            <label class="sr-only" for="set-${index}-reps">Set ${index + 1} reps</label>
+            <input
+              id="set-${index}-reps"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              type="number"
+              value="${escapeAttribute(set.reps)}"
+              class="h-11 min-w-0 border border-black bg-white px-3 text-base font-semibold focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              data-set-index="${index}"
+              data-field="reps"
+              placeholder="reps"
+            />
+          `;
+          elements.setRows.append(row);
+        });
+      }
+
+      function renderSummary() {
+        const loggedToday = Object.values(state.entries).filter(
+          (entry) => hasLoggedData(entry) && entry.workoutDate === todayDateString()
+        ).length;
+        elements.todaySummary.textContent = `${loggedToday} exercises completed`;
+      }
+
+      function render() {
+        renderBodyParts();
+        renderExercises();
+        renderTracker();
+        renderSummary();
+      }
+
+      elements.setRows.addEventListener("input", (event) => {
+        const input = event.target.closest("input[data-set-index]");
+        if (!input || !state.activeExerciseId) return;
+
+        const entry = getEntry(state.activeExerciseId);
+        const setIndex = Number(input.dataset.setIndex);
+        const field = input.dataset.field;
+        entry.sets[setIndex][field] = input.value;
+        entry.workoutDate = todayDateString();
+        entry.updatedAt = new Date().toISOString();
+        saveEntries();
+        renderSummary();
+        renderExercises();
+        elements.lastWorkedOut.textContent =
+          hasLoggedData(entry) && entry.workoutDate < todayDateString()
+            ? `Last worked out ${prettyDate(entry.workoutDate)}`
+            : "";
+      });
+
+      elements.clearExercise.addEventListener("click", () => {
+        if (!state.activeExerciseId) return;
+        delete state.entries[state.activeExerciseId];
+        saveEntries();
+        render();
+      });
+
+      const initialBodyPart = bodyParts.find((part) => part.id === state.activeBodyPart);
+      if (initialBodyPart?.exercises.length) {
+        state.activeExerciseId = getExerciseId(initialBodyPart.id, initialBodyPart.exercises[0]);
+      }
+
+      render();
     </script>
-</body>
+  </body>
 </html>

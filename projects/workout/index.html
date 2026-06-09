@@ -228,6 +228,17 @@
         );
       }
 
+      function isCompletedToday(entry) {
+        return hasLoggedData(entry) && entry.workoutDate === todayDateString();
+      }
+
+      function isBodyPartCompletedToday(bodyPart) {
+        return bodyPart.exercises.some((fileName) => {
+          const entry = state.entries[getExerciseId(bodyPart.id, fileName)];
+          return isCompletedToday(entry);
+        });
+      }
+
       function escapeAttribute(value) {
         return String(value ?? "")
           .replaceAll("&", "&amp;")
@@ -276,10 +287,15 @@
         bodyParts.forEach((bodyPart) => {
           const button = document.createElement("button");
           const isActive = bodyPart.id === state.activeBodyPart;
+          const isCompleted = isBodyPartCompletedToday(bodyPart);
           button.type = "button";
           button.className = [
             "flex h-12 items-center justify-between border px-3 text-left text-sm font-black uppercase tracking-[0.14em] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2",
-            isActive ? "border-black bg-black text-white" : "border-black bg-white text-black hover:bg-black hover:text-white",
+            isActive
+              ? "border-black bg-black text-white"
+              : isCompleted
+                ? "border-black bg-zinc-200 text-black hover:bg-zinc-300"
+                : "border-black bg-white text-black hover:bg-black hover:text-white",
           ].join(" ");
           button.setAttribute("aria-current", isActive ? "true" : "false");
           button.innerHTML = `<span>${bodyPart.name}</span><span>${bodyPart.exercises.length}</span>`;
@@ -312,10 +328,15 @@
           const entry = state.entries[id];
           const button = document.createElement("button");
           const isActive = id === state.activeExerciseId;
+          const isCompleted = isCompletedToday(entry);
           button.type = "button";
           button.className = [
             "group grid min-h-36 grid-cols-[6.5rem_minmax(0,1fr)] gap-3 overflow-hidden border p-3 text-left focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2",
-            isActive ? "border-black bg-black text-white" : "border-black bg-white text-black hover:bg-black hover:text-white",
+            isActive
+              ? "border-black bg-black text-white"
+              : isCompleted
+                ? "border-black bg-zinc-200 text-black hover:bg-zinc-300"
+                : "border-black bg-white text-black hover:bg-black hover:text-white",
           ].join(" ");
           button.setAttribute("aria-current", isActive ? "true" : "false");
           button.innerHTML = `
@@ -401,7 +422,7 @@
 
       function renderSummary() {
         const loggedToday = Object.values(state.entries).filter(
-          (entry) => hasLoggedData(entry) && entry.workoutDate === todayDateString()
+          (entry) => isCompletedToday(entry)
         ).length;
         elements.todaySummary.textContent = `${loggedToday} exercises completed`;
       }
@@ -436,6 +457,7 @@
         entry.updatedAt = new Date().toISOString();
         saveEntries();
         renderSummary();
+        renderBodyParts();
         renderExercises();
         elements.lastWorkedOut.textContent =
           hasLoggedData(entry) && entry.workoutDate < todayDateString()

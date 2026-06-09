@@ -420,7 +420,18 @@
         const entry = getEntry(state.activeExerciseId);
         const setIndex = Number(input.dataset.setIndex);
         const field = input.dataset.field;
-        entry.sets[setIndex][field] = input.value;
+        const value = input.value;
+
+        for (let index = setIndex; index < entry.sets.length; index += 1) {
+          entry.sets[index][field] = value;
+          const rowInput = elements.setRows.querySelector(
+            `input[data-set-index="${index}"][data-field="${field}"]`
+          );
+          if (rowInput && rowInput !== input) {
+            rowInput.value = value;
+          }
+        }
+
         entry.workoutDate = todayDateString();
         entry.updatedAt = new Date().toISOString();
         saveEntries();

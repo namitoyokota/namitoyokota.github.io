@@ -163,7 +163,7 @@
       ];
 
       const state = {
-        activeBodyPart: bodyParts.find((part) => part.exercises.length)?.id ?? bodyParts[0].id,
+        activeBodyPart: getDefaultBodyPartId(),
         activeExerciseId: null,
         entries: loadEntries(),
       };
@@ -210,6 +210,79 @@
 
       function getExercisePath(bodyPartId, fileName) {
         return `assets/${bodyPartId}/${fileName}`;
+      }
+
+      function getDefaultBodyPartId() {
+        return bodyParts.find((part) => part.exercises.length)?.id ?? bodyParts[0].id;
+      }
+
+      function getFirstExerciseId(bodyPartId) {
+        const bodyPart = bodyParts.find((part) => part.id === bodyPartId);
+        const firstExercise = bodyPart?.exercises[0];
+        return firstExercise ? getExerciseId(bodyPart.id, firstExercise) : null;
+      }
+
+      function getExerciseById(exerciseId) {
+        for (const bodyPart of bodyParts) {
+          for (const fileName of bodyPart.exercises) {
+            const id = getExerciseId(bodyPart.id, fileName);
+            if (id === exerciseId) {
+              return {
+                id,
+                bodyPart,
+                fileName,
+                name: formatExerciseName(fileName),
+                path: getExercisePath(bodyPart.id, fileName),
+              };
+            }
+          }
+        }
+        return null;
+      }
+
+      function restoreSelectionFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const requestedBodyPart = params.get("bodyPart");
+        const requestedExercise = params.get("exercise");
+        const exercise = requestedExercise ? getExerciseById(requestedExercise) : null;
+        const bodyPart = bodyParts.find((part) => part.id === requestedBodyPart);
+
+        if (exercise) {
+          state.activeBodyPart = exercise.bodyPart.id;
+          state.activeExerciseId = exercise.id;
+          return;
+        }
+
+        if (bodyPart) {
+          state.activeBodyPart = bodyPart.id;
+          state.activeExerciseId = getFirstExerciseId(bodyPart.id);
+          return;
+        }
+
+        state.activeBodyPart = getDefaultBodyPartId();
+        state.activeExerciseId = getFirstExerciseId(state.activeBodyPart);
+      }
+
+      function updateUrlSelection() {
+        const url = new URL(window.location.href);
+
+        if (state.activeBodyPart) {
+          url.searchParams.set("bodyPart", state.activeBodyPart);
+        } else {
+          url.searchParams.delete("bodyPart");
+        }
+
+        if (state.activeExerciseId) {
+          url.searchParams.set("exercise", state.activeExerciseId);
+        } else {
+          url.searchParams.delete("exercise");
+        }
+
+        const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+        const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+        if (nextUrl !== currentUrl) {
+          window.history.replaceState(null, "", nextUrl);
+        }
       }
 
       function todayDateString() {
@@ -367,21 +440,7 @@
       }
 
       function findActiveExercise() {
-        for (const bodyPart of bodyParts) {
-          for (const fileName of bodyPart.exercises) {
-            const id = getExerciseId(bodyPart.id, fileName);
-            if (id === state.activeExerciseId) {
-              return {
-                id,
-                bodyPart,
-                fileName,
-                name: formatExerciseName(fileName),
-                path: getExercisePath(bodyPart.id, fileName),
-              };
-            }
-          }
-        }
-        return null;
+        return getExerciseById(state.activeExerciseId);
       }
 
       function renderBodyParts() {
@@ -404,8 +463,8 @@
           button.innerHTML = `<span>${bodyPart.name}</span><span>${bodyPart.exercises.length}</span>`;
           button.addEventListener("click", () => {
             state.activeBodyPart = bodyPart.id;
-            const firstExercise = bodyPart.exercises[0];
-            state.activeExerciseId = firstExercise ? getExerciseId(bodyPart.id, firstExercise) : null;
+            state.activeExerciseId = getFirstExerciseId(bodyPart.id);
+            updateUrlSelection();
             render();
           });
           elements.bodyPartNav.append(button);
@@ -452,6 +511,8 @@
           `;
           button.addEventListener("click", () => {
             state.activeExerciseId = id;
+            state.activeBodyPart = bodyPart.id;
+            updateUrlSelection();
             render();
           });
           elements.exerciseGrid.append(button);
@@ -572,11 +633,13 @@
         render();
       });
 
-      const initialBodyPart = bodyParts.find((part) => part.id === state.activeBodyPart);
-      if (initialBodyPart?.exercises.length) {
-        state.activeExerciseId = getExerciseId(initialBodyPart.id, initialBodyPart.exercises[0]);
-      }
+      window.addEventListener("popstate", () => {
+        restoreSelectionFromUrl();
+        render();
+      });
 
+      restoreSelectionFromUrl();
+      updateUrlSelection();
       render();
     </script>
   </body>

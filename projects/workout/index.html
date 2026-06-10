@@ -67,7 +67,7 @@
 
             <img id="selectedImage" class="mt-5 aspect-square w-full border border-black object-contain" alt="" />
 
-            <p id="lastWorkedOut" class="mt-5 min-h-5 text-sm font-semibold"></p>
+            <div id="lastWorkedOut" class="mt-5 min-h-5 text-sm font-semibold"></div>
 
             <form id="setsForm" class="mt-5">
               <div class="grid grid-cols-[3.25rem_1fr_1fr] gap-2 border-b border-black pb-2 text-xs font-black uppercase tracking-[0.16em]">
@@ -186,7 +186,7 @@
       function loadEntries() {
         try {
           const stored = window.localStorage.getItem(STORAGE_KEY);
-          return stored ? JSON.parse(stored) : {};
+          return stored ? normalizeEntries(JSON.parse(stored)) : {};
         } catch {
           return {};
         }
@@ -228,15 +228,66 @@
         }).format(new Date(`${dateString}T00:00:00`));
       }
 
-      function hasLoggedData(entry) {
-        return Boolean(
-          entry?.updatedAt ||
-            entry?.sets?.some((set) => String(set.weight || "").length || String(set.reps || "").length)
+      function normalizeEntries(entries) {
+        return Object.fromEntries(
+          Object.entries(entries || {}).map(([exerciseId, entry]) => {
+            const sessions = Array.isArray(entry?.sessions)
+              ? entry.sessions
+              : entry?.sets
+                ? [entry]
+                : [];
+
+            return [
+              exerciseId,
+              {
+                sessions: sessions.map(normalizeSession),
+              },
+            ];
+          })
         );
       }
 
+      function normalizeSession(session = {}) {
+        const sets = Array.isArray(session.sets) ? session.sets : [];
+        const normalizedSets = sets
+          .slice(0, 5)
+          .map((set) => ({ weight: set?.weight ?? "", reps: set?.reps ?? "" }));
+
+        while (normalizedSets.length < 5) normalizedSets.push({ weight: "", reps: "" });
+
+        return {
+          workoutDate: session.workoutDate || todayDateString(),
+          updatedAt: session.updatedAt || "",
+          sets: normalizedSets,
+        };
+      }
+
+      function hasLoggedData(session) {
+        return Boolean(
+          session?.updatedAt ||
+            session?.sets?.some((set) => String(set.weight || "").length || String(set.reps || "").length)
+        );
+      }
+
+      function getLoggedSessions(entry) {
+        return [...(entry?.sessions || [])]
+          .filter(hasLoggedData)
+          .sort((a, b) => {
+            const dateComparison = String(b.workoutDate || "").localeCompare(String(a.workoutDate || ""));
+            return dateComparison || String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""));
+          });
+      }
+
+      function getLatestLoggedSession(entry) {
+        return getLoggedSessions(entry)[0] || null;
+      }
+
+      function getPreviousSession(entry, currentDate = todayDateString()) {
+        return getLoggedSessions(entry).find((session) => session.workoutDate < currentDate) || null;
+      }
+
       function isCompletedToday(entry) {
-        return hasLoggedData(entry) && entry.workoutDate === todayDateString();
+        return getLoggedSessions(entry).some((session) => session.workoutDate === todayDateString());
       }
 
       function isBodyPartCompletedToday(bodyPart) {
@@ -257,17 +308,62 @@
       function getEntry(exerciseId) {
         if (!state.entries[exerciseId]) {
           state.entries[exerciseId] = {
-            workoutDate: todayDateString(),
-            updatedAt: "",
-            sets: Array.from({ length: 5 }, () => ({ weight: "", reps: "" })),
+            sessions: [],
           };
         }
 
         const entry = state.entries[exerciseId];
-        while (entry.sets.length < 5) entry.sets.push({ weight: "", reps: "" });
-        entry.sets = entry.sets.slice(0, 5);
-        entry.workoutDate ||= todayDateString();
+        entry.sessions = Array.isArray(entry.sessions) ? entry.sessions.map(normalizeSession) : [];
         return entry;
+      }
+
+      function getCurrentSession(exerciseId) {
+        const entry = getEntry(exerciseId);
+        const today = todayDateString();
+        let session = entry.sessions.find((item) => item.workoutDate === today);
+
+        if (!session) {
+          session = normalizeSession({ workoutDate: today });
+          entry.sessions.push(session);
+        }
+
+        return session;
+      }
+
+      function averageSetValue(session, field) {
+        const values = (session?.sets || [])
+          .map((set) => Number(set[field]))
+          .filter((value) => Number.isFinite(value) && value > 0);
+
+        if (!values.length) return null;
+        return values.reduce((total, value) => total + value, 0) / values.length;
+      }
+
+      function formatAverage(value) {
+        if (value === null) return "-";
+        const rounded = Math.round(value * 10) / 10;
+        return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+      }
+
+      function previousSummaryText(session) {
+        if (!session) return "";
+        const averageWeight = averageSetValue(session, "weight");
+        const averageReps = averageSetValue(session, "reps");
+        const summaryParts = [];
+
+        if (averageWeight !== null) summaryParts.push(`${formatAverage(averageWeight)} lb avg`);
+        if (averageReps !== null) summaryParts.push(`${formatAverage(averageReps)} reps avg`);
+        return summaryParts.length ? `Previous: ${summaryParts.join(" · ")}` : "";
+      }
+
+      function renderPreviousInfo(session) {
+        const previousText = previousSummaryText(session);
+        elements.lastWorkedOut.innerHTML = session
+          ? `
+            <p>Last worked out ${prettyDate(session.workoutDate)}</p>
+            ${previousText ? `<p class="mt-1">${previousText}</p>` : ""}
+          `
+          : "";
       }
 
       function findActiveExercise() {
@@ -333,6 +429,7 @@
         bodyPart.exercises.forEach((fileName) => {
           const id = getExerciseId(bodyPart.id, fileName);
           const entry = state.entries[id];
+          const latestSession = getLatestLoggedSession(entry);
           const button = document.createElement("button");
           const isActive = id === state.activeExerciseId;
           const isCompleted = isCompletedToday(entry);
@@ -350,7 +447,7 @@
             <img class="aspect-square w-full border border-current bg-white object-contain" src="${getExercisePath(bodyPart.id, fileName)}" alt="" loading="lazy" />
             <span class="flex min-w-0 flex-col justify-between gap-3">
               <span class="break-words text-lg font-black leading-tight">${formatExerciseName(fileName)}</span>
-              <span class="text-xs font-bold uppercase tracking-[0.16em]">${hasLoggedData(entry) ? prettyDate(entry.workoutDate) : "Not logged"}</span>
+              <span class="text-xs font-bold uppercase tracking-[0.16em]">${latestSession ? prettyDate(latestSession.workoutDate) : "Not logged"}</span>
             </span>
           `;
           button.addEventListener("click", () => {
@@ -377,6 +474,8 @@
         }
 
         const entry = getEntry(activeExercise.id);
+        const currentSession = getCurrentSession(activeExercise.id);
+        const previousSession = getPreviousSession(entry);
         elements.selectedBodyPart.textContent = activeExercise.bodyPart.name;
         elements.selectedExercise.textContent = activeExercise.name;
         elements.selectedImage.src = activeExercise.path;
@@ -384,14 +483,10 @@
         elements.selectedImage.classList.remove("hidden");
         elements.clearExercise.classList.remove("hidden");
 
-        const today = todayDateString();
-        elements.lastWorkedOut.textContent =
-          hasLoggedData(entry) && entry.workoutDate && entry.workoutDate < today
-            ? `Last worked out ${prettyDate(entry.workoutDate)}`
-            : "";
+        renderPreviousInfo(previousSession);
 
         elements.setRows.innerHTML = "";
-        entry.sets.forEach((set, index) => {
+        currentSession.sets.forEach((set, index) => {
           const row = document.createElement("div");
           row.className = "grid grid-cols-[3.25rem_1fr_1fr] gap-2";
           row.innerHTML = `
@@ -446,12 +541,13 @@
         if (!input || !state.activeExerciseId) return;
 
         const entry = getEntry(state.activeExerciseId);
+        const currentSession = getCurrentSession(state.activeExerciseId);
         const setIndex = Number(input.dataset.setIndex);
         const field = input.dataset.field;
         const value = input.value;
 
-        for (let index = setIndex; index < entry.sets.length; index += 1) {
-          entry.sets[index][field] = value;
+        for (let index = setIndex; index < currentSession.sets.length; index += 1) {
+          currentSession.sets[index][field] = value;
           const rowInput = elements.setRows.querySelector(
             `input[data-set-index="${index}"][data-field="${field}"]`
           );
@@ -460,16 +556,13 @@
           }
         }
 
-        entry.workoutDate = todayDateString();
-        entry.updatedAt = new Date().toISOString();
+        currentSession.workoutDate = todayDateString();
+        currentSession.updatedAt = new Date().toISOString();
         saveEntries();
         renderSummary();
         renderBodyParts();
         renderExercises();
-        elements.lastWorkedOut.textContent =
-          hasLoggedData(entry) && entry.workoutDate < todayDateString()
-            ? `Last worked out ${prettyDate(entry.workoutDate)}`
-            : "";
+        renderPreviousInfo(getPreviousSession(entry));
       });
 
       elements.clearExercise.addEventListener("click", () => {

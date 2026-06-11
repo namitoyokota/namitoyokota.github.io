@@ -70,10 +70,11 @@
             <div id="lastWorkedOut" class="mt-5 min-h-5 text-sm font-semibold"></div>
 
             <form id="setsForm" class="mt-5">
-              <div class="grid grid-cols-[3.25rem_1fr_1fr] gap-2 border-b border-black pb-2 text-xs font-black uppercase tracking-[0.16em]">
+              <div class="grid grid-cols-[3.25rem_1fr_1fr_2.75rem] gap-2 border-b border-black pb-2 text-xs font-black uppercase tracking-[0.16em]">
                 <span>Set</span>
                 <span>Weight</span>
                 <span>Reps</span>
+                <span>Done</span>
               </div>
               <div id="setRows" class="grid gap-2 pt-3"></div>
             </form>
@@ -357,9 +358,15 @@
         const sets = Array.isArray(session.sets) ? session.sets : [];
         const normalizedSets = sets
           .slice(0, 5)
-          .map((set) => ({ weight: set?.weight ?? "", reps: set?.reps ?? "" }));
+          .map((set) => ({
+            weight: set?.weight ?? "",
+            reps: set?.reps ?? "",
+            completed: Boolean(set?.completed),
+          }));
 
-        while (normalizedSets.length < 5) normalizedSets.push({ weight: "", reps: "" });
+        while (normalizedSets.length < 5) {
+          normalizedSets.push({ weight: "", reps: "", completed: false });
+        }
 
         return {
           workoutDate: session.workoutDate || todayDateString(),
@@ -369,10 +376,7 @@
       }
 
       function hasLoggedData(session) {
-        return Boolean(
-          session?.updatedAt ||
-            session?.sets?.some((set) => String(set.weight || "").length || String(set.reps || "").length)
-        );
+        return Boolean(session?.sets?.some((set) => set.completed));
       }
 
       function getLoggedSessions(entry) {
@@ -634,7 +638,7 @@
         elements.setRows.innerHTML = "";
         currentSession.sets.forEach((set, index) => {
           const row = document.createElement("div");
-          row.className = "grid grid-cols-[3.25rem_1fr_1fr] gap-2";
+          row.className = "grid grid-cols-[3.25rem_1fr_1fr_2.75rem] gap-2";
           row.innerHTML = `
             <div class="flex h-11 items-center border border-black px-3 text-sm font-black">${index + 1}</div>
             <label class="sr-only" for="set-${index}-weight">Set ${index + 1} weight in pounds</label>
@@ -663,15 +667,32 @@
               data-field="reps"
               placeholder="reps"
             />
+            <button
+              type="button"
+              class="flex h-11 items-center justify-center border border-black transition hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${set.completed ? "bg-black text-white" : "bg-white text-black"}"
+              data-set-index="${index}"
+              data-field="completed"
+              aria-pressed="${set.completed ? "true" : "false"}"
+              aria-label="${set.completed ? `Mark set ${index + 1} incomplete` : `Mark set ${index + 1} complete`}"
+            >
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" aria-hidden="true">
+                <path
+                  d="M9.25 12.75L11.25 14.75L15.5 9.75"
+                  stroke="currentColor"
+                  stroke-width="2.25"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.75" />
+              </svg>
+            </button>
           `;
           elements.setRows.append(row);
         });
       }
 
       function renderSummary() {
-        const loggedToday = Object.values(state.entries).filter(
-          (entry) => isCompletedToday(entry)
-        ).length;
+        const loggedToday = Object.values(state.entries).filter((entry) => isCompletedToday(entry)).length;
         elements.todaySummary.textContent = `${loggedToday} exercises completed`;
       }
 
@@ -710,6 +731,26 @@
         renderBodyParts();
         renderExercises();
         renderPreviousInfo(getPreviousSession(entry));
+      });
+
+      elements.setRows.addEventListener("click", (event) => {
+        const button = event.target.closest('button[data-set-index][data-field="completed"]');
+        if (!button || !state.activeExerciseId) return;
+
+        const entry = getEntry(state.activeExerciseId);
+        const currentSession = getCurrentSession(state.activeExerciseId);
+        const setIndex = Number(button.dataset.setIndex);
+        const set = currentSession.sets[setIndex];
+        if (!set) return;
+
+        set.completed = !set.completed;
+        currentSession.workoutDate = todayDateString();
+        currentSession.updatedAt = new Date().toISOString();
+        saveEntries();
+        renderSummary();
+        renderBodyParts();
+        renderExercises();
+        renderTracker();
       });
 
       elements.clearExercise.addEventListener("click", () => {

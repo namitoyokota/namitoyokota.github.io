@@ -77,6 +77,31 @@
               </div>
               <div id="setRows" class="grid gap-2 pt-3"></div>
             </form>
+
+            <section id="restTimer" class="mt-5 border-t border-black pt-5" aria-labelledby="restTimerTitle">
+              <div class="flex items-end justify-between gap-3">
+                <div>
+                  <h3 id="restTimerTitle" class="text-xs font-black uppercase tracking-[0.2em]">Rest Timer</h3>
+                  <div id="timerDisplay" class="mt-2 font-mono text-4xl font-black leading-none tabular-nums">00:00</div>
+                </div>
+                <button
+                  id="timerToggle"
+                  type="button"
+                  class="h-11 border border-black px-4 text-sm font-black uppercase tracking-[0.16em] hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+                >
+                  Start
+                </button>
+              </div>
+              <div class="mt-4">
+                <button
+                  id="timerReset"
+                  type="button"
+                  class="h-10 w-full border border-black text-xs font-black uppercase tracking-[0.12em] hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+                >
+                  Reset
+                </button>
+              </div>
+            </section>
           </section>
         </div>
       </section>
@@ -166,6 +191,11 @@
         activeBodyPart: getDefaultBodyPartId(),
         activeExerciseId: null,
         entries: loadEntries(),
+        timer: {
+          elapsedSeconds: 0,
+          startTime: null,
+          intervalId: null,
+        },
       };
 
       const elements = {
@@ -181,6 +211,9 @@
         setRows: document.querySelector("#setRows"),
         clearExercise: document.querySelector("#clearExercise"),
         todaySummary: document.querySelector("#todaySummary"),
+        timerDisplay: document.querySelector("#timerDisplay"),
+        timerToggle: document.querySelector("#timerToggle"),
+        timerReset: document.querySelector("#timerReset"),
       };
 
       function loadEntries() {
@@ -418,6 +451,58 @@
         return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
       }
 
+      function formatTimer(seconds) {
+        const safeSeconds = Math.max(0, seconds);
+        const minutes = Math.floor(safeSeconds / 60);
+        const remainingSeconds = safeSeconds % 60;
+        return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
+      }
+
+      function isTimerRunning() {
+        return state.timer.intervalId !== null;
+      }
+
+      function renderTimer() {
+        elements.timerDisplay.textContent = formatTimer(
+          state.timer.elapsedSeconds + (isTimerRunning() ? Math.floor((Date.now() - state.timer.startTime) / 1000) : 0)
+        );
+        elements.timerToggle.textContent = isTimerRunning() ? "Pause" : "Start";
+        elements.timerToggle.setAttribute("aria-pressed", isTimerRunning() ? "true" : "false");
+      }
+
+      function stopTimer() {
+        if (state.timer.intervalId !== null) {
+          window.clearInterval(state.timer.intervalId);
+          state.timer.intervalId = null;
+        }
+        if (state.timer.startTime !== null) {
+          state.timer.elapsedSeconds += Math.floor((Date.now() - state.timer.startTime) / 1000);
+          state.timer.startTime = null;
+        }
+        renderTimer();
+      }
+
+      function updateTimerRemaining() {
+        renderTimer();
+      }
+
+      function startTimer() {
+        if (state.timer.startTime !== null) {
+          return;
+        }
+
+        state.timer.startTime = Date.now();
+        state.timer.intervalId = window.setInterval(updateTimerRemaining, 250);
+        renderTimer();
+        updateTimerRemaining();
+      }
+
+      function resetTimer() {
+        stopTimer();
+        state.timer.elapsedSeconds = 0;
+        renderTimer();
+      }
+
       function previousSummaryText(session) {
         if (!session) return "";
         const averageWeight = averageSetValue(session, "weight");
@@ -595,6 +680,7 @@
         renderExercises();
         renderTracker();
         renderSummary();
+        renderTimer();
       }
 
       elements.setRows.addEventListener("input", (event) => {
@@ -631,6 +717,19 @@
         delete state.entries[state.activeExerciseId];
         saveEntries();
         render();
+      });
+
+      elements.timerToggle.addEventListener("click", () => {
+        if (isTimerRunning()) {
+          stopTimer();
+          return;
+        }
+
+        startTimer();
+      });
+
+      elements.timerReset.addEventListener("click", () => {
+        resetTimer();
       });
 
       window.addEventListener("popstate", () => {

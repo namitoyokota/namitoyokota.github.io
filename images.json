@@ -1,17 +1,5 @@
 [
     {
-        "id": 33,
-        "alt": "Suzuka - Portrait",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_6728.jpg",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_6728.jpg"
-    },
-    {
-        "id": 34,
-        "alt": "Suzuka - Honda Museum",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_6746.jpg",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_6746.jpg"
-    },
-    {
         "id": 35,
         "alt": "Suzuka - Couple",
         "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_6867.jpg",

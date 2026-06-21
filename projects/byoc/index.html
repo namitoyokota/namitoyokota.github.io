@@ -1,0 +1,1454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BYOC Interactive Prototype</title>
+    <style>
+      :root {
+        --background: #f8fafc;
+        --foreground: #111827;
+        --card: #ffffff;
+        --primary: #14532d;
+        --primary-foreground: #ffffff;
+        --muted: #f1f5f9;
+        --muted-foreground: #64748b;
+        --accent: #d97706;
+        --destructive: #b91c1c;
+        --border: #dbe3ec;
+        --input: #cbd5e1;
+        --sidebar: #101827;
+        --sidebar-active: #e6f4ea;
+        --radius: 8px;
+        --shadow: 0 18px 55px rgba(15, 23, 42, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--foreground);
+        background: var(--background);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .app {
+        display: grid;
+        grid-template-columns: 232px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 18px 14px;
+        color: #f8fafc;
+        background: var(--sidebar);
+        border-right: 1px solid #1e293b;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        color: #0f172a;
+        background: #e6f4ea;
+        border-radius: 6px;
+      }
+
+      .nav {
+        display: grid;
+        gap: 4px;
+      }
+
+      .nav button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        min-height: 38px;
+        padding: 8px 10px;
+        color: #cbd5e1;
+        background: transparent;
+        border: 0;
+        border-radius: 6px;
+        text-align: left;
+        font-size: 13px;
+      }
+
+      .nav button.active {
+        color: #0f172a;
+        background: var(--sidebar-active);
+        font-weight: 800;
+      }
+
+      .nav svg,
+      .button svg,
+      .icon-button svg {
+        width: 17px;
+        height: 17px;
+        stroke: currentColor;
+        stroke-width: 2;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex: 0 0 auto;
+      }
+
+      .account {
+        margin-top: 28px;
+        padding: 12px;
+        background: #172033;
+        border: 1px solid #26344f;
+        border-radius: var(--radius);
+      }
+
+      .account strong,
+      .account span {
+        display: block;
+      }
+
+      .account span {
+        color: #94a3b8;
+        font-size: 12px;
+      }
+
+      .main {
+        min-width: 0;
+        padding: 24px;
+      }
+
+      .mobile-bar {
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .page-header,
+      .toolbar,
+      .row,
+      .dialog-header,
+      .drawer-header,
+      .toast,
+      .list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .page-header {
+        margin-bottom: 18px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .page-title h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .page-title p {
+        margin: 2px 0 0;
+        color: var(--muted-foreground);
+        font-size: 13px;
+      }
+
+      .button,
+      .icon-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 36px;
+        color: var(--primary-foreground);
+        background: var(--primary);
+        border: 1px solid var(--primary);
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .button {
+        padding: 7px 12px;
+      }
+
+      .icon-button {
+        width: 36px;
+        padding: 0;
+      }
+
+      .button.secondary,
+      .icon-button.secondary {
+        color: #1f2937;
+        background: #ffffff;
+        border-color: var(--border);
+      }
+
+      .button.ghost {
+        color: #334155;
+        background: transparent;
+        border-color: transparent;
+      }
+
+      .button.destructive,
+      .icon-button.destructive {
+        background: var(--destructive);
+        border-color: var(--destructive);
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .card,
+      .panel,
+      .toolbar,
+      .table-wrap,
+      .empty {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+      }
+
+      .metric,
+      .panel {
+        padding: 15px;
+      }
+
+      .metric span,
+      .field span,
+      .list-item span,
+      .hint {
+        color: var(--muted-foreground);
+        font-size: 12px;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 25px;
+      }
+
+      .metric small {
+        display: block;
+        margin-top: 4px;
+        color: #15803d;
+        font-size: 12px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+        gap: 14px;
+      }
+
+      .grid-settings {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .panel h2 {
+        margin: 0 0 12px;
+        font-size: 16px;
+      }
+
+      .toolbar {
+        margin-bottom: 12px;
+        padding: 10px;
+      }
+
+      .toolbar-left,
+      .toolbar-right,
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .input,
+      .select,
+      .textarea {
+        width: 100%;
+        min-height: 36px;
+        padding: 7px 10px;
+        color: #111827;
+        background: #ffffff;
+        border: 1px solid var(--input);
+        border-radius: 6px;
+        font-size: 13px;
+      }
+
+      .search-input {
+        min-width: 280px;
+      }
+
+      .textarea {
+        min-height: 84px;
+        resize: vertical;
+      }
+
+      .table-wrap {
+        overflow: auto;
+      }
+
+      table {
+        width: 100%;
+        min-width: 880px;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        padding: 10px 9px;
+        border-bottom: 1px solid #e5eaf0;
+        text-align: left;
+        vertical-align: middle;
+      }
+
+      th {
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .card-thumb {
+        display: inline-block;
+        width: 38px;
+        height: 52px;
+        background:
+          linear-gradient(140deg, #fafafa 0%, #e2e8f0 44%, #94a3b8 100%);
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+      }
+
+      .green-card {
+        background:
+          linear-gradient(140deg, #f8fafc 0%, #dcfce7 48%, #166534 100%);
+      }
+
+      .amber-card {
+        background:
+          linear-gradient(140deg, #fffbeb 0%, #fde68a 48%, #b45309 100%);
+      }
+
+      .blue-card {
+        background:
+          linear-gradient(140deg, #eff6ff 0%, #bfdbfe 48%, #1d4ed8 100%);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 4px 9px;
+        color: #334155;
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .green {
+        color: #14532d;
+        background: #ecfdf3;
+        border-color: #bbf7d0;
+      }
+
+      .amber {
+        color: #92400e;
+        background: #fffbeb;
+        border-color: #fde68a;
+      }
+
+      .red {
+        color: #991b1b;
+        background: #fef2f2;
+        border-color: #fecaca;
+      }
+
+      .blue {
+        color: #1e3a8a;
+        background: #eff6ff;
+        border-color: #bfdbfe;
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .list-item {
+        padding: 11px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 7px;
+      }
+
+      .list-item strong {
+        display: block;
+        font-size: 13px;
+      }
+
+      .empty {
+        display: grid;
+        place-items: center;
+        min-height: 220px;
+        padding: 24px;
+        text-align: center;
+        border-style: dashed;
+      }
+
+      .chart {
+        height: 210px;
+        padding-top: 18px;
+      }
+
+      .chart-fill {
+        height: 150px;
+        border-bottom: 1px solid #cbd5e1;
+        background: linear-gradient(
+          180deg,
+          rgba(20, 83, 45, 0.18),
+          rgba(20, 83, 45, 0.02)
+        );
+        clip-path: polygon(
+          0 74%,
+          14% 68%,
+          31% 63%,
+          48% 52%,
+          63% 58%,
+          79% 35%,
+          100% 26%,
+          100% 100%,
+          0 100%
+        );
+      }
+
+      .modal-backdrop,
+      .drawer-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: none;
+        background: rgba(15, 23, 42, 0.36);
+      }
+
+      .modal-backdrop.open,
+      .drawer-backdrop.open {
+        display: block;
+      }
+
+      .dialog {
+        width: min(720px, calc(100vw - 28px));
+        max-height: calc(100vh - 44px);
+        margin: 22px auto;
+        overflow: auto;
+        padding: 16px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(920px, 100vw);
+        height: 100vh;
+        overflow: auto;
+        padding: 20px;
+        background: #ffffff;
+        border-left: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      .dialog h2,
+      .drawer h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .form-row {
+        display: grid;
+        gap: 5px;
+      }
+
+      label {
+        color: #334155;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .dialog-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+      }
+
+      .drawer-grid {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .large-card-art {
+        min-height: 350px;
+        background:
+          linear-gradient(160deg, #ffffff 0%, #e2e8f0 38%, #1f2937 100%);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .field {
+        padding: 10px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+      }
+
+      .field strong {
+        display: block;
+        margin-top: 3px;
+        font-size: 13px;
+      }
+
+      .toast-region {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 50;
+        display: grid;
+        gap: 8px;
+        width: min(360px, calc(100vw - 36px));
+      }
+
+      .toast {
+        align-items: flex-start;
+        padding: 11px 12px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--primary);
+        border-radius: 7px;
+        box-shadow: 0 10px 35px rgba(15, 23, 42, 0.12);
+      }
+
+      .toast strong,
+      .toast span {
+        display: block;
+      }
+
+      .auth {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.8fr) minmax(0, 1.2fr);
+        min-height: 100vh;
+        background: #ffffff;
+      }
+
+      .auth-form {
+        align-self: center;
+        width: min(380px, calc(100vw - 36px));
+        margin: 0 auto;
+        padding: 28px;
+      }
+
+      .auth-form h1 {
+        margin-bottom: 8px;
+      }
+
+      .auth-visual {
+        display: grid;
+        align-content: center;
+        gap: 18px;
+        padding: 42px;
+        background: #f1f5f9;
+        border-left: 1px solid var(--border);
+      }
+
+      .visual-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 96px);
+        gap: 12px;
+      }
+
+      .visual-cards .card-thumb {
+        width: 96px;
+        height: 132px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      @media (max-width: 1050px) {
+        .app,
+        .grid-2,
+        .drawer-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          display: none;
+        }
+
+        .mobile-bar {
+          display: flex;
+        }
+
+        .metrics,
+        .grid-settings {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 720px) {
+        .main {
+          padding: 16px;
+        }
+
+        .page-header,
+        .toolbar,
+        .toolbar-left,
+        .toolbar-right,
+        .actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .metrics,
+        .form-grid,
+        .field-grid,
+        .grid-settings,
+        .auth {
+          grid-template-columns: 1fr;
+        }
+
+        .search-input,
+        .button,
+        .select {
+          width: 100%;
+        }
+
+        .auth-visual {
+          border-left: 0;
+          border-top: 1px solid var(--border);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="modal" class="modal-backdrop"></div>
+    <div id="drawer" class="drawer-backdrop"></div>
+    <div id="toasts" class="toast-region" aria-live="polite"></div>
+
+    <script>
+      const icons = {
+        dashboard:
+          '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>',
+        collection:
+          '<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 7h8M8 11h8M8 15h5"></path></svg>',
+        searches:
+          '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>',
+        players:
+          '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.7-4 4.4-6 8-6s6.3 2 8 6"></path></svg>',
+        sets:
+          '<svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"></path><path d="M3 6h.01M3 12h.01M3 18h.01"></path></svg>',
+        settings:
+          '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.1 2.1-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21h-3v-.8a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-2.1-2.1.1-.1A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.5-1H3v-3h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 2.1-2.1.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V3h3v.8a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 2.1 2.1-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.5v3h-.5a1.7 1.7 0 0 0-1.5 1z"></path></svg>',
+        plus:
+          '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>',
+        edit:
+          '<svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>',
+        trash:
+          '<svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15"></path></svg>',
+        eye:
+          '<svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+        x:
+          '<svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"></path></svg>',
+        menu:
+          '<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>',
+        check:
+          '<svg viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"></path></svg>',
+        download:
+          '<svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>',
+      };
+
+      const state = {
+        route: "dashboard",
+        authed: true,
+        mobileNav: false,
+        collectionFilter: "",
+        collectionStatus: "All",
+        searchFilter: "",
+        searchActive: "All",
+        playerFilter: "",
+        setFilter: "",
+        modal: null,
+        editing: null,
+        drawer: null,
+        id: 50,
+        players: [
+          { id: 1, name: "Masataka Yoshida", team: "Red Sox", sport: "Baseball", league: "MLB", notes: "Primary PC target" },
+          { id: 2, name: "Shota Imanaga", team: "Cubs", sport: "Baseball", league: "MLB", notes: "Rookie focus" },
+          { id: 3, name: "Seiya Suzuki", team: "Cubs", sport: "Baseball", league: "MLB", notes: "NPB parallels" },
+        ],
+        sets: [
+          { id: 1, year: 2024, brand: "Bowman", series: "Baseball", notes: "Chrome inserts and Anime cards" },
+          { id: 2, year: 2016, brand: "BBM", series: "Rookie Edition", notes: "Japanese rookie cards" },
+          { id: 3, year: 2021, brand: "Topps", series: "NPB", notes: "Low-numbered parallels" },
+        ],
+        variations: [
+          { id: 1, setId: 1, name: "Anime", type: "Insert", rarity: "Short print", printRun: "" },
+          { id: 2, setId: 2, name: "Base Rookie", type: "Base", rarity: "Common", printRun: "" },
+          { id: 3, setId: 3, name: "Rayfoil", type: "Parallel", rarity: "Numbered", printRun: "1" },
+        ],
+        collection: [
+          { id: 1, playerId: 1, setId: 1, variationId: 1, cardNumber: "", serial: "", condition: "Raw", grader: "", grade: "", purchaseDate: "2026-06-02", purchasePrice: 42, source: "eBay", status: "Owned", location: "Box A1", latestValue: 58, notes: "Clear front and back photos.", color: "green-card" },
+          { id: 2, playerId: 2, setId: 2, variationId: 2, cardNumber: "88", serial: "88", condition: "Graded", grader: "PSA", grade: "10", purchaseDate: "2026-06-12", purchasePrice: 96.5, source: "Yahoo Auctions", status: "Incoming", location: "Desk tray", latestValue: 125, notes: "Track shipment and slab cert.", color: "amber-card" },
+          { id: 3, playerId: 3, setId: 3, variationId: 3, cardNumber: "1", serial: "1/1", condition: "Raw", grader: "", grade: "", purchaseDate: "2026-05-18", purchasePrice: 210, source: "COMC", status: "Owned", location: "Safe 2", latestValue: 275, notes: "Keep as long-term PC piece.", color: "blue-card" },
+        ],
+        searches: [
+          { id: 1, cardId: 1, name: "Yoshida Anime under $60", marketplace: "eBay", query: "Masataka Yoshida 2024 Bowman Baseball Anime", url: "https://www.ebay.com/sch/i.html?_nkw=Masataka%20Yoshida%202024%20Bowman%20Baseball%20Anime", maxPrice: 60, minGrade: "", active: true, lastChecked: "2026-06-11", notes: "Prefer clean photos." },
+          { id: 2, cardId: 2, name: "Imanaga BBM rookie PSA", marketplace: "Goldin", query: "Shota Imanaga 2016 BBM Rookie Edition PSA", url: "https://goldin.co/search?q=Shota%20Imanaga%20BBM", maxPrice: 175, minGrade: "PSA 10", active: true, lastChecked: "2026-06-07", notes: "Watch graded copies only." },
+          { id: 3, cardId: 3, name: "Suzuki Topps NPB sold comps", marketplace: "eBay", query: "Seiya Suzuki 2021 Topps NPB Rayfoil", url: "https://www.ebay.com/sch/i.html?_nkw=Seiya%20Suzuki%202021%20Topps%20NPB%20Rayfoil", maxPrice: "", minGrade: "", active: false, lastChecked: "2026-06-19", notes: "Comps only." },
+        ],
+        valuations: [
+          { id: 1, collectionId: 1, provider: "Manual", median: 58, low: 45, high: 72, recent: 61, recordedAt: "2026-06-12" },
+          { id: 2, collectionId: 2, provider: "Manual", median: 125, low: 102, high: 150, recent: 131, recordedAt: "2026-06-15" },
+          { id: 3, collectionId: 3, provider: "Manual", median: 275, low: 235, high: 340, recent: 286, recordedAt: "2026-06-05" },
+        ],
+      };
+
+      const routes = [
+        ["dashboard", "Dashboard", icons.dashboard],
+        ["collection", "Collection", icons.collection],
+        ["searches", "Searches", icons.searches],
+        ["players", "Players", icons.players],
+        ["sets", "Sets", icons.sets],
+        ["settings", "Settings", icons.settings],
+      ];
+
+      const $ = (id) => document.getElementById(id);
+      const money = (value) => {
+        const n = Number(value || 0);
+        return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+      };
+      const nextId = () => ++state.id;
+      const playerById = (id) => state.players.find((p) => p.id == id) || {};
+      const setById = (id) => state.sets.find((s) => s.id == id) || {};
+      const variationById = (id) => state.variations.find((v) => v.id == id) || {};
+      const cardTitle = (item) => {
+        const p = playerById(item.playerId);
+        const s = setById(item.setId);
+        const v = variationById(item.variationId);
+        return [p.name, s.year, s.brand, s.series, v.name, item.cardNumber].filter(Boolean).join(" ");
+      };
+      const daysAgo = (date) => {
+        if (!date) return "Never";
+        const diff = Math.max(0, Math.round((new Date("2026-06-20") - new Date(date)) / 86400000));
+        if (diff === 0) return "Today";
+        if (diff === 1) return "Yesterday";
+        return diff + " days";
+      };
+      const escapeHtml = (value) =>
+        String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+
+      function toast(title, message, tone = "normal") {
+        const node = document.createElement("div");
+        node.className = "toast";
+        if (tone === "danger") node.style.borderLeftColor = "var(--destructive)";
+        node.innerHTML = `<div><strong>${escapeHtml(title)}</strong><span>${escapeHtml(message)}</span></div>`;
+        $("toasts").appendChild(node);
+        setTimeout(() => node.remove(), 3200);
+      }
+
+      function setRoute(route) {
+        state.route = route;
+        state.mobileNav = false;
+        state.drawer = null;
+        render();
+      }
+
+      function render() {
+        $("root").innerHTML = state.authed ? shell() : authView();
+        renderModal();
+        renderDrawer();
+      }
+
+      function shell() {
+        return `
+          <div class="app">
+            <aside class="sidebar">${sidebar()}</aside>
+            <main class="main">
+              <div class="mobile-bar">
+                <button class="icon-button secondary" aria-label="Navigation" onclick="state.mobileNav = !state.mobileNav; render()">${icons.menu}</button>
+                <strong>BYOC</strong>
+                <button class="icon-button secondary" aria-label="Settings" onclick="setRoute('settings')">${icons.settings}</button>
+              </div>
+              ${state.mobileNav ? `<aside class="panel" style="margin-bottom:14px">${sidebar(true)}</aside>` : ""}
+              ${page()}
+            </main>
+          </div>`;
+      }
+
+      function sidebar(compact = false) {
+        return `
+          <div class="brand"><span class="brand-mark">B</span><span>BYOC</span></div>
+          <nav class="nav">
+            ${routes.map(([key, label, icon]) => `<button class="${state.route === key ? "active" : ""}" onclick="setRoute('${key}')">${icon}<span>${label}</span></button>`).join("")}
+          </nav>
+          ${compact ? "" : `<div class="account"><strong>Nami Yokota</strong><span>My Collection</span></div>`}`;
+      }
+
+      function pageHeader(title, description, actions = "") {
+        return `
+          <div class="page-header">
+            <div class="page-title"><h1>${title}</h1><p>${description}</p></div>
+            <div class="actions">${actions}</div>
+          </div>`;
+      }
+
+      function page() {
+        if (state.route === "collection") return collectionPage();
+        if (state.route === "searches") return searchesPage();
+        if (state.route === "players") return playersPage();
+        if (state.route === "sets") return setsPage();
+        if (state.route === "settings") return settingsPage();
+        return dashboardPage();
+      }
+
+      function dashboardPage() {
+        const owned = state.collection.filter((i) => i.status === "Owned").length;
+        const incoming = state.collection.filter((i) => i.status === "Incoming").length;
+        const cost = state.collection.reduce((sum, i) => sum + Number(i.purchasePrice || 0), 0);
+        const market = state.collection.reduce((sum, i) => sum + Number(i.latestValue || 0), 0);
+        const stale = state.searches.filter((s) => s.active && (!s.lastChecked || daysAgo(s.lastChecked).includes("days") && Number(daysAgo(s.lastChecked).split(" ")[0]) >= 7)).length;
+        return `
+          ${pageHeader("Dashboard", "Daily review for owned cards, active searches, and latest values.", `<button class="button secondary" onclick="exportCollection()">${icons.download}Export CSV</button><button class="button" onclick="openModal('collection')">${icons.plus}Add Card</button>`)}
+          <div class="metrics">
+            <div class="card metric"><span>Owned Cards</span><strong>${owned}</strong><small>${incoming} incoming</small></div>
+            <div class="card metric"><span>Active Searches</span><strong>${state.searches.filter((s) => s.active).length}</strong><small>${stale} need review</small></div>
+            <div class="card metric"><span>Acquisition Cost</span><strong>${money(cost)}</strong><small>In-memory total</small></div>
+            <div class="card metric"><span>Latest Market</span><strong>${money(market)}</strong><small>${money(market - cost)} gain/loss</small></div>
+          </div>
+          <div class="grid-2">
+            <section class="panel">
+              <div class="row"><h2>Value Over Time</h2><span class="pill blue">Prototype chart</span></div>
+              <div class="chart"><div class="chart-fill"></div><div class="row"><span class="pill">Cost ${money(cost)}</span><span class="pill green">Market ${money(market)}</span></div></div>
+            </section>
+            <section class="panel">
+              <h2>Searches Needing Attention</h2>
+              <div class="list">
+                ${state.searches.filter((s) => s.active).map((s) => `
+                  <div class="list-item">
+                    <div><strong>${escapeHtml(s.name)}</strong><span>${escapeHtml(s.marketplace)}, checked ${daysAgo(s.lastChecked)}</span></div>
+                    <button class="button secondary" onclick="markSearchChecked(${s.id})">${icons.check}Checked</button>
+                  </div>`).join("")}
+              </div>
+            </section>
+          </div>
+          <section class="panel" style="margin-top:14px">
+            <h2>Recently Added</h2>
+            ${collectionTable(state.collection.slice(-5).reverse(), false)}
+          </section>`;
+      }
+
+      function collectionPage() {
+        const filtered = state.collection.filter((item) => {
+          const q = state.collectionFilter.toLowerCase();
+          const haystack = [cardTitle(item), item.status, item.location, item.source].join(" ").toLowerCase();
+          return (!q || haystack.includes(q)) && (state.collectionStatus === "All" || item.status === state.collectionStatus);
+        });
+        return `
+          ${pageHeader("Collection", "Owned cards, purchase details, grades, storage, and values.", `<button class="button secondary" onclick="exportCollection()">${icons.download}Export CSV</button><button class="button" onclick="openModal('collection')">${icons.plus}Add Card</button>`)}
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <input class="input search-input" value="${escapeHtml(state.collectionFilter)}" oninput="state.collectionFilter=this.value; render()" placeholder="Search player, set, source, location" />
+              <select class="select" onchange="state.collectionStatus=this.value; render()">
+                ${["All", "Owned", "Incoming", "Sold", "Watching"].map((v) => `<option ${state.collectionStatus === v ? "selected" : ""}>${v}</option>`).join("")}
+              </select>
+            </div>
+          </div>
+          ${filtered.length ? collectionTable(filtered, true) : emptyState("No collection rows match the current filters.", "Add Card", "openModal('collection')")}`;
+      }
+
+      function collectionTable(items, actions) {
+        return `
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Image</th><th>Player</th><th>Set</th><th>Variation</th><th>Serial</th><th>Grade</th><th>Cost</th><th>Latest</th><th>Status</th><th>Location</th>${actions ? "<th></th>" : ""}</tr></thead>
+              <tbody>
+                ${items.map((item) => {
+                  const p = playerById(item.playerId);
+                  const s = setById(item.setId);
+                  const v = variationById(item.variationId);
+                  return `<tr>
+                    <td><span class="card-thumb ${item.color || ""}"></span></td>
+                    <td>${escapeHtml(p.name)}</td>
+                    <td>${s.year || ""} ${escapeHtml(s.brand || "")} ${escapeHtml(s.series || "")}</td>
+                    <td>${escapeHtml(v.name || "")}</td>
+                    <td>${escapeHtml(item.serial || "-")}</td>
+                    <td>${item.condition === "Graded" ? `${escapeHtml(item.grader)} ${escapeHtml(item.grade)}` : "Raw"}</td>
+                    <td>${money(item.purchasePrice)}</td>
+                    <td>${money(item.latestValue)}</td>
+                    <td><span class="pill ${item.status === "Owned" ? "green" : item.status === "Incoming" ? "amber" : ""}">${escapeHtml(item.status)}</span></td>
+                    <td>${escapeHtml(item.location)}</td>
+                    ${actions ? `<td><div class="actions"><button class="icon-button secondary" title="Open detail" onclick="openDrawer(${item.id})">${icons.eye}</button><button class="icon-button secondary" title="Edit" onclick="openModal('collection', ${item.id})">${icons.edit}</button><button class="icon-button destructive" title="Delete" onclick="deleteCollection(${item.id})">${icons.trash}</button></div></td>` : ""}
+                  </tr>`;
+                }).join("")}
+              </tbody>
+            </table>
+          </div>`;
+      }
+
+      function searchesPage() {
+        const filtered = state.searches.filter((s) => {
+          const q = state.searchFilter.toLowerCase();
+          const item = state.collection.find((c) => c.id == s.cardId);
+          const haystack = [s.name, s.marketplace, s.query, item ? cardTitle(item) : ""].join(" ").toLowerCase();
+          return (!q || haystack.includes(q)) && (state.searchActive === "All" || String(s.active) === state.searchActive);
+        });
+        return `
+          ${pageHeader("Saved Searches", "Marketplace queries linked to card identities.", `<button class="button secondary" onclick="markVisibleChecked()">${icons.check}Mark Visible Checked</button><button class="button" onclick="openModal('search')">${icons.plus}Add Search</button>`)}
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <input class="input search-input" value="${escapeHtml(state.searchFilter)}" oninput="state.searchFilter=this.value; render()" placeholder="Search query, player, marketplace" />
+              <select class="select" onchange="state.searchActive=this.value; render()">
+                <option value="All" ${state.searchActive === "All" ? "selected" : ""}>Active: All</option>
+                <option value="true" ${state.searchActive === "true" ? "selected" : ""}>Active only</option>
+                <option value="false" ${state.searchActive === "false" ? "selected" : ""}>Inactive only</option>
+              </select>
+            </div>
+          </div>
+          ${filtered.length ? searchesTable(filtered) : emptyState("No saved searches match the current filters.", "Add Search", "openModal('search')")}`;
+      }
+
+      function searchesTable(items) {
+        return `
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Active</th><th>Name</th><th>Card</th><th>Marketplace</th><th>Max</th><th>Last checked</th><th></th></tr></thead>
+              <tbody>
+                ${items.map((s) => {
+                  const card = state.collection.find((c) => c.id == s.cardId);
+                  return `<tr>
+                    <td><button class="button secondary" onclick="toggleSearch(${s.id})">${s.active ? "On" : "Off"}</button></td>
+                    <td>${escapeHtml(s.name)}</td>
+                    <td>${escapeHtml(card ? cardTitle(card) : "Unlinked")}</td>
+                    <td>${escapeHtml(s.marketplace)}</td>
+                    <td>${s.maxPrice ? money(s.maxPrice) : "-"}</td>
+                    <td><span class="pill ${daysAgo(s.lastChecked).includes("days") ? "amber" : ""}">${daysAgo(s.lastChecked)}</span></td>
+                    <td><div class="actions"><button class="button secondary" onclick="markSearchChecked(${s.id})">${icons.check}Checked</button><button class="icon-button secondary" onclick="openModal('search', ${s.id})">${icons.edit}</button><button class="icon-button secondary" onclick="convertSearch(${s.id})">${icons.plus}</button><button class="icon-button destructive" onclick="deleteSearch(${s.id})">${icons.trash}</button></div></td>
+                  </tr>`;
+                }).join("")}
+              </tbody>
+            </table>
+          </div>`;
+      }
+
+      function playersPage() {
+        const q = state.playerFilter.toLowerCase();
+        const filtered = state.players.filter((p) => [p.name, p.team, p.league].join(" ").toLowerCase().includes(q));
+        return `
+          ${pageHeader("Players", "A personal athlete library used by cards, searches, and collection rows.", `<button class="button" onclick="openModal('player')">${icons.plus}Add Player</button>`)}
+          <div class="toolbar"><div class="toolbar-left"><input class="input search-input" value="${escapeHtml(state.playerFilter)}" oninput="state.playerFilter=this.value; render()" placeholder="Search name, team, league" /></div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Team</th><th>Sport</th><th>League</th><th>Owned</th><th>Notes</th><th></th></tr></thead>
+              <tbody>${filtered.map((p) => `<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.team)}</td><td><span class="pill blue">${escapeHtml(p.sport)}</span></td><td>${escapeHtml(p.league)}</td><td>${state.collection.filter((i) => i.playerId == p.id).length}</td><td>${escapeHtml(p.notes)}</td><td><div class="actions"><button class="icon-button secondary" onclick="openModal('player', ${p.id})">${icons.edit}</button><button class="icon-button destructive" onclick="deletePlayer(${p.id})">${icons.trash}</button></div></td></tr>`).join("")}</tbody>
+            </table>
+          </div>`;
+      }
+
+      function setsPage() {
+        const q = state.setFilter.toLowerCase();
+        const filtered = state.sets.filter((s) => [s.year, s.brand, s.series].join(" ").toLowerCase().includes(q));
+        return `
+          ${pageHeader("Sets", "Products, releases, and nested variations for card identities.", `<button class="button" onclick="openModal('set')">${icons.plus}Add Set</button>`)}
+          <div class="toolbar"><div class="toolbar-left"><input class="input search-input" value="${escapeHtml(state.setFilter)}" oninput="state.setFilter=this.value; render()" placeholder="Search year, brand, series" /></div></div>
+          <div class="grid-2">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Year</th><th>Brand</th><th>Series</th><th>Owned</th><th>Notes</th><th></th></tr></thead>
+                <tbody>${filtered.map((s) => `<tr><td>${s.year}</td><td>${escapeHtml(s.brand)}</td><td>${escapeHtml(s.series)}</td><td>${state.collection.filter((i) => i.setId == s.id).length}</td><td>${escapeHtml(s.notes)}</td><td><div class="actions"><button class="icon-button secondary" onclick="openModal('set', ${s.id})">${icons.edit}</button><button class="icon-button destructive" onclick="deleteSet(${s.id})">${icons.trash}</button></div></td></tr>`).join("")}</tbody>
+              </table>
+            </div>
+            <section class="panel">
+              <div class="row"><h2>Variations</h2><button class="button secondary" onclick="openModal('variation')">${icons.plus}Add</button></div>
+              <div class="list">${state.variations.map((v) => {
+                const s = setById(v.setId);
+                return `<div class="list-item"><div><strong>${escapeHtml(v.name)}</strong><span>${s.year || ""} ${escapeHtml(s.brand || "")} ${escapeHtml(s.series || "")} - ${escapeHtml(v.type)}</span></div><button class="icon-button destructive" onclick="deleteVariation(${v.id})">${icons.trash}</button></div>`;
+              }).join("")}</div>
+            </section>
+          </div>`;
+      }
+
+      function settingsPage() {
+        return `
+          ${pageHeader("Settings", "Profile, export, and prototype controls.", `<button class="button" onclick="toast('Settings saved', 'Prototype preferences updated.')">${icons.check}Save Changes</button>`)}
+          <div class="grid-settings">
+            <section class="panel"><h2>Profile</h2><div class="form-row"><label>Collection name</label><input class="input" value="My Collection" /></div><div class="form-row" style="margin-top:10px"><label>Email</label><input class="input" value="nami@example.com" /></div></section>
+            <section class="panel"><h2>Preferences</h2><div class="list"><div class="list-item"><div><strong>Show stale search badges</strong><span>Highlight active searches after 7 days.</span></div><span class="pill green">On</span></div><div class="list-item"><div><strong>Prefer median valuation</strong><span>Dashboard uses latest value median.</span></div><span class="pill green">On</span></div></div></section>
+            <section class="panel"><h2>Data</h2><div class="list"><div class="list-item"><div><strong>Collection CSV</strong><span>Export current in-memory rows.</span></div><button class="button secondary" onclick="exportCollection()">${icons.download}Export</button></div><div class="list-item"><div><strong>Reset seed data</strong><span>Reloads the prototype file.</span></div><button class="button secondary" onclick="location.reload()">Reset</button></div></div></section>
+            <section class="panel"><h2>Account</h2><div class="list"><div class="list-item"><div><strong>Prototype auth</strong><span>No backend session is created.</span></div><button class="button destructive" onclick="state.authed=false; render()">Sign out</button></div></div></section>
+          </div>`;
+      }
+
+      function authView() {
+        return `
+          <div class="auth">
+            <div class="auth-form">
+              <div class="brand"><span class="brand-mark">B</span><span>BYOC</span></div>
+              <h1>Log in</h1>
+              <p class="hint">Access your private collection workspace.</p>
+              <div class="form-row"><label>Email</label><input class="input" value="nami@example.com" /></div>
+              <div class="form-row" style="margin-top:10px"><label>Password</label><input class="input" type="password" value="password" /></div>
+              <button class="button" style="width:100%;margin-top:14px" onclick="state.authed=true; state.route='dashboard'; render(); toast('Signed in', 'Prototype session started.')">Log in</button>
+              <button class="button ghost" style="width:100%;margin-top:6px" onclick="state.authed=true; state.route='dashboard'; render(); toast('Account created', 'Prototype profile is ready.')">Create account</button>
+            </div>
+            <div class="auth-visual">
+              <div class="visual-cards"><span class="card-thumb green-card"></span><span class="card-thumb amber-card"></span><span class="card-thumb blue-card"></span></div>
+              <div><h2>Cards, searches, values, and storage in one place.</h2><p class="hint">This is an in-memory prototype. Changes last until the page reloads.</p></div>
+            </div>
+          </div>`;
+      }
+
+      function emptyState(text, action, handler) {
+        return `<div class="empty"><div><strong>${escapeHtml(text)}</strong><br /><button class="button" style="margin-top:12px" onclick="${handler}">${icons.plus}${action}</button></div></div>`;
+      }
+
+      function openModal(type, id = null) {
+        state.modal = type;
+        state.editing = id;
+        renderModal();
+      }
+
+      function closeModal() {
+        state.modal = null;
+        state.editing = null;
+        renderModal();
+      }
+
+      function renderModal() {
+        const modal = $("modal");
+        if (!state.modal) {
+          modal.className = "modal-backdrop";
+          modal.innerHTML = "";
+          return;
+        }
+        modal.className = "modal-backdrop open";
+        modal.innerHTML = modalBody();
+      }
+
+      function modalBody() {
+        if (state.modal === "search") return searchForm();
+        if (state.modal === "player") return playerForm();
+        if (state.modal === "set") return setForm();
+        if (state.modal === "variation") return variationForm();
+        if (state.modal === "valuation") return valuationForm();
+        return collectionForm();
+      }
+
+      function collectionForm() {
+        const item = state.collection.find((i) => i.id == state.editing) || {};
+        return `
+          <form class="dialog" onsubmit="saveCollection(event)">
+            <div class="dialog-header"><h2>${item.id ? "Edit Card" : "Add Card"}</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+            <div class="form-grid">
+              ${selectField("playerId", "Player", state.players, item.playerId, "name")}
+              ${selectField("setId", "Set", state.sets.map((s) => ({ ...s, label: `${s.year} ${s.brand} ${s.series}` })), item.setId, "label")}
+              ${selectField("variationId", "Variation", state.variations, item.variationId, "name")}
+              <div class="form-row"><label>Status</label><select class="select" name="status">${["Owned", "Incoming", "Sold", "Watching"].map((v) => `<option ${item.status === v ? "selected" : ""}>${v}</option>`).join("")}</select></div>
+              <div class="form-row"><label>Card number</label><input class="input" name="cardNumber" value="${escapeHtml(item.cardNumber || "")}" /></div>
+              <div class="form-row"><label>Serial number</label><input class="input" name="serial" value="${escapeHtml(item.serial || "")}" /></div>
+              <div class="form-row"><label>Condition</label><select class="select" name="condition">${["Raw", "Graded"].map((v) => `<option ${item.condition === v ? "selected" : ""}>${v}</option>`).join("")}</select></div>
+              <div class="form-row"><label>Grader</label><input class="input" name="grader" value="${escapeHtml(item.grader || "")}" /></div>
+              <div class="form-row"><label>Grade</label><input class="input" name="grade" value="${escapeHtml(item.grade || "")}" /></div>
+              <div class="form-row"><label>Purchase price</label><input class="input" name="purchasePrice" type="number" step="0.01" value="${item.purchasePrice ?? ""}" /></div>
+              <div class="form-row"><label>Latest value</label><input class="input" name="latestValue" type="number" step="0.01" value="${item.latestValue ?? ""}" /></div>
+              <div class="form-row"><label>Source</label><input class="input" name="source" value="${escapeHtml(item.source || "")}" /></div>
+              <div class="form-row"><label>Storage location</label><input class="input" name="location" value="${escapeHtml(item.location || "")}" /></div>
+            </div>
+            <div class="form-row" style="margin-top:10px"><label>Notes</label><textarea class="textarea" name="notes">${escapeHtml(item.notes || "")}</textarea></div>
+            <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Card</button></div>
+          </form>`;
+      }
+
+      function searchForm() {
+        const search = state.searches.find((s) => s.id == state.editing) || {};
+        return `
+          <form class="dialog" onsubmit="saveSearch(event)">
+            <div class="dialog-header"><h2>${search.id ? "Edit Search" : "Add Saved Search"}</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+            <div class="form-grid">
+              ${selectField("cardId", "Card identity", state.collection.map((c) => ({ id: c.id, label: cardTitle(c) })), search.cardId, "label")}
+              <div class="form-row"><label>Marketplace</label><select class="select" name="marketplace">${["eBay", "COMC", "Alt", "Goldin", "Fanatics Collect", "Other"].map((v) => `<option ${search.marketplace === v ? "selected" : ""}>${v}</option>`).join("")}</select></div>
+              <div class="form-row"><label>Name</label><input class="input" name="name" value="${escapeHtml(search.name || "")}" required /></div>
+              <div class="form-row"><label>Max price</label><input class="input" name="maxPrice" type="number" step="0.01" value="${search.maxPrice ?? ""}" /></div>
+              <div class="form-row"><label>Minimum grade</label><input class="input" name="minGrade" value="${escapeHtml(search.minGrade || "")}" /></div>
+              <div class="form-row"><label>Active</label><select class="select" name="active"><option value="true" ${search.active !== false ? "selected" : ""}>Active</option><option value="false" ${search.active === false ? "selected" : ""}>Inactive</option></select></div>
+            </div>
+            <div class="form-row" style="margin-top:10px"><label>Query</label><input class="input" name="query" value="${escapeHtml(search.query || "")}" /></div>
+            <div class="form-row" style="margin-top:10px"><label>URL</label><textarea class="textarea" name="url">${escapeHtml(search.url || "")}</textarea></div>
+            <div class="form-row" style="margin-top:10px"><label>Notes</label><textarea class="textarea" name="notes">${escapeHtml(search.notes || "")}</textarea></div>
+            <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Search</button></div>
+          </form>`;
+      }
+
+      function playerForm() {
+        const player = state.players.find((p) => p.id == state.editing) || {};
+        return `
+          <form class="dialog" onsubmit="savePlayer(event)">
+            <div class="dialog-header"><h2>${player.id ? "Edit Player" : "Add Player"}</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+            <div class="form-grid">
+              <div class="form-row"><label>Name</label><input class="input" name="name" value="${escapeHtml(player.name || "")}" required /></div>
+              <div class="form-row"><label>Team</label><input class="input" name="team" value="${escapeHtml(player.team || "")}" /></div>
+              <div class="form-row"><label>Sport</label><input class="input" name="sport" value="${escapeHtml(player.sport || "Baseball")}" required /></div>
+              <div class="form-row"><label>League</label><input class="input" name="league" value="${escapeHtml(player.league || "MLB")}" required /></div>
+            </div>
+            <div class="form-row" style="margin-top:10px"><label>Notes</label><textarea class="textarea" name="notes">${escapeHtml(player.notes || "")}</textarea></div>
+            <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Player</button></div>
+          </form>`;
+      }
+
+      function setForm() {
+        const set = state.sets.find((s) => s.id == state.editing) || {};
+        return `
+          <form class="dialog" onsubmit="saveSet(event)">
+            <div class="dialog-header"><h2>${set.id ? "Edit Set" : "Add Set"}</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+            <div class="form-grid">
+              <div class="form-row"><label>Year</label><input class="input" name="year" type="number" value="${set.year || ""}" required /></div>
+              <div class="form-row"><label>Brand</label><input class="input" name="brand" value="${escapeHtml(set.brand || "")}" required /></div>
+              <div class="form-row"><label>Series</label><input class="input" name="series" value="${escapeHtml(set.series || "")}" required /></div>
+            </div>
+            <div class="form-row" style="margin-top:10px"><label>Notes</label><textarea class="textarea" name="notes">${escapeHtml(set.notes || "")}</textarea></div>
+            <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Set</button></div>
+          </form>`;
+      }
+
+      function variationForm() {
+        return `
+          <form class="dialog" onsubmit="saveVariation(event)">
+            <div class="dialog-header"><h2>Add Variation</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+            <div class="form-grid">
+              ${selectField("setId", "Set", state.sets.map((s) => ({ ...s, label: `${s.year} ${s.brand} ${s.series}` })), "", "label")}
+              <div class="form-row"><label>Name</label><input class="input" name="name" required /></div>
+              <div class="form-row"><label>Type</label><select class="select" name="type">${["Base", "Parallel", "Insert", "Autograph", "Relic", "Auto-Relic", "Printing Plate", "Buyback", "Other"].map((v) => `<option>${v}</option>`).join("")}</select></div>
+              <div class="form-row"><label>Rarity</label><input class="input" name="rarity" /></div>
+              <div class="form-row"><label>Print run</label><input class="input" name="printRun" /></div>
+            </div>
+            <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Variation</button></div>
+          </form>`;
+      }
+
+      function valuationForm() {
+        return `
+          <form class="dialog" onsubmit="saveValuation(event)">
+            <div class="dialog-header"><h2>Add Manual Valuation</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+            <div class="form-grid">
+              <div class="form-row"><label>Provider</label><input class="input" name="provider" value="Manual" /></div>
+              <div class="form-row"><label>Recorded at</label><input class="input" name="recordedAt" type="date" value="2026-06-20" /></div>
+              <div class="form-row"><label>Market low</label><input class="input" name="low" type="number" step="0.01" /></div>
+              <div class="form-row"><label>Market median</label><input class="input" name="median" type="number" step="0.01" required /></div>
+              <div class="form-row"><label>Market high</label><input class="input" name="high" type="number" step="0.01" /></div>
+              <div class="form-row"><label>Most recent sale</label><input class="input" name="recent" type="number" step="0.01" /></div>
+            </div>
+            <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Valuation</button></div>
+          </form>`;
+      }
+
+      function selectField(name, label, rows, value, labelKey) {
+        return `<div class="form-row"><label>${label}</label><select class="select" name="${name}">${rows.map((row) => `<option value="${row.id}" ${row.id == value ? "selected" : ""}>${escapeHtml(row[labelKey])}</option>`).join("")}</select></div>`;
+      }
+
+      function formData(event) {
+        event.preventDefault();
+        return Object.fromEntries(new FormData(event.target).entries());
+      }
+
+      function saveCollection(event) {
+        const data = formData(event);
+        const payload = {
+          playerId: Number(data.playerId),
+          setId: Number(data.setId),
+          variationId: Number(data.variationId),
+          cardNumber: data.cardNumber,
+          serial: data.serial,
+          condition: data.condition,
+          grader: data.grader,
+          grade: data.grade,
+          purchasePrice: Number(data.purchasePrice || 0),
+          latestValue: Number(data.latestValue || 0),
+          source: data.source,
+          status: data.status,
+          location: data.location,
+          notes: data.notes,
+          color: ["green-card", "amber-card", "blue-card"][state.collection.length % 3],
+        };
+        if (state.editing) Object.assign(state.collection.find((i) => i.id == state.editing), payload);
+        else state.collection.push({ id: nextId(), purchaseDate: "2026-06-20", ...payload });
+        closeModal();
+        render();
+        toast("Collection saved", "Dashboard totals and tables updated.");
+      }
+
+      function saveSearch(event) {
+        const data = formData(event);
+        if (!data.url && data.marketplace === "eBay") data.url = "https://www.ebay.com/sch/i.html?_nkw=" + encodeURIComponent(data.query || data.name);
+        const payload = { cardId: Number(data.cardId), name: data.name, marketplace: data.marketplace, query: data.query, url: data.url, maxPrice: data.maxPrice, minGrade: data.minGrade, active: data.active === "true", notes: data.notes };
+        if (state.editing) Object.assign(state.searches.find((s) => s.id == state.editing), payload);
+        else state.searches.push({ id: nextId(), lastChecked: "", ...payload });
+        closeModal();
+        render();
+        toast("Search saved", "Saved search list updated.");
+      }
+
+      function savePlayer(event) {
+        const data = formData(event);
+        if (state.editing) Object.assign(state.players.find((p) => p.id == state.editing), data);
+        else state.players.push({ id: nextId(), ...data });
+        closeModal();
+        render();
+        toast("Player saved", "Player library updated.");
+      }
+
+      function saveSet(event) {
+        const data = formData(event);
+        data.year = Number(data.year);
+        if (state.editing) Object.assign(state.sets.find((s) => s.id == state.editing), data);
+        else state.sets.push({ id: nextId(), ...data });
+        closeModal();
+        render();
+        toast("Set saved", "Set library updated.");
+      }
+
+      function saveVariation(event) {
+        const data = formData(event);
+        state.variations.push({ id: nextId(), setId: Number(data.setId), name: data.name, type: data.type, rarity: data.rarity, printRun: data.printRun });
+        closeModal();
+        render();
+        toast("Variation saved", "Variation list updated.");
+      }
+
+      function saveValuation(event) {
+        const data = formData(event);
+        const item = state.collection.find((i) => i.id == state.drawer);
+        state.valuations.push({ id: nextId(), collectionId: item.id, provider: data.provider, median: Number(data.median), low: Number(data.low || 0), high: Number(data.high || 0), recent: Number(data.recent || 0), recordedAt: data.recordedAt });
+        item.latestValue = Number(data.median);
+        closeModal();
+        render();
+        toast("Valuation added", "Latest value updated on the collection item.");
+      }
+
+      function deleteCollection(id) {
+        if (!confirm("Delete this collection item?")) return;
+        state.collection = state.collection.filter((i) => i.id !== id);
+        state.searches = state.searches.filter((s) => s.cardId !== id);
+        render();
+        toast("Collection item deleted", "Linked prototype searches were removed.", "danger");
+      }
+
+      function deleteSearch(id) {
+        if (!confirm("Delete this saved search?")) return;
+        state.searches = state.searches.filter((s) => s.id !== id);
+        render();
+        toast("Search deleted", "The saved marketplace URL was removed.", "danger");
+      }
+
+      function deletePlayer(id) {
+        if (state.collection.some((i) => i.playerId == id)) return toast("Delete blocked", "This player is referenced by collection rows.", "danger");
+        state.players = state.players.filter((p) => p.id !== id);
+        render();
+      }
+
+      function deleteSet(id) {
+        if (state.collection.some((i) => i.setId == id)) return toast("Delete blocked", "This set is referenced by collection rows.", "danger");
+        state.sets = state.sets.filter((s) => s.id !== id);
+        state.variations = state.variations.filter((v) => v.setId !== id);
+        render();
+      }
+
+      function deleteVariation(id) {
+        if (state.collection.some((i) => i.variationId == id)) return toast("Delete blocked", "This variation is referenced by collection rows.", "danger");
+        state.variations = state.variations.filter((v) => v.id !== id);
+        render();
+      }
+
+      function toggleSearch(id) {
+        const s = state.searches.find((row) => row.id === id);
+        s.active = !s.active;
+        render();
+        toast("Search updated", `${s.name} is now ${s.active ? "active" : "inactive"}.`);
+      }
+
+      function markSearchChecked(id) {
+        const s = state.searches.find((row) => row.id === id);
+        s.lastChecked = "2026-06-20";
+        render();
+        toast("Search checked", s.name);
+      }
+
+      function markVisibleChecked() {
+        state.searches.forEach((s) => {
+          if (state.searchActive === "All" || String(s.active) === state.searchActive) s.lastChecked = "2026-06-20";
+        });
+        render();
+        toast("Visible searches checked", "Last checked dates updated.");
+      }
+
+      function convertSearch(id) {
+        const s = state.searches.find((row) => row.id === id);
+        const item = state.collection.find((row) => row.id == s.cardId);
+        if (!item) return;
+        const copy = { ...item, id: nextId(), status: "Incoming", purchasePrice: Number(s.maxPrice || item.purchasePrice || 0), source: s.marketplace, location: "Desk tray", notes: `Created from saved search: ${s.name}`, color: "amber-card" };
+        state.collection.push(copy);
+        s.active = false;
+        render();
+        toast("Incoming card added", "The saved search was converted and deactivated.");
+      }
+
+      function openDrawer(id) {
+        state.drawer = id;
+        renderDrawer();
+      }
+
+      function closeDrawer() {
+        state.drawer = null;
+        renderDrawer();
+      }
+
+      function renderDrawer() {
+        const node = $("drawer");
+        if (!state.drawer) {
+          node.className = "drawer-backdrop";
+          node.innerHTML = "";
+          return;
+        }
+        const item = state.collection.find((i) => i.id == state.drawer);
+        const vals = state.valuations.filter((v) => v.collectionId == item.id).sort((a, b) => b.recordedAt.localeCompare(a.recordedAt));
+        const linked = state.searches.filter((s) => s.cardId == item.id);
+        node.className = "drawer-backdrop open";
+        node.innerHTML = `
+          <aside class="drawer">
+            <div class="drawer-header"><h2>${escapeHtml(cardTitle(item))}</h2><button class="icon-button secondary" onclick="closeDrawer()">${icons.x}</button></div>
+            <div class="drawer-grid">
+              <div><div class="large-card-art ${item.color || ""}"></div><button class="button secondary" style="width:100%;margin-top:10px" onclick="toast('Image selected', 'Prototype keeps image paths in memory only.')">${icons.plus}Upload Image</button></div>
+              <div>
+                <div class="field-grid">
+                  <div class="field"><span>Status</span><strong>${escapeHtml(item.status)}</strong></div>
+                  <div class="field"><span>Cost</span><strong>${money(item.purchasePrice)}</strong></div>
+                  <div class="field"><span>Latest value</span><strong>${money(item.latestValue)}</strong></div>
+                  <div class="field"><span>Condition</span><strong>${item.condition === "Graded" ? `${escapeHtml(item.grader)} ${escapeHtml(item.grade)}` : "Raw"}</strong></div>
+                  <div class="field"><span>Location</span><strong>${escapeHtml(item.location)}</strong></div>
+                  <div class="field"><span>Source</span><strong>${escapeHtml(item.source)}</strong></div>
+                </div>
+                <section class="panel"><div class="row"><h2>Linked Searches</h2><button class="button secondary" onclick="openModal('search')">${icons.plus}Add</button></div><div class="list">${linked.length ? linked.map((s) => `<div class="list-item"><div><strong>${escapeHtml(s.name)}</strong><span>${escapeHtml(s.marketplace)}, checked ${daysAgo(s.lastChecked)}</span></div><span class="pill ${s.active ? "green" : ""}">${s.active ? "Active" : "Inactive"}</span></div>`).join("") : "<span class='hint'>No linked searches yet.</span>"}</div></section>
+                <section class="panel" style="margin-top:14px"><div class="row"><h2>Valuation History</h2><button class="button secondary" onclick="openModal('valuation')">${icons.plus}Add</button></div><div class="table-wrap"><table><thead><tr><th>Provider</th><th>Median</th><th>Low</th><th>High</th><th>Recorded</th></tr></thead><tbody>${vals.map((v) => `<tr><td>${escapeHtml(v.provider)}</td><td>${money(v.median)}</td><td>${money(v.low)}</td><td>${money(v.high)}</td><td>${escapeHtml(v.recordedAt)}</td></tr>`).join("")}</tbody></table></div></section>
+                <section class="panel" style="margin-top:14px"><h2>Notes</h2><p class="hint">${escapeHtml(item.notes || "No notes yet.")}</p></section>
+              </div>
+            </div>
+          </aside>`;
+      }
+
+      function exportCollection() {
+        const headers = ["Player", "Set", "Variation", "Serial", "Condition", "Grade", "Purchase Price", "Latest Value", "Status", "Location", "Notes"];
+        const rows = state.collection.map((i) => [playerById(i.playerId).name, `${setById(i.setId).year} ${setById(i.setId).brand} ${setById(i.setId).series}`, variationById(i.variationId).name, i.serial, i.condition, i.grade, i.purchasePrice, i.latestValue, i.status, i.location, i.notes]);
+        const csv = [headers, ...rows].map((row) => row.map((cell) => `"${String(cell ?? "").replaceAll('"', '""')}"`).join(",")).join("\\n");
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "byoc-collection-prototype.csv";
+        link.click();
+        URL.revokeObjectURL(url);
+        toast("CSV exported", "Downloaded the current in-memory collection.");
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeModal();
+          closeDrawer();
+        }
+      });
+
+      $("modal").addEventListener("click", (event) => {
+        if (event.target.id === "modal") closeModal();
+      });
+      $("drawer").addEventListener("click", (event) => {
+        if (event.target.id === "drawer") closeDrawer();
+      });
+
+      render();
+    </script>
+  </body>
+</html>

@@ -6,21 +6,23 @@
     <title>BYOC Interactive Prototype</title>
     <style>
       :root {
-        --background: #f8fafc;
-        --foreground: #111827;
-        --card: #ffffff;
-        --primary: #14532d;
-        --primary-foreground: #ffffff;
-        --muted: #f1f5f9;
-        --muted-foreground: #64748b;
-        --accent: #d97706;
-        --destructive: #b91c1c;
-        --border: #dbe3ec;
-        --input: #cbd5e1;
-        --sidebar: #101827;
-        --sidebar-active: #e6f4ea;
+        --background: #fffcf2;
+        --foreground: #252422;
+        --card: #fffcf2;
+        --primary: #eb5e28;
+        --primary-foreground: #fffcf2;
+        --soft-gray: #e3ded5;
+        --mist-gray: #f1ede6;
+        --muted: #f1ede6;
+        --muted-foreground: #403d39;
+        --accent: #eb5e28;
+        --destructive: #252422;
+        --border: #e3ded5;
+        --input: #ccc5b9;
+        --sidebar: #252422;
+        --sidebar-active: #ccc5b9;
         --radius: 8px;
-        --shadow: 0 18px 55px rgba(15, 23, 42, 0.12);
+        --shadow: 0 18px 55px rgba(37, 36, 34, 0.14);
       }
 
       * {
@@ -59,9 +61,9 @@
         top: 0;
         height: 100vh;
         padding: 18px 14px;
-        color: #f8fafc;
+        color: #fffcf2;
         background: var(--sidebar);
-        border-right: 1px solid #1e293b;
+        border-right: 1px solid #403d39;
       }
 
       .brand {
@@ -77,14 +79,24 @@
         place-items: center;
         width: 32px;
         height: 32px;
-        color: #0f172a;
-        background: #e6f4ea;
+        color: #fffcf2;
+        background: #403d39;
+        border: 1px solid #403d39;
         border-radius: 6px;
       }
 
       .nav {
         display: grid;
         gap: 4px;
+      }
+
+      .nav-section {
+        margin: 18px 8px 6px;
+        color: #ccc5b9;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
       }
 
       .nav button {
@@ -94,7 +106,7 @@
         width: 100%;
         min-height: 38px;
         padding: 8px 10px;
-        color: #cbd5e1;
+        color: #ccc5b9;
         background: transparent;
         border: 0;
         border-radius: 6px;
@@ -103,9 +115,15 @@
       }
 
       .nav button.active {
-        color: #0f172a;
+        color: #252422;
         background: var(--sidebar-active);
+        box-shadow: inset 3px 0 0 #eb5e28;
         font-weight: 800;
+      }
+
+      .nav button.primary-link {
+        min-height: 44px;
+        font-size: 15px;
       }
 
       .nav svg,
@@ -119,24 +137,6 @@
         stroke-linecap: round;
         stroke-linejoin: round;
         flex: 0 0 auto;
-      }
-
-      .account {
-        margin-top: 28px;
-        padding: 12px;
-        background: #172033;
-        border: 1px solid #26344f;
-        border-radius: var(--radius);
-      }
-
-      .account strong,
-      .account span {
-        display: block;
-      }
-
-      .account span {
-        color: #94a3b8;
-        font-size: 12px;
       }
 
       .main {
@@ -214,13 +214,18 @@
 
       .button.secondary,
       .icon-button.secondary {
-        color: #1f2937;
-        background: #ffffff;
+        color: #403d39;
+        background: #fffcf2;
         border-color: var(--border);
       }
 
+      .button.secondary:hover,
+      .icon-button.secondary:hover {
+        border-color: #eb5e28;
+      }
+
       .button.ghost {
-        color: #334155;
+        color: #403d39;
         background: transparent;
         border-color: transparent;
       }
@@ -270,7 +275,7 @@
       .metric small {
         display: block;
         margin-top: 4px;
-        color: #15803d;
+        color: #403d39;
         font-size: 12px;
       }
 
@@ -278,6 +283,14 @@
         display: grid;
         grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
         gap: 14px;
+      }
+
+      .set-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+        gap: 18px;
+        align-items: start;
+        margin-top: 14px;
       }
 
       .grid-settings {
@@ -305,14 +318,29 @@
         min-width: 0;
       }
 
+      .toolbar-split {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .toolbar-filters {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        min-width: 0;
+        flex: 1 1 auto;
+      }
+
       .input,
       .select,
       .textarea {
-        width: 100%;
         min-height: 36px;
         padding: 7px 10px;
-        color: #111827;
-        background: #ffffff;
+        color: #252422;
+        background: #fffcf2;
         border: 1px solid var(--input);
         border-radius: 6px;
         font-size: 13px;
@@ -320,6 +348,30 @@
 
       .search-input {
         min-width: 280px;
+        flex: 1 1 280px;
+      }
+
+      .toolbar-search {
+        flex: 1 1 280px;
+      }
+
+      .text-link {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        text-decoration-color: #eb5e28;
+      }
+
+      .platform-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
       }
 
       .textarea {
@@ -329,6 +381,58 @@
 
       .table-wrap {
         overflow: auto;
+      }
+
+      .expandable-row {
+        cursor: pointer;
+      }
+
+      .expandable-row:hover td {
+        background: #f1ede6;
+      }
+
+      .expandable-row[aria-expanded="true"] td {
+        background: #fffcf2;
+        border-bottom-color: #ccc5b9;
+      }
+
+      .nested-row > td {
+        padding: 14px;
+        background: #ccc5b9;
+        border-bottom: 1px solid #ccc5b9;
+      }
+
+      .nested-table-wrap {
+        overflow: auto;
+        border: 1px solid #ccc5b9;
+        background: #fffcf2;
+        box-shadow: 0 1px 0 rgba(37, 36, 34, 0.08);
+      }
+
+      .nested-table {
+        min-width: 680px;
+        background: #fffcf2;
+      }
+
+      .nested-table th {
+        color: #fffcf2;
+        background: #403d39;
+        border-bottom-color: #403d39;
+      }
+
+      .nested-table td {
+        background: #fffcf2;
+        border-bottom-color: #ccc5b9;
+      }
+
+      .action-column {
+        width: 1%;
+        white-space: nowrap;
+        text-align: right;
+      }
+
+      .action-column .actions {
+        justify-content: flex-end;
       }
 
       table {
@@ -341,16 +445,31 @@
       th,
       td {
         padding: 10px 9px;
-        border-bottom: 1px solid #e5eaf0;
+        border-bottom: 1px solid #ccc5b9;
         text-align: left;
         vertical-align: middle;
       }
 
       th {
-        color: #64748b;
+        color: #403d39;
         font-size: 11px;
         font-weight: 900;
         text-transform: uppercase;
+      }
+
+      .table-wrap > table > thead > tr > th {
+        color: #403d39;
+        background: #e3ded5;
+        border-bottom-color: #eb5e28;
+      }
+
+      th button {
+        padding: 0;
+        color: inherit;
+        background: transparent;
+        border: 0;
+        font: inherit;
+        text-transform: inherit;
       }
 
       tr:last-child td {
@@ -361,25 +480,34 @@
         display: inline-block;
         width: 38px;
         height: 52px;
+        overflow: hidden;
         background:
-          linear-gradient(140deg, #fafafa 0%, #e2e8f0 44%, #94a3b8 100%);
-        border: 1px solid #cbd5e1;
+          linear-gradient(140deg, #fffcf2 0%, #ccc5b9 44%, #403d39 100%);
+        border: 1px solid #ccc5b9;
         border-radius: 4px;
+      }
+
+      .card-thumb img,
+      .large-card-art img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .green-card {
         background:
-          linear-gradient(140deg, #f8fafc 0%, #dcfce7 48%, #166534 100%);
+          linear-gradient(140deg, #fffcf2 0%, #ccc5b9 48%, #403d39 100%);
       }
 
       .amber-card {
         background:
-          linear-gradient(140deg, #fffbeb 0%, #fde68a 48%, #b45309 100%);
+          linear-gradient(140deg, #fffcf2 0%, #ccc5b9 48%, #403d39 100%);
       }
 
       .blue-card {
         background:
-          linear-gradient(140deg, #eff6ff 0%, #bfdbfe 48%, #1d4ed8 100%);
+          linear-gradient(140deg, #fffcf2 0%, #ccc5b9 48%, #252422 100%);
       }
 
       .pill {
@@ -387,8 +515,8 @@
         align-items: center;
         min-height: 26px;
         padding: 4px 9px;
-        color: #334155;
-        background: #f8fafc;
+        color: #403d39;
+        background: #fffcf2;
         border: 1px solid var(--border);
         border-radius: 999px;
         font-size: 12px;
@@ -397,27 +525,27 @@
       }
 
       .green {
-        color: #14532d;
-        background: #ecfdf3;
-        border-color: #bbf7d0;
+        color: #403d39;
+        background: #f1ede6;
+        border-color: #e3ded5;
       }
 
       .amber {
-        color: #92400e;
-        background: #fffbeb;
-        border-color: #fde68a;
+        color: #403d39;
+        background: #ccc5b9;
+        border-color: #ccc5b9;
       }
 
       .red {
-        color: #991b1b;
-        background: #fef2f2;
-        border-color: #fecaca;
+        color: #fffcf2;
+        background: #403d39;
+        border-color: #403d39;
       }
 
       .blue {
-        color: #1e3a8a;
-        background: #eff6ff;
-        border-color: #bfdbfe;
+        color: #403d39;
+        background: #f1ede6;
+        border-color: #e3ded5;
       }
 
       .list {
@@ -427,8 +555,8 @@
 
       .list-item {
         padding: 11px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+        background: #f1ede6;
+        border: 1px solid #e3ded5;
         border-radius: 7px;
       }
 
@@ -453,11 +581,11 @@
 
       .chart-fill {
         height: 150px;
-        border-bottom: 1px solid #cbd5e1;
+        border-bottom: 1px solid #ccc5b9;
         background: linear-gradient(
           180deg,
-          rgba(20, 83, 45, 0.18),
-          rgba(20, 83, 45, 0.02)
+          rgba(73, 80, 87, 0.18),
+          rgba(73, 80, 87, 0.02)
         );
         clip-path: polygon(
           0 74%,
@@ -478,7 +606,7 @@
         inset: 0;
         z-index: 30;
         display: none;
-        background: rgba(15, 23, 42, 0.36);
+        background: rgba(37, 36, 34, 0.42);
       }
 
       .modal-backdrop.open,
@@ -492,7 +620,7 @@
         margin: 22px auto;
         overflow: auto;
         padding: 16px;
-        background: #ffffff;
+        background: #fffcf2;
         border: 1px solid var(--border);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
@@ -506,7 +634,7 @@
         height: 100vh;
         overflow: auto;
         padding: 20px;
-        background: #ffffff;
+        background: #fffcf2;
         border-left: 1px solid var(--border);
         box-shadow: var(--shadow);
       }
@@ -530,7 +658,7 @@
       }
 
       label {
-        color: #334155;
+        color: #403d39;
         font-size: 12px;
         font-weight: 800;
       }
@@ -553,8 +681,9 @@
 
       .large-card-art {
         min-height: 350px;
+        overflow: hidden;
         background:
-          linear-gradient(160deg, #ffffff 0%, #e2e8f0 38%, #1f2937 100%);
+          linear-gradient(160deg, #fffcf2 0%, #ccc5b9 38%, #403d39 100%);
         border: 1px solid var(--border);
         border-radius: 8px;
       }
@@ -568,8 +697,8 @@
 
       .field {
         padding: 10px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+        background: #f1ede6;
+        border: 1px solid #e3ded5;
         border-radius: 6px;
       }
 
@@ -592,11 +721,11 @@
       .toast {
         align-items: flex-start;
         padding: 11px 12px;
-        background: #ffffff;
+        background: #fffcf2;
         border: 1px solid var(--border);
         border-left: 4px solid var(--primary);
         border-radius: 7px;
-        box-shadow: 0 10px 35px rgba(15, 23, 42, 0.12);
+        box-shadow: 0 10px 35px rgba(37, 36, 34, 0.12);
       }
 
       .toast strong,
@@ -608,7 +737,7 @@
         display: grid;
         grid-template-columns: minmax(320px, 0.8fr) minmax(0, 1.2fr);
         min-height: 100vh;
-        background: #ffffff;
+        background: #fffcf2;
       }
 
       .auth-form {
@@ -627,7 +756,7 @@
         align-content: center;
         gap: 18px;
         padding: 42px;
-        background: #f1f5f9;
+        background: #ccc5b9;
         border-left: 1px solid var(--border);
       }
 
@@ -710,12 +839,8 @@
 
     <script>
       const icons = {
-        dashboard:
-          '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>',
         collection:
           '<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 7h8M8 11h8M8 15h5"></path></svg>',
-        searches:
-          '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>',
         players:
           '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.7-4 4.4-6 8-6s6.3 2 8 6"></path></svg>',
         sets:
@@ -740,45 +865,95 @@
           '<svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg>',
       };
 
+      const searchPlatforms = [
+        { id: "ebay", label: "eBay", build: (q) => `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(q)}` },
+        { id: "goldin", label: "Goldin", build: (q) => `https://goldin.co/search?q=${encodeURIComponent(q)}` },
+        { id: "fanatics", label: "Fanatics Collect", build: (q) => `https://www.fanaticscollect.com/search?q=${encodeURIComponent(q)}` },
+        { id: "alt", label: "Alt", build: (q) => `https://www.alt.xyz/search?q=${encodeURIComponent(q)}` },
+        { id: "yahoo", label: "Yahoo Auctions Japan", build: (q) => `https://auctions.yahoo.co.jp/search/search?p=${encodeURIComponent(q)}` },
+        { id: "mercari", label: "Mercari Japan", build: (q) => `https://jp.mercari.com/search?keyword=${encodeURIComponent(q)}` },
+        { id: "comc", label: "COMC", build: (q) => `https://www.comc.com/Cards,sr,=${encodeURIComponent(q)}` },
+      ];
+
+      const buildDefaultComps = () => {
+        const cards = [
+          { collectionId: 1, shortName: "Yoshida Anime", query: "Masataka Yoshida 2024 Bowman Baseball Anime", maxPrice: 60, minGrade: "", lastChecked: "2026-06-11" },
+          { collectionId: 2, shortName: "Imanaga BBM rookie", query: "Shota Imanaga 2016 BBM Rookie Edition Base Rookie 88 PSA 10", maxPrice: 175, minGrade: "PSA 10", lastChecked: "2026-06-07" },
+          { collectionId: 3, shortName: "Suzuki Rayfoil", query: "Seiya Suzuki 2021 Topps NPB Rayfoil 1/1", maxPrice: "", minGrade: "", lastChecked: "2026-06-19" },
+        ];
+        let id = 0;
+        return cards.flatMap((card) =>
+          searchPlatforms.map((platform) => ({
+            id: ++id,
+            collectionId: card.collectionId,
+            name: `${card.shortName} on ${platform.label}`,
+            marketplace: platform.label,
+            query: card.query,
+            url: platform.build(card.query),
+            maxPrice: card.maxPrice,
+            minGrade: card.minGrade,
+            active: true,
+            lastChecked: card.lastChecked,
+          })),
+        );
+      };
+
       const state = {
-        route: "dashboard",
+        route: "collection",
         authed: true,
         mobileNav: false,
-        collectionFilter: "",
+        searchTarget: null,
+        setExpanded: [],
+        collectionExpanded: [],
+        pendingSetId: null,
+        pendingCollectionId: null,
+        collectionSearch: "",
         collectionStatus: "All",
-        searchFilter: "",
-        searchActive: "All",
-        playerFilter: "",
-        setFilter: "",
+        collectionPlayer: "All",
+        collectionSet: "All",
+        collectionVariation: "All",
+        collectionCondition: "All",
+        collectionSource: "All",
+        collectionGrade: "All",
+        collectionSort: "player",
+        collectionSortDir: "asc",
+        playerSearch: "",
+        playerTeam: "All",
+        playerSport: "All",
+        playerLeague: "All",
+        playerSort: "name",
+        playerSortDir: "asc",
+        setSearch: "",
+        setYear: "All",
+        setBrand: "All",
+        setSeries: "All",
+        setSort: "year",
+        setSortDir: "desc",
         modal: null,
         editing: null,
         drawer: null,
         id: 50,
         players: [
-          { id: 1, name: "Masataka Yoshida", team: "Red Sox", sport: "Baseball", league: "MLB", notes: "Primary PC target" },
-          { id: 2, name: "Shota Imanaga", team: "Cubs", sport: "Baseball", league: "MLB", notes: "Rookie focus" },
-          { id: 3, name: "Seiya Suzuki", team: "Cubs", sport: "Baseball", league: "MLB", notes: "NPB parallels" },
+          { id: 1, name: "Masataka Yoshida", team: "Red Sox", sport: "Baseball", league: "MLB" },
+          { id: 2, name: "Shota Imanaga", team: "Cubs", sport: "Baseball", league: "MLB" },
+          { id: 3, name: "Seiya Suzuki", team: "Cubs", sport: "Baseball", league: "MLB" },
         ],
         sets: [
-          { id: 1, year: 2024, brand: "Bowman", series: "Baseball", notes: "Chrome inserts and Anime cards" },
-          { id: 2, year: 2016, brand: "BBM", series: "Rookie Edition", notes: "Japanese rookie cards" },
-          { id: 3, year: 2021, brand: "Topps", series: "NPB", notes: "Low-numbered parallels" },
+          { id: 1, year: 2024, brand: "Bowman", series: "Baseball" },
+          { id: 2, year: 2016, brand: "BBM", series: "Rookie Edition" },
+          { id: 3, year: 2021, brand: "Topps", series: "NPB" },
         ],
         variations: [
-          { id: 1, setId: 1, name: "Anime", type: "Insert", rarity: "Short print", printRun: "" },
-          { id: 2, setId: 2, name: "Base Rookie", type: "Base", rarity: "Common", printRun: "" },
-          { id: 3, setId: 3, name: "Rayfoil", type: "Parallel", rarity: "Numbered", printRun: "1" },
+          { id: 1, setId: 1, name: "Anime", type: "Insert", rarity: "Short print", printRun: "", compQuery: "" },
+          { id: 2, setId: 2, name: "Base Rookie", type: "Base", rarity: "Common", printRun: "", compQuery: "" },
+          { id: 3, setId: 3, name: "Rayfoil", type: "Parallel", rarity: "Numbered", printRun: "1", compQuery: "Seiya Suzuki 2021 Topps NPB Rayfoil 1/1" },
         ],
         collection: [
-          { id: 1, playerId: 1, setId: 1, variationId: 1, cardNumber: "", serial: "", condition: "Raw", grader: "", grade: "", purchaseDate: "2026-06-02", purchasePrice: 42, source: "eBay", status: "Owned", location: "Box A1", latestValue: 58, notes: "Clear front and back photos.", color: "green-card" },
-          { id: 2, playerId: 2, setId: 2, variationId: 2, cardNumber: "88", serial: "88", condition: "Graded", grader: "PSA", grade: "10", purchaseDate: "2026-06-12", purchasePrice: 96.5, source: "Yahoo Auctions", status: "Incoming", location: "Desk tray", latestValue: 125, notes: "Track shipment and slab cert.", color: "amber-card" },
-          { id: 3, playerId: 3, setId: 3, variationId: 3, cardNumber: "1", serial: "1/1", condition: "Raw", grader: "", grade: "", purchaseDate: "2026-05-18", purchasePrice: 210, source: "COMC", status: "Owned", location: "Safe 2", latestValue: 275, notes: "Keep as long-term PC piece.", color: "blue-card" },
+          { id: 1, playerId: 1, setId: 1, variationId: 1, cardNumber: "", serial: "", condition: "Raw", grader: "", grade: "", purchaseDate: "2026-06-02", purchasePrice: 42, source: "eBay", status: "Owned", latestValue: 58, color: "green-card", image: "yoshida.jpg" },
+          { id: 2, playerId: 2, setId: 2, variationId: 2, cardNumber: "88", serial: "88", condition: "Graded", grader: "PSA", grade: "10", purchaseDate: "2026-06-12", purchasePrice: 96.5, source: "Yahoo Auctions Japan", status: "Incoming", latestValue: 125, color: "amber-card", image: "imanaga.jpg" },
+          { id: 3, playerId: 3, setId: 3, variationId: 3, cardNumber: "1", serial: "1/1", condition: "Raw", grader: "", grade: "", purchaseDate: "2026-05-18", purchasePrice: 210, source: "COMC", status: "Owned", latestValue: 275, color: "blue-card", image: "seiya.jpg" },
         ],
-        searches: [
-          { id: 1, cardId: 1, name: "Yoshida Anime under $60", marketplace: "eBay", query: "Masataka Yoshida 2024 Bowman Baseball Anime", url: "https://www.ebay.com/sch/i.html?_nkw=Masataka%20Yoshida%202024%20Bowman%20Baseball%20Anime", maxPrice: 60, minGrade: "", active: true, lastChecked: "2026-06-11", notes: "Prefer clean photos." },
-          { id: 2, cardId: 2, name: "Imanaga BBM rookie PSA", marketplace: "Goldin", query: "Shota Imanaga 2016 BBM Rookie Edition PSA", url: "https://goldin.co/search?q=Shota%20Imanaga%20BBM", maxPrice: 175, minGrade: "PSA 10", active: true, lastChecked: "2026-06-07", notes: "Watch graded copies only." },
-          { id: 3, cardId: 3, name: "Suzuki Topps NPB sold comps", marketplace: "eBay", query: "Seiya Suzuki 2021 Topps NPB Rayfoil", url: "https://www.ebay.com/sch/i.html?_nkw=Seiya%20Suzuki%202021%20Topps%20NPB%20Rayfoil", maxPrice: "", minGrade: "", active: false, lastChecked: "2026-06-19", notes: "Comps only." },
-        ],
+        comps: buildDefaultComps(),
         valuations: [
           { id: 1, collectionId: 1, provider: "Manual", median: 58, low: 45, high: 72, recent: 61, recordedAt: "2026-06-12" },
           { id: 2, collectionId: 2, provider: "Manual", median: 125, low: 102, high: 150, recent: 131, recordedAt: "2026-06-15" },
@@ -787,9 +962,7 @@
       };
 
       const routes = [
-        ["dashboard", "Dashboard", icons.dashboard],
         ["collection", "Collection", icons.collection],
-        ["searches", "Searches", icons.searches],
         ["players", "Players", icons.players],
         ["sets", "Sets", icons.sets],
         ["settings", "Settings", icons.settings],
@@ -810,6 +983,39 @@
         const v = variationById(item.variationId);
         return [p.name, s.year, s.brand, s.series, v.name, item.cardNumber].filter(Boolean).join(" ");
       };
+      const collectionSearchQuery = (item) => {
+        if (!item) return "";
+        const grade = item.condition === "Graded" ? `${item.grader} ${item.grade}` : "";
+        return item.searchQuery || [cardTitle(item), item.serial, grade].filter(Boolean).join(" ");
+      };
+      const variationSearchQuery = (variation) => {
+        if (!variation) return "";
+        const s = setById(variation.setId);
+        return variation.compQuery || [s.year, s.brand, s.series, variation.name, variation.printRun].filter(Boolean).join(" ");
+      };
+      const platformUrl = (platformId, query) => {
+        const platform = searchPlatforms.find((item) => item.id === platformId) || searchPlatforms[0];
+        return platform.build(query);
+      };
+      const openSearchDialog = (kind, id) => {
+        state.searchTarget = { kind, id };
+        state.modal = "platform";
+        renderModal();
+      };
+      const launchSearch = (platformId) => {
+        const target = state.searchTarget;
+        if (!target) return;
+        const query = target.kind === "variation" ? variationSearchQuery(variationById(target.id)) : collectionSearchQuery(state.collection.find((item) => item.id == target.id));
+        const url = platformUrl(platformId, query);
+        window.open(url, "_blank", "noopener,noreferrer");
+        closeModal();
+      };
+      const openCompQuery = (id) => {
+        const comp = state.comps.find((item) => item.id === id);
+        if (!comp) return;
+        const platform = searchPlatforms.find((item) => item.label === comp.marketplace);
+        window.open(comp.url || (platform ? platform.build(comp.query) : platformUrl("ebay", comp.query)), "_blank", "noopener,noreferrer");
+      };
       const daysAgo = (date) => {
         if (!date) return "Never";
         const diff = Math.max(0, Math.round((new Date("2026-06-20") - new Date(date)) / 86400000));
@@ -823,6 +1029,32 @@
           .replaceAll("<", "&lt;")
           .replaceAll(">", "&gt;")
           .replaceAll('"', "&quot;");
+      const uniqueOptions = (rows, getter) =>
+        Array.from(new Set(rows.map(getter).filter((value) => value !== "" && value != null))).sort();
+      const selectMarkup = (options, selected) =>
+        options
+          .map((option) => {
+            const value = typeof option === "string" ? option : option.value;
+            const label = typeof option === "string" ? option : option.label;
+            return `<option value="${escapeHtml(value)}" ${String(selected) === String(value) ? "selected" : ""}>${escapeHtml(label)}</option>`;
+          })
+          .join("");
+      const allOptions = (label, rows, getter) => [
+        { value: "All", label },
+        ...uniqueOptions(rows, getter).map((value) => ({ value, label: value })),
+      ];
+      const direction = (current, field, dir) => (current === field ? (dir === "asc" ? "desc" : "asc") : "asc");
+      const compareValues = (a, b, dir = "asc") => {
+        const left = typeof a === "number" ? a : String(a ?? "").toLowerCase();
+        const right = typeof b === "number" ? b : String(b ?? "").toLowerCase();
+        if (left < right) return dir === "asc" ? -1 : 1;
+        if (left > right) return dir === "asc" ? 1 : -1;
+        return 0;
+      };
+      const sortButton = (label, field, sortKey, sortDir, handler) =>
+        `<button onclick="${handler}('${field}')">${label}${sortKey === field ? (sortDir === "asc" ? " ↑" : " ↓") : ""}</button>`;
+      const externalLink = (href, label, className = "button secondary") =>
+        `<a class="${className}" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
 
       function toast(title, message, tone = "normal") {
         const node = document.createElement("div");
@@ -866,9 +1098,14 @@
         return `
           <div class="brand"><span class="brand-mark">B</span><span>BYOC</span></div>
           <nav class="nav">
-            ${routes.map(([key, label, icon]) => `<button class="${state.route === key ? "active" : ""}" onclick="setRoute('${key}')">${icon}<span>${label}</span></button>`).join("")}
+            <div class="nav-section">Core</div>
+            ${routes.slice(0, 1).map(([key, label, icon]) => `<button class="primary-link ${state.route === key ? "active" : ""}" onclick="setRoute('${key}')">${icon}<span>${label}</span></button>`).join("")}
+            <div class="nav-section">Libraries</div>
+            ${routes.slice(1, 3).map(([key, label, icon]) => `<button class="${state.route === key ? "active" : ""}" onclick="setRoute('${key}')">${icon}<span>${label}</span></button>`).join("")}
+            <div class="nav-section">System</div>
+            ${routes.slice(3).map(([key, label, icon]) => `<button class="${state.route === key ? "active" : ""}" onclick="setRoute('${key}')">${icon}<span>${label}</span></button>`).join("")}
           </nav>
-          ${compact ? "" : `<div class="account"><strong>Nami Yokota</strong><span>My Collection</span></div>`}`;
+          `;
       }
 
       function pageHeader(title, description, actions = "") {
@@ -881,80 +1118,87 @@
 
       function page() {
         if (state.route === "collection") return collectionPage();
-        if (state.route === "searches") return searchesPage();
         if (state.route === "players") return playersPage();
         if (state.route === "sets") return setsPage();
         if (state.route === "settings") return settingsPage();
-        return dashboardPage();
-      }
-
-      function dashboardPage() {
-        const owned = state.collection.filter((i) => i.status === "Owned").length;
-        const incoming = state.collection.filter((i) => i.status === "Incoming").length;
-        const cost = state.collection.reduce((sum, i) => sum + Number(i.purchasePrice || 0), 0);
-        const market = state.collection.reduce((sum, i) => sum + Number(i.latestValue || 0), 0);
-        const stale = state.searches.filter((s) => s.active && (!s.lastChecked || daysAgo(s.lastChecked).includes("days") && Number(daysAgo(s.lastChecked).split(" ")[0]) >= 7)).length;
-        return `
-          ${pageHeader("Dashboard", "Daily review for owned cards, active searches, and latest values.", `<button class="button secondary" onclick="exportCollection()">${icons.download}Export CSV</button><button class="button" onclick="openModal('collection')">${icons.plus}Add Card</button>`)}
-          <div class="metrics">
-            <div class="card metric"><span>Owned Cards</span><strong>${owned}</strong><small>${incoming} incoming</small></div>
-            <div class="card metric"><span>Active Searches</span><strong>${state.searches.filter((s) => s.active).length}</strong><small>${stale} need review</small></div>
-            <div class="card metric"><span>Acquisition Cost</span><strong>${money(cost)}</strong><small>In-memory total</small></div>
-            <div class="card metric"><span>Latest Market</span><strong>${money(market)}</strong><small>${money(market - cost)} gain/loss</small></div>
-          </div>
-          <div class="grid-2">
-            <section class="panel">
-              <div class="row"><h2>Value Over Time</h2><span class="pill blue">Prototype chart</span></div>
-              <div class="chart"><div class="chart-fill"></div><div class="row"><span class="pill">Cost ${money(cost)}</span><span class="pill green">Market ${money(market)}</span></div></div>
-            </section>
-            <section class="panel">
-              <h2>Searches Needing Attention</h2>
-              <div class="list">
-                ${state.searches.filter((s) => s.active).map((s) => `
-                  <div class="list-item">
-                    <div><strong>${escapeHtml(s.name)}</strong><span>${escapeHtml(s.marketplace)}, checked ${daysAgo(s.lastChecked)}</span></div>
-                    <button class="button secondary" onclick="markSearchChecked(${s.id})">${icons.check}Checked</button>
-                  </div>`).join("")}
-              </div>
-            </section>
-          </div>
-          <section class="panel" style="margin-top:14px">
-            <h2>Recently Added</h2>
-            ${collectionTable(state.collection.slice(-5).reverse(), false)}
-          </section>`;
+        return collectionPage();
       }
 
       function collectionPage() {
-        const filtered = state.collection.filter((item) => {
-          const q = state.collectionFilter.toLowerCase();
-          const haystack = [cardTitle(item), item.status, item.location, item.source].join(" ").toLowerCase();
-          return (!q || haystack.includes(q)) && (state.collectionStatus === "All" || item.status === state.collectionStatus);
-        });
+        const filtered = filteredCollection();
         return `
-          ${pageHeader("Collection", "Owned cards, purchase details, grades, storage, and values.", `<button class="button secondary" onclick="exportCollection()">${icons.download}Export CSV</button><button class="button" onclick="openModal('collection')">${icons.plus}Add Card</button>`)}
-          <div class="toolbar">
-            <div class="toolbar-left">
-              <input class="input search-input" value="${escapeHtml(state.collectionFilter)}" oninput="state.collectionFilter=this.value; render()" placeholder="Search player, set, source, location" />
-              <select class="select" onchange="state.collectionStatus=this.value; render()">
-                ${["All", "Owned", "Incoming", "Sold", "Watching"].map((v) => `<option ${state.collectionStatus === v ? "selected" : ""}>${v}</option>`).join("")}
-              </select>
+          ${pageHeader("Collection", "Owned cards, purchase details, grades, storage, and values.", `<button class="button secondary" onclick="exportCollection()">${icons.download}Export CSV</button><button class="button secondary" onclick="openModal('comp')">${icons.plus}Add Query</button><button class="button" onclick="openModal('collection')">${icons.plus}Add Card</button>`)}
+          <div class="toolbar toolbar-split">
+            <div class="toolbar-filters">
+              <select class="select" onchange="state.collectionPlayer=this.value; render()">${selectMarkup(allOptions("All Players", state.collection, (i) => playerById(i.playerId).name), state.collectionPlayer)}</select>
+              <select class="select" onchange="state.collectionSet=this.value; render()">${selectMarkup(allOptions("All Sets", state.collection, (i) => `${setById(i.setId).year} ${setById(i.setId).brand} ${setById(i.setId).series}`), state.collectionSet)}</select>
+              <select class="select" onchange="state.collectionVariation=this.value; render()">${selectMarkup(allOptions("All Variations", state.collection, (i) => variationById(i.variationId).name), state.collectionVariation)}</select>
+              <select class="select" onchange="state.collectionStatus=this.value; render()">${selectMarkup(allOptions("All Statuses", state.collection, (i) => i.status), state.collectionStatus)}</select>
+              <select class="select" onchange="state.collectionCondition=this.value; render()">${selectMarkup(allOptions("All Conditions", state.collection, (i) => i.condition), state.collectionCondition)}</select>
+              <select class="select" onchange="state.collectionSource=this.value; render()">${selectMarkup(allOptions("All Sources", state.collection, (i) => i.source), state.collectionSource)}</select>
+              <select class="select" onchange="state.collectionGrade=this.value; render()">${selectMarkup(allOptions("All Grades", state.collection, (i) => i.condition === "Graded" ? `${i.grader} ${i.grade}` : "Raw"), state.collectionGrade)}</select>
+              <input class="input search-input toolbar-search" value="${escapeHtml(state.collectionSearch)}" oninput="state.collectionSearch=this.value; render()" placeholder="Search collection" />
             </div>
           </div>
           ${filtered.length ? collectionTable(filtered, true) : emptyState("No collection rows match the current filters.", "Add Card", "openModal('collection')")}`;
+      }
+
+      function filteredCollection() {
+        const q = state.collectionSearch.toLowerCase();
+        return state.collection
+          .filter((item) => {
+            const player = playerById(item.playerId).name;
+            const set = `${setById(item.setId).year} ${setById(item.setId).brand} ${setById(item.setId).series}`;
+            const variation = variationById(item.variationId).name;
+            const grade = item.condition === "Graded" ? `${item.grader} ${item.grade}` : "Raw";
+            const haystack = [cardTitle(item), item.status, item.source, item.condition, grade].join(" ").toLowerCase();
+            return (!q || haystack.includes(q)) &&
+              (state.collectionPlayer === "All" || player === state.collectionPlayer) &&
+              (state.collectionSet === "All" || set === state.collectionSet) &&
+              (state.collectionVariation === "All" || variation === state.collectionVariation) &&
+              (state.collectionStatus === "All" || item.status === state.collectionStatus) &&
+              (state.collectionCondition === "All" || item.condition === state.collectionCondition) &&
+              (state.collectionSource === "All" || item.source === state.collectionSource) &&
+              (state.collectionGrade === "All" || grade === state.collectionGrade);
+          })
+          .sort((a, b) => {
+            const get = (item) => {
+              const s = setById(item.setId);
+              if (state.collectionSort === "player") return playerById(item.playerId).name;
+              if (state.collectionSort === "set") return `${s.year} ${s.brand} ${s.series}`;
+              if (state.collectionSort === "variation") return variationById(item.variationId).name;
+              if (state.collectionSort === "serial") return item.serial;
+              if (state.collectionSort === "grade") return item.condition === "Graded" ? `${item.grader} ${item.grade}` : "Raw";
+              if (state.collectionSort === "cost") return Number(item.purchasePrice || 0);
+              if (state.collectionSort === "comp") return Number(item.latestValue || 0);
+              if (state.collectionSort === "status") return item.status;
+              if (state.collectionSort === "source") return item.source;
+              return playerById(item.playerId).name;
+            };
+            return compareValues(get(a), get(b), state.collectionSortDir);
+          });
+      }
+
+      function sortCollection(field) {
+        state.collectionSortDir = direction(state.collectionSort, field, state.collectionSortDir);
+        state.collectionSort = field;
+        render();
       }
 
       function collectionTable(items, actions) {
         return `
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Image</th><th>Player</th><th>Set</th><th>Variation</th><th>Serial</th><th>Grade</th><th>Cost</th><th>Latest</th><th>Status</th><th>Location</th>${actions ? "<th></th>" : ""}</tr></thead>
+              <thead><tr><th>Image</th><th>${sortButton("Player", "player", state.collectionSort, state.collectionSortDir, "sortCollection")}</th><th>${sortButton("Set", "set", state.collectionSort, state.collectionSortDir, "sortCollection")}</th><th>${sortButton("Variation", "variation", state.collectionSort, state.collectionSortDir, "sortCollection")}</th><th>${sortButton("Serial", "serial", state.collectionSort, state.collectionSortDir, "sortCollection")}</th><th>${sortButton("Grade", "grade", state.collectionSort, state.collectionSortDir, "sortCollection")}</th><th>${sortButton("Cost", "cost", state.collectionSort, state.collectionSortDir, "sortCollection")}</th><th>${sortButton("Comp", "comp", state.collectionSort, state.collectionSortDir, "sortCollection")}</th><th>${sortButton("Status", "status", state.collectionSort, state.collectionSortDir, "sortCollection")}</th><th>${sortButton("Source", "source", state.collectionSort, state.collectionSortDir, "sortCollection")}</th>${actions ? '<th class="action-column">Actions</th>' : ""}</tr></thead>
               <tbody>
                 ${items.map((item) => {
                   const p = playerById(item.playerId);
                   const s = setById(item.setId);
                   const v = variationById(item.variationId);
-                  return `<tr>
-                    <td><span class="card-thumb ${item.color || ""}"></span></td>
+                  const queries = state.comps.filter((comp) => comp.collectionId == item.id);
+                  const expanded = state.collectionExpanded.includes(item.id);
+                  return `<tr class="expandable-row" tabindex="0" aria-expanded="${expanded}" onclick="toggleCollection(${item.id})" onkeydown="if(event.target===event.currentTarget&&(event.key==='Enter'||event.key===' ')){event.preventDefault();toggleCollection(${item.id})}">
+                    <td><span class="card-thumb ${item.color || ""}">${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(cardTitle(item))}" />` : ""}</span></td>
                     <td>${escapeHtml(p.name)}</td>
                     <td>${s.year || ""} ${escapeHtml(s.brand || "")} ${escapeHtml(s.series || "")}</td>
                     <td>${escapeHtml(v.name || "")}</td>
@@ -963,95 +1207,119 @@
                     <td>${money(item.purchasePrice)}</td>
                     <td>${money(item.latestValue)}</td>
                     <td><span class="pill ${item.status === "Owned" ? "green" : item.status === "Incoming" ? "amber" : ""}">${escapeHtml(item.status)}</span></td>
-                    <td>${escapeHtml(item.location)}</td>
-                    ${actions ? `<td><div class="actions"><button class="icon-button secondary" title="Open detail" onclick="openDrawer(${item.id})">${icons.eye}</button><button class="icon-button secondary" title="Edit" onclick="openModal('collection', ${item.id})">${icons.edit}</button><button class="icon-button destructive" title="Delete" onclick="deleteCollection(${item.id})">${icons.trash}</button></div></td>` : ""}
-                  </tr>`;
+                    <td>${escapeHtml(item.source)}</td>
+                    ${actions ? `<td class="action-column"><div class="actions"><button class="icon-button secondary" title="Open detail" onclick="event.stopPropagation();openDrawer(${item.id})">${icons.eye}</button><button class="icon-button secondary" title="Edit" onclick="event.stopPropagation();openModal('collection', ${item.id})">${icons.edit}</button><button class="icon-button destructive" title="Delete" onclick="event.stopPropagation();deleteCollection(${item.id})">${icons.trash}</button></div></td>` : ""}
+                  </tr>
+                  ${expanded ? `<tr class="nested-row"><td colspan="${actions ? 11 : 10}"><div class="nested-table-wrap"><table class="nested-table"><thead><tr><th>Name</th><th>Marketplace</th><th>Query</th><th>Max</th><th>Minimum Grade</th><th>Status</th><th>Last Checked</th><th class="action-column">Actions</th></tr></thead><tbody>${queries.length ? queries.map((comp) => `<tr><td><button class="text-link" onclick="event.stopPropagation();openCompQuery(${comp.id})">${escapeHtml(comp.name)}</button></td><td>${escapeHtml(comp.marketplace)}</td><td>${escapeHtml(comp.query)}</td><td>${comp.maxPrice ? money(comp.maxPrice) : "-"}</td><td>${escapeHtml(comp.minGrade || "-")}</td><td><span class="pill ${comp.active ? "green" : ""}">${comp.active ? "Active" : "Inactive"}</span></td><td>${escapeHtml(daysAgo(comp.lastChecked))}</td><td class="action-column"><div class="actions"><button class="icon-button secondary" title="Edit query" onclick="event.stopPropagation();openModal('comp', ${comp.id})">${icons.edit}</button><button class="icon-button destructive" title="Delete query" onclick="event.stopPropagation();deleteSearch(${comp.id})">${icons.trash}</button></div></td></tr>`).join("") : `<tr><td colspan="8"><span class="hint">No comp queries yet.</span></td></tr>`}</tbody></table></div></td></tr>` : ""}`;
                 }).join("")}
               </tbody>
             </table>
           </div>`;
       }
 
-      function searchesPage() {
-        const filtered = state.searches.filter((s) => {
-          const q = state.searchFilter.toLowerCase();
-          const item = state.collection.find((c) => c.id == s.cardId);
-          const haystack = [s.name, s.marketplace, s.query, item ? cardTitle(item) : ""].join(" ").toLowerCase();
-          return (!q || haystack.includes(q)) && (state.searchActive === "All" || String(s.active) === state.searchActive);
-        });
-        return `
-          ${pageHeader("Saved Searches", "Marketplace queries linked to card identities.", `<button class="button secondary" onclick="markVisibleChecked()">${icons.check}Mark Visible Checked</button><button class="button" onclick="openModal('search')">${icons.plus}Add Search</button>`)}
-          <div class="toolbar">
-            <div class="toolbar-left">
-              <input class="input search-input" value="${escapeHtml(state.searchFilter)}" oninput="state.searchFilter=this.value; render()" placeholder="Search query, player, marketplace" />
-              <select class="select" onchange="state.searchActive=this.value; render()">
-                <option value="All" ${state.searchActive === "All" ? "selected" : ""}>Active: All</option>
-                <option value="true" ${state.searchActive === "true" ? "selected" : ""}>Active only</option>
-                <option value="false" ${state.searchActive === "false" ? "selected" : ""}>Inactive only</option>
-              </select>
-            </div>
-          </div>
-          ${filtered.length ? searchesTable(filtered) : emptyState("No saved searches match the current filters.", "Add Search", "openModal('search')")}`;
-      }
-
-      function searchesTable(items) {
-        return `
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Active</th><th>Name</th><th>Card</th><th>Marketplace</th><th>Max</th><th>Last checked</th><th></th></tr></thead>
-              <tbody>
-                ${items.map((s) => {
-                  const card = state.collection.find((c) => c.id == s.cardId);
-                  return `<tr>
-                    <td><button class="button secondary" onclick="toggleSearch(${s.id})">${s.active ? "On" : "Off"}</button></td>
-                    <td>${escapeHtml(s.name)}</td>
-                    <td>${escapeHtml(card ? cardTitle(card) : "Unlinked")}</td>
-                    <td>${escapeHtml(s.marketplace)}</td>
-                    <td>${s.maxPrice ? money(s.maxPrice) : "-"}</td>
-                    <td><span class="pill ${daysAgo(s.lastChecked).includes("days") ? "amber" : ""}">${daysAgo(s.lastChecked)}</span></td>
-                    <td><div class="actions"><button class="button secondary" onclick="markSearchChecked(${s.id})">${icons.check}Checked</button><button class="icon-button secondary" onclick="openModal('search', ${s.id})">${icons.edit}</button><button class="icon-button secondary" onclick="convertSearch(${s.id})">${icons.plus}</button><button class="icon-button destructive" onclick="deleteSearch(${s.id})">${icons.trash}</button></div></td>
-                  </tr>`;
-                }).join("")}
-              </tbody>
-            </table>
-          </div>`;
+      function toggleCollection(id) {
+        state.collectionExpanded = state.collectionExpanded.includes(id)
+          ? state.collectionExpanded.filter((itemId) => itemId !== id)
+          : [...state.collectionExpanded, id];
+        render();
       }
 
       function playersPage() {
-        const q = state.playerFilter.toLowerCase();
-        const filtered = state.players.filter((p) => [p.name, p.team, p.league].join(" ").toLowerCase().includes(q));
+        const q = state.playerSearch.toLowerCase();
+        const filtered = state.players
+          .filter((p) => {
+            const haystack = [p.name, p.team, p.sport, p.league].join(" ").toLowerCase();
+            return (!q || haystack.includes(q)) &&
+              (state.playerTeam === "All" || p.team === state.playerTeam) &&
+              (state.playerSport === "All" || p.sport === state.playerSport) &&
+              (state.playerLeague === "All" || p.league === state.playerLeague);
+          })
+          .sort((a, b) => {
+            const get = (p) => state.playerSort === "owned" ? state.collection.filter((i) => i.playerId == p.id).length : p[state.playerSort];
+            return compareValues(get(a), get(b), state.playerSortDir);
+          });
         return `
-          ${pageHeader("Players", "A personal athlete library used by cards, searches, and collection rows.", `<button class="button" onclick="openModal('player')">${icons.plus}Add Player</button>`)}
-          <div class="toolbar"><div class="toolbar-left"><input class="input search-input" value="${escapeHtml(state.playerFilter)}" oninput="state.playerFilter=this.value; render()" placeholder="Search name, team, league" /></div></div>
+          ${pageHeader("Players", "Secondary library used by card records and marketplace links.", `<button class="button" onclick="openModal('player')">${icons.plus}Add Player</button>`)}
+          <div class="toolbar toolbar-split">
+            <div class="toolbar-filters">
+              <select class="select" onchange="state.playerTeam=this.value; render()">${selectMarkup(allOptions("All Teams", state.players, (p) => p.team), state.playerTeam)}</select>
+              <select class="select" onchange="state.playerSport=this.value; render()">${selectMarkup(allOptions("All Sports", state.players, (p) => p.sport), state.playerSport)}</select>
+              <select class="select" onchange="state.playerLeague=this.value; render()">${selectMarkup(allOptions("All Leagues", state.players, (p) => p.league), state.playerLeague)}</select>
+              <input class="input search-input toolbar-search" value="${escapeHtml(state.playerSearch)}" oninput="state.playerSearch=this.value; render()" placeholder="Search players" />
+            </div>
+          </div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Name</th><th>Team</th><th>Sport</th><th>League</th><th>Owned</th><th>Notes</th><th></th></tr></thead>
-              <tbody>${filtered.map((p) => `<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.team)}</td><td><span class="pill blue">${escapeHtml(p.sport)}</span></td><td>${escapeHtml(p.league)}</td><td>${state.collection.filter((i) => i.playerId == p.id).length}</td><td>${escapeHtml(p.notes)}</td><td><div class="actions"><button class="icon-button secondary" onclick="openModal('player', ${p.id})">${icons.edit}</button><button class="icon-button destructive" onclick="deletePlayer(${p.id})">${icons.trash}</button></div></td></tr>`).join("")}</tbody>
+              <thead><tr><th>${sortButton("Name", "name", state.playerSort, state.playerSortDir, "sortPlayer")}</th><th>${sortButton("Team", "team", state.playerSort, state.playerSortDir, "sortPlayer")}</th><th>${sortButton("Sport", "sport", state.playerSort, state.playerSortDir, "sortPlayer")}</th><th>${sortButton("League", "league", state.playerSort, state.playerSortDir, "sortPlayer")}</th><th>${sortButton("Owned", "owned", state.playerSort, state.playerSortDir, "sortPlayer")}</th><th class="action-column">Actions</th></tr></thead>
+              <tbody>${filtered.map((p) => `<tr><td>${escapeHtml(p.name)}</td><td>${escapeHtml(p.team)}</td><td><span class="pill blue">${escapeHtml(p.sport)}</span></td><td>${escapeHtml(p.league)}</td><td>${state.collection.filter((i) => i.playerId == p.id).length}</td><td class="action-column"><div class="actions"><button class="icon-button secondary" onclick="openModal('player', ${p.id})">${icons.edit}</button><button class="icon-button destructive" onclick="deletePlayer(${p.id})">${icons.trash}</button></div></td></tr>`).join("")}</tbody>
             </table>
           </div>`;
       }
 
+      function sortPlayer(field) {
+        state.playerSortDir = direction(state.playerSort, field, state.playerSortDir);
+        state.playerSort = field;
+        render();
+      }
+
       function setsPage() {
-        const q = state.setFilter.toLowerCase();
-        const filtered = state.sets.filter((s) => [s.year, s.brand, s.series].join(" ").toLowerCase().includes(q));
+        const q = state.setSearch.toLowerCase();
+        const filtered = state.sets
+          .filter((s) => {
+            const haystack = [s.year, s.brand, s.series].join(" ").toLowerCase();
+            return (!q || haystack.includes(q)) &&
+              (state.setYear === "All" || String(s.year) === String(state.setYear)) &&
+              (state.setBrand === "All" || s.brand === state.setBrand) &&
+              (state.setSeries === "All" || s.series === state.setSeries);
+          })
+          .sort((a, b) => {
+            const get = (s) => state.setSort === "owned" ? state.collection.filter((i) => i.setId == s.id).length : s[state.setSort];
+            return compareValues(get(a), get(b), state.setSortDir);
+          });
         return `
-          ${pageHeader("Sets", "Products, releases, and nested variations for card identities.", `<button class="button" onclick="openModal('set')">${icons.plus}Add Set</button>`)}
-          <div class="toolbar"><div class="toolbar-left"><input class="input search-input" value="${escapeHtml(state.setFilter)}" oninput="state.setFilter=this.value; render()" placeholder="Search year, brand, series" /></div></div>
-          <div class="grid-2">
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Year</th><th>Brand</th><th>Series</th><th>Owned</th><th>Notes</th><th></th></tr></thead>
-                <tbody>${filtered.map((s) => `<tr><td>${s.year}</td><td>${escapeHtml(s.brand)}</td><td>${escapeHtml(s.series)}</td><td>${state.collection.filter((i) => i.setId == s.id).length}</td><td>${escapeHtml(s.notes)}</td><td><div class="actions"><button class="icon-button secondary" onclick="openModal('set', ${s.id})">${icons.edit}</button><button class="icon-button destructive" onclick="deleteSet(${s.id})">${icons.trash}</button></div></td></tr>`).join("")}</tbody>
-              </table>
+          ${pageHeader("Sets", "Products, releases, and nested variations for card identities.", `<button class="button secondary" onclick="state.pendingSetId=null;openModal('variation')">${icons.plus}Add Variation</button><button class="button" onclick="openModal('set')">${icons.plus}Add Set</button>`)}
+          <div class="toolbar toolbar-split">
+            <div class="toolbar-filters">
+              <select class="select" onchange="state.setYear=this.value; render()">${selectMarkup(allOptions("All Years", state.sets, (s) => String(s.year)), state.setYear)}</select>
+              <select class="select" onchange="state.setBrand=this.value; render()">${selectMarkup(allOptions("All Brands", state.sets, (s) => s.brand), state.setBrand)}</select>
+              <select class="select" onchange="state.setSeries=this.value; render()">${selectMarkup(allOptions("All Series", state.sets, (s) => s.series), state.setSeries)}</select>
+              <input class="input search-input toolbar-search" value="${escapeHtml(state.setSearch)}" oninput="state.setSearch=this.value; render()" placeholder="Search sets" />
             </div>
-            <section class="panel">
-              <div class="row"><h2>Variations</h2><button class="button secondary" onclick="openModal('variation')">${icons.plus}Add</button></div>
-              <div class="list">${state.variations.map((v) => {
-                const s = setById(v.setId);
-                return `<div class="list-item"><div><strong>${escapeHtml(v.name)}</strong><span>${s.year || ""} ${escapeHtml(s.brand || "")} ${escapeHtml(s.series || "")} - ${escapeHtml(v.type)}</span></div><button class="icon-button destructive" onclick="deleteVariation(${v.id})">${icons.trash}</button></div>`;
-              }).join("")}</div>
-            </section>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>${sortButton("Year", "year", state.setSort, state.setSortDir, "sortSet")}</th><th>${sortButton("Brand", "brand", state.setSort, state.setSortDir, "sortSet")}</th><th>${sortButton("Series", "series", state.setSort, state.setSortDir, "sortSet")}</th><th>${sortButton("Variations", "owned", state.setSort, state.setSortDir, "sortSet")}</th><th class="action-column">Actions</th></tr></thead>
+              <tbody>
+                ${filtered.map((s) => {
+                  const variations = state.variations.filter((v) => v.setId == s.id);
+                  const expanded = state.setExpanded.includes(s.id);
+                  return `
+                    <tr class="expandable-row" tabindex="0" aria-expanded="${expanded}" onclick="toggleSet(${s.id})" onkeydown="if(event.target===event.currentTarget&&(event.key==='Enter'||event.key===' ')){event.preventDefault();toggleSet(${s.id})}">
+                      <td>${s.year}</td>
+                      <td>${escapeHtml(s.brand)}</td>
+                      <td>${escapeHtml(s.series)}</td>
+                      <td>${variations.length}</td>
+                      <td class="action-column"><div class="actions"><button class="icon-button secondary" title="Edit set" onclick="event.stopPropagation();openModal('set', ${s.id})">${icons.edit}</button><button class="icon-button destructive" title="Delete set" onclick="event.stopPropagation();deleteSet(${s.id})">${icons.trash}</button></div></td>
+                    </tr>
+                    ${expanded ? `<tr class="nested-row"><td colspan="5"><div class="nested-table-wrap"><table class="nested-table"><thead><tr><th>Name</th><th>Type</th><th>Rarity</th><th>Print Run</th><th>Comp Query</th><th class="action-column">Actions</th></tr></thead><tbody>${variations.length ? variations.map((v) => `<tr><td>${escapeHtml(v.name)}</td><td>${escapeHtml(v.type)}</td><td>${escapeHtml(v.rarity || "-")}</td><td>${escapeHtml(v.printRun || "-")}</td><td>${v.compQuery ? `<button class="text-link" onclick="event.stopPropagation();openSearchDialog('variation', ${v.id})">${escapeHtml(v.compQuery)}</button>` : "-"}</td><td class="action-column"><div class="actions"><button class="icon-button secondary" title="Edit variation" onclick="event.stopPropagation();state.pendingSetId=${s.id};openModal('variation', ${v.id})">${icons.edit}</button><button class="icon-button destructive" title="Delete variation" onclick="event.stopPropagation();deleteVariation(${v.id})">${icons.trash}</button></div></td></tr>`).join("") : `<tr><td colspan="6"><span class="hint">No variations yet.</span></td></tr>`}</tbody></table></div></td></tr>` : ""}
+                  `;
+                }).join("")}
+              </tbody>
+            </table>
           </div>`;
+      }
+
+      function toggleSet(id) {
+        state.setExpanded = state.setExpanded.includes(id)
+          ? state.setExpanded.filter((setId) => setId !== id)
+          : [...state.setExpanded, id];
+        render();
+      }
+
+      function sortSet(field) {
+        state.setSortDir = direction(state.setSort, field, state.setSortDir);
+        state.setSort = field;
+        render();
       }
 
       function settingsPage() {
@@ -1059,7 +1327,7 @@
           ${pageHeader("Settings", "Profile, export, and prototype controls.", `<button class="button" onclick="toast('Settings saved', 'Prototype preferences updated.')">${icons.check}Save Changes</button>`)}
           <div class="grid-settings">
             <section class="panel"><h2>Profile</h2><div class="form-row"><label>Collection name</label><input class="input" value="My Collection" /></div><div class="form-row" style="margin-top:10px"><label>Email</label><input class="input" value="nami@example.com" /></div></section>
-            <section class="panel"><h2>Preferences</h2><div class="list"><div class="list-item"><div><strong>Show stale search badges</strong><span>Highlight active searches after 7 days.</span></div><span class="pill green">On</span></div><div class="list-item"><div><strong>Prefer median valuation</strong><span>Dashboard uses latest value median.</span></div><span class="pill green">On</span></div></div></section>
+            <section class="panel"><h2>Preferences</h2><div class="list"><div class="list-item"><div><strong>Show stale search badges</strong><span>Highlight active searches after 7 days.</span></div><span class="pill green">On</span></div><div class="list-item"><div><strong>Prefer median valuation</strong><span>Collection comp values use the latest median.</span></div><span class="pill green">On</span></div></div></section>
             <section class="panel"><h2>Data</h2><div class="list"><div class="list-item"><div><strong>Collection CSV</strong><span>Export current in-memory rows.</span></div><button class="button secondary" onclick="exportCollection()">${icons.download}Export</button></div><div class="list-item"><div><strong>Reset seed data</strong><span>Reloads the prototype file.</span></div><button class="button secondary" onclick="location.reload()">Reset</button></div></div></section>
             <section class="panel"><h2>Account</h2><div class="list"><div class="list-item"><div><strong>Prototype auth</strong><span>No backend session is created.</span></div><button class="button destructive" onclick="state.authed=false; render()">Sign out</button></div></div></section>
           </div>`;
@@ -1074,8 +1342,8 @@
               <p class="hint">Access your private collection workspace.</p>
               <div class="form-row"><label>Email</label><input class="input" value="nami@example.com" /></div>
               <div class="form-row" style="margin-top:10px"><label>Password</label><input class="input" type="password" value="password" /></div>
-              <button class="button" style="width:100%;margin-top:14px" onclick="state.authed=true; state.route='dashboard'; render(); toast('Signed in', 'Prototype session started.')">Log in</button>
-              <button class="button ghost" style="width:100%;margin-top:6px" onclick="state.authed=true; state.route='dashboard'; render(); toast('Account created', 'Prototype profile is ready.')">Create account</button>
+              <button class="button" style="width:100%;margin-top:14px" onclick="state.authed=true; state.route='collection'; render(); toast('Signed in', 'Prototype session started.')">Log in</button>
+              <button class="button ghost" style="width:100%;margin-top:6px" onclick="state.authed=true; state.route='collection'; render(); toast('Account created', 'Prototype profile is ready.')">Create account</button>
             </div>
             <div class="auth-visual">
               <div class="visual-cards"><span class="card-thumb green-card"></span><span class="card-thumb amber-card"></span><span class="card-thumb blue-card"></span></div>
@@ -1097,6 +1365,9 @@
       function closeModal() {
         state.modal = null;
         state.editing = null;
+        state.searchTarget = null;
+        state.pendingSetId = null;
+        state.pendingCollectionId = null;
         renderModal();
       }
 
@@ -1112,7 +1383,8 @@
       }
 
       function modalBody() {
-        if (state.modal === "search") return searchForm();
+        if (state.modal === "platform") return platformForm();
+        if (state.modal === "comp") return compForm();
         if (state.modal === "player") return playerForm();
         if (state.modal === "set") return setForm();
         if (state.modal === "variation") return variationForm();
@@ -1136,23 +1408,36 @@
               <div class="form-row"><label>Grader</label><input class="input" name="grader" value="${escapeHtml(item.grader || "")}" /></div>
               <div class="form-row"><label>Grade</label><input class="input" name="grade" value="${escapeHtml(item.grade || "")}" /></div>
               <div class="form-row"><label>Purchase price</label><input class="input" name="purchasePrice" type="number" step="0.01" value="${item.purchasePrice ?? ""}" /></div>
-              <div class="form-row"><label>Latest value</label><input class="input" name="latestValue" type="number" step="0.01" value="${item.latestValue ?? ""}" /></div>
+              <div class="form-row"><label>Comp</label><input class="input" name="latestValue" type="number" step="0.01" value="${item.latestValue ?? ""}" /></div>
               <div class="form-row"><label>Source</label><input class="input" name="source" value="${escapeHtml(item.source || "")}" /></div>
-              <div class="form-row"><label>Storage location</label><input class="input" name="location" value="${escapeHtml(item.location || "")}" /></div>
             </div>
-            <div class="form-row" style="margin-top:10px"><label>Notes</label><textarea class="textarea" name="notes">${escapeHtml(item.notes || "")}</textarea></div>
             <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Card</button></div>
           </form>`;
       }
 
-      function searchForm() {
-        const search = state.searches.find((s) => s.id == state.editing) || {};
+      function platformForm() {
+        const target = state.searchTarget;
+        const item = target?.kind === "variation" ? variationById(target.id) : state.collection.find((row) => row.id == target?.id);
+        const query = target?.kind === "variation" ? variationSearchQuery(item) : collectionSearchQuery(item);
         return `
-          <form class="dialog" onsubmit="saveSearch(event)">
-            <div class="dialog-header"><h2>${search.id ? "Edit Search" : "Add Saved Search"}</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+          <div class="dialog">
+            <div class="dialog-header"><h2>Choose Search Platform</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+            <div class="form-row"><label>Query</label><input class="input" value="${escapeHtml(query)}" readonly /></div>
+            <div class="platform-grid" style="margin-top:12px">
+              ${searchPlatforms.map((platform, index) => `<button type="button" class="button ${index === 0 ? "" : "secondary"}" onclick="launchSearch('${platform.id}')">${escapeHtml(platform.label)}</button>`).join("")}
+            </div>
+          </div>`;
+      }
+
+      function compForm() {
+        const search = state.comps.find((s) => s.id == state.editing) || {};
+        const selectedCollectionId = search.id ? search.collectionId : (state.pendingCollectionId || "");
+        return `
+          <form class="dialog" onsubmit="saveComp(event)">
+            <div class="dialog-header"><h2>${search.id ? "Edit Comp Query" : "Add Comp Query"}</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
             <div class="form-grid">
-              ${selectField("cardId", "Card identity", state.collection.map((c) => ({ id: c.id, label: cardTitle(c) })), search.cardId, "label")}
-              <div class="form-row"><label>Marketplace</label><select class="select" name="marketplace">${["eBay", "COMC", "Alt", "Goldin", "Fanatics Collect", "Other"].map((v) => `<option ${search.marketplace === v ? "selected" : ""}>${v}</option>`).join("")}</select></div>
+              ${selectField("collectionId", "Collection row", state.collection.map((c) => ({ id: c.id, label: cardTitle(c) })), selectedCollectionId, "label")}
+              <div class="form-row"><label>Marketplace</label><select class="select" name="marketplace">${[...searchPlatforms.map((platform) => platform.label), "Other"].map((v) => `<option ${search.marketplace === v ? "selected" : ""}>${v}</option>`).join("")}</select></div>
               <div class="form-row"><label>Name</label><input class="input" name="name" value="${escapeHtml(search.name || "")}" required /></div>
               <div class="form-row"><label>Max price</label><input class="input" name="maxPrice" type="number" step="0.01" value="${search.maxPrice ?? ""}" /></div>
               <div class="form-row"><label>Minimum grade</label><input class="input" name="minGrade" value="${escapeHtml(search.minGrade || "")}" /></div>
@@ -1160,8 +1445,7 @@
             </div>
             <div class="form-row" style="margin-top:10px"><label>Query</label><input class="input" name="query" value="${escapeHtml(search.query || "")}" /></div>
             <div class="form-row" style="margin-top:10px"><label>URL</label><textarea class="textarea" name="url">${escapeHtml(search.url || "")}</textarea></div>
-            <div class="form-row" style="margin-top:10px"><label>Notes</label><textarea class="textarea" name="notes">${escapeHtml(search.notes || "")}</textarea></div>
-            <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Search</button></div>
+            <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Comp Query</button></div>
           </form>`;
       }
 
@@ -1176,7 +1460,6 @@
               <div class="form-row"><label>Sport</label><input class="input" name="sport" value="${escapeHtml(player.sport || "Baseball")}" required /></div>
               <div class="form-row"><label>League</label><input class="input" name="league" value="${escapeHtml(player.league || "MLB")}" required /></div>
             </div>
-            <div class="form-row" style="margin-top:10px"><label>Notes</label><textarea class="textarea" name="notes">${escapeHtml(player.notes || "")}</textarea></div>
             <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Player</button></div>
           </form>`;
       }
@@ -1191,21 +1474,23 @@
               <div class="form-row"><label>Brand</label><input class="input" name="brand" value="${escapeHtml(set.brand || "")}" required /></div>
               <div class="form-row"><label>Series</label><input class="input" name="series" value="${escapeHtml(set.series || "")}" required /></div>
             </div>
-            <div class="form-row" style="margin-top:10px"><label>Notes</label><textarea class="textarea" name="notes">${escapeHtml(set.notes || "")}</textarea></div>
             <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Set</button></div>
           </form>`;
       }
 
       function variationForm() {
+        const variation = state.variations.find((v) => v.id == state.editing) || {};
+        const selectedSetId = variation.id ? variation.setId : (state.pendingSetId || "");
         return `
           <form class="dialog" onsubmit="saveVariation(event)">
-            <div class="dialog-header"><h2>Add Variation</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
+            <div class="dialog-header"><h2>${variation.id ? "Edit Variation" : "Add Variation"}</h2><button type="button" class="icon-button secondary" onclick="closeModal()">${icons.x}</button></div>
             <div class="form-grid">
-              ${selectField("setId", "Set", state.sets.map((s) => ({ ...s, label: `${s.year} ${s.brand} ${s.series}` })), "", "label")}
-              <div class="form-row"><label>Name</label><input class="input" name="name" required /></div>
-              <div class="form-row"><label>Type</label><select class="select" name="type">${["Base", "Parallel", "Insert", "Autograph", "Relic", "Auto-Relic", "Printing Plate", "Buyback", "Other"].map((v) => `<option>${v}</option>`).join("")}</select></div>
-              <div class="form-row"><label>Rarity</label><input class="input" name="rarity" /></div>
-              <div class="form-row"><label>Print run</label><input class="input" name="printRun" /></div>
+              ${selectField("setId", "Set", state.sets.map((s) => ({ ...s, label: `${s.year} ${s.brand} ${s.series}` })), selectedSetId, "label")}
+              <div class="form-row"><label>Name</label><input class="input" name="name" value="${escapeHtml(variation.name || "")}" required /></div>
+              <div class="form-row"><label>Type</label><select class="select" name="type">${["Base", "Parallel", "Insert", "Autograph", "Relic", "Auto-Relic", "Printing Plate", "Buyback", "Other"].map((v) => `<option ${variation.type === v ? "selected" : ""}>${v}</option>`).join("")}</select></div>
+              <div class="form-row"><label>Rarity</label><input class="input" name="rarity" value="${escapeHtml(variation.rarity || "")}" /></div>
+              <div class="form-row"><label>Print run</label><input class="input" name="printRun" value="${escapeHtml(variation.printRun || "")}" /></div>
+              <div class="form-row"><label>Comp query</label><input class="input" name="compQuery" value="${escapeHtml(variation.compQuery || "")}" placeholder="Optional" /></div>
             </div>
             <div class="dialog-footer"><button type="button" class="button secondary" onclick="closeModal()">Cancel</button><button class="button">${icons.check}Save Variation</button></div>
           </form>`;
@@ -1251,26 +1536,25 @@
           latestValue: Number(data.latestValue || 0),
           source: data.source,
           status: data.status,
-          location: data.location,
-          notes: data.notes,
           color: ["green-card", "amber-card", "blue-card"][state.collection.length % 3],
         };
         if (state.editing) Object.assign(state.collection.find((i) => i.id == state.editing), payload);
         else state.collection.push({ id: nextId(), purchaseDate: "2026-06-20", ...payload });
         closeModal();
         render();
-        toast("Collection saved", "Dashboard totals and tables updated.");
+        toast("Collection saved", "Collection table updated.");
       }
 
-      function saveSearch(event) {
+      function saveComp(event) {
         const data = formData(event);
-        if (!data.url && data.marketplace === "eBay") data.url = "https://www.ebay.com/sch/i.html?_nkw=" + encodeURIComponent(data.query || data.name);
-        const payload = { cardId: Number(data.cardId), name: data.name, marketplace: data.marketplace, query: data.query, url: data.url, maxPrice: data.maxPrice, minGrade: data.minGrade, active: data.active === "true", notes: data.notes };
-        if (state.editing) Object.assign(state.searches.find((s) => s.id == state.editing), payload);
-        else state.searches.push({ id: nextId(), lastChecked: "", ...payload });
+        const platform = searchPlatforms.find((item) => item.label === data.marketplace);
+        if (!data.url && platform) data.url = platform.build(data.query || data.name);
+        const payload = { collectionId: Number(data.collectionId), name: data.name, marketplace: data.marketplace, query: data.query, url: data.url, maxPrice: data.maxPrice, minGrade: data.minGrade, active: data.active === "true" };
+        if (state.editing) Object.assign(state.comps.find((s) => s.id == state.editing), payload);
+        else state.comps.push({ id: nextId(), lastChecked: "", ...payload });
         closeModal();
         render();
-        toast("Search saved", "Saved search list updated.");
+        toast("Comp query saved", "Comp list updated.");
       }
 
       function savePlayer(event) {
@@ -1294,7 +1578,9 @@
 
       function saveVariation(event) {
         const data = formData(event);
-        state.variations.push({ id: nextId(), setId: Number(data.setId), name: data.name, type: data.type, rarity: data.rarity, printRun: data.printRun });
+        const payload = { setId: Number(data.setId), name: data.name, type: data.type, rarity: data.rarity, printRun: data.printRun, compQuery: data.compQuery };
+        if (state.editing) Object.assign(state.variations.find((v) => v.id == state.editing), payload);
+        else state.variations.push({ id: nextId(), ...payload });
         closeModal();
         render();
         toast("Variation saved", "Variation list updated.");
@@ -1307,20 +1593,21 @@
         item.latestValue = Number(data.median);
         closeModal();
         render();
-        toast("Valuation added", "Latest value updated on the collection item.");
+        toast("Valuation added", "Comp updated on the collection item.");
       }
 
       function deleteCollection(id) {
         if (!confirm("Delete this collection item?")) return;
         state.collection = state.collection.filter((i) => i.id !== id);
-        state.searches = state.searches.filter((s) => s.cardId !== id);
+        state.comps = state.comps.filter((comp) => comp.collectionId !== id);
+        state.collectionExpanded = state.collectionExpanded.filter((itemId) => itemId !== id);
         render();
-        toast("Collection item deleted", "Linked prototype searches were removed.", "danger");
+        toast("Collection item deleted", "The row and its comp queries were removed.", "danger");
       }
 
       function deleteSearch(id) {
         if (!confirm("Delete this saved search?")) return;
-        state.searches = state.searches.filter((s) => s.id !== id);
+        state.comps = state.comps.filter((s) => s.id !== id);
         render();
         toast("Search deleted", "The saved marketplace URL was removed.", "danger");
       }
@@ -1335,6 +1622,7 @@
         if (state.collection.some((i) => i.setId == id)) return toast("Delete blocked", "This set is referenced by collection rows.", "danger");
         state.sets = state.sets.filter((s) => s.id !== id);
         state.variations = state.variations.filter((v) => v.setId !== id);
+        state.setExpanded = state.setExpanded.filter((setId) => setId !== id);
         render();
       }
 
@@ -1344,37 +1632,11 @@
         render();
       }
 
-      function toggleSearch(id) {
-        const s = state.searches.find((row) => row.id === id);
-        s.active = !s.active;
-        render();
-        toast("Search updated", `${s.name} is now ${s.active ? "active" : "inactive"}.`);
-      }
-
-      function markSearchChecked(id) {
-        const s = state.searches.find((row) => row.id === id);
+      function markCompChecked(id) {
+        const s = state.comps.find((row) => row.id === id);
         s.lastChecked = "2026-06-20";
         render();
-        toast("Search checked", s.name);
-      }
-
-      function markVisibleChecked() {
-        state.searches.forEach((s) => {
-          if (state.searchActive === "All" || String(s.active) === state.searchActive) s.lastChecked = "2026-06-20";
-        });
-        render();
-        toast("Visible searches checked", "Last checked dates updated.");
-      }
-
-      function convertSearch(id) {
-        const s = state.searches.find((row) => row.id === id);
-        const item = state.collection.find((row) => row.id == s.cardId);
-        if (!item) return;
-        const copy = { ...item, id: nextId(), status: "Incoming", purchasePrice: Number(s.maxPrice || item.purchasePrice || 0), source: s.marketplace, location: "Desk tray", notes: `Created from saved search: ${s.name}`, color: "amber-card" };
-        state.collection.push(copy);
-        s.active = false;
-        render();
-        toast("Incoming card added", "The saved search was converted and deactivated.");
+        toast("Comp query checked", s.name);
       }
 
       function openDrawer(id) {
@@ -1396,33 +1658,31 @@
         }
         const item = state.collection.find((i) => i.id == state.drawer);
         const vals = state.valuations.filter((v) => v.collectionId == item.id).sort((a, b) => b.recordedAt.localeCompare(a.recordedAt));
-        const linked = state.searches.filter((s) => s.cardId == item.id);
+        const variation = state.variations.find((v) => v.id == item.variationId);
         node.className = "drawer-backdrop open";
         node.innerHTML = `
           <aside class="drawer">
             <div class="drawer-header"><h2>${escapeHtml(cardTitle(item))}</h2><button class="icon-button secondary" onclick="closeDrawer()">${icons.x}</button></div>
             <div class="drawer-grid">
-              <div><div class="large-card-art ${item.color || ""}"></div><button class="button secondary" style="width:100%;margin-top:10px" onclick="toast('Image selected', 'Prototype keeps image paths in memory only.')">${icons.plus}Upload Image</button></div>
+              <div><div class="large-card-art ${item.color || ""}">${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(cardTitle(item))}" />` : ""}</div><button class="button secondary" style="width:100%;margin-top:10px" onclick="toast('Image selected', 'Prototype keeps image paths in memory only.')">${icons.plus}Upload Image</button></div>
               <div>
-                <div class="field-grid">
+                  <div class="field-grid">
                   <div class="field"><span>Status</span><strong>${escapeHtml(item.status)}</strong></div>
                   <div class="field"><span>Cost</span><strong>${money(item.purchasePrice)}</strong></div>
-                  <div class="field"><span>Latest value</span><strong>${money(item.latestValue)}</strong></div>
+                  <div class="field"><span>Comp</span><strong>${money(item.latestValue)}</strong></div>
                   <div class="field"><span>Condition</span><strong>${item.condition === "Graded" ? `${escapeHtml(item.grader)} ${escapeHtml(item.grade)}` : "Raw"}</strong></div>
-                  <div class="field"><span>Location</span><strong>${escapeHtml(item.location)}</strong></div>
                   <div class="field"><span>Source</span><strong>${escapeHtml(item.source)}</strong></div>
                 </div>
-                <section class="panel"><div class="row"><h2>Linked Searches</h2><button class="button secondary" onclick="openModal('search')">${icons.plus}Add</button></div><div class="list">${linked.length ? linked.map((s) => `<div class="list-item"><div><strong>${escapeHtml(s.name)}</strong><span>${escapeHtml(s.marketplace)}, checked ${daysAgo(s.lastChecked)}</span></div><span class="pill ${s.active ? "green" : ""}">${s.active ? "Active" : "Inactive"}</span></div>`).join("") : "<span class='hint'>No linked searches yet.</span>"}</div></section>
+                <section class="panel"><div class="row"><h2>Search Platforms</h2><button class="button secondary" onclick="openSearchDialog('collection', ${item.id})">${icons.plus}Open</button></div><div class="hint">Choose eBay by default or switch platforms for the same query.</div>${variation && variation.compQuery ? `<div class="hint" style="margin-top:10px">Variation comp query: ${escapeHtml(variation.compQuery)}</div>` : ""}</section>
                 <section class="panel" style="margin-top:14px"><div class="row"><h2>Valuation History</h2><button class="button secondary" onclick="openModal('valuation')">${icons.plus}Add</button></div><div class="table-wrap"><table><thead><tr><th>Provider</th><th>Median</th><th>Low</th><th>High</th><th>Recorded</th></tr></thead><tbody>${vals.map((v) => `<tr><td>${escapeHtml(v.provider)}</td><td>${money(v.median)}</td><td>${money(v.low)}</td><td>${money(v.high)}</td><td>${escapeHtml(v.recordedAt)}</td></tr>`).join("")}</tbody></table></div></section>
-                <section class="panel" style="margin-top:14px"><h2>Notes</h2><p class="hint">${escapeHtml(item.notes || "No notes yet.")}</p></section>
               </div>
             </div>
           </aside>`;
       }
 
       function exportCollection() {
-        const headers = ["Player", "Set", "Variation", "Serial", "Condition", "Grade", "Purchase Price", "Latest Value", "Status", "Location", "Notes"];
-        const rows = state.collection.map((i) => [playerById(i.playerId).name, `${setById(i.setId).year} ${setById(i.setId).brand} ${setById(i.setId).series}`, variationById(i.variationId).name, i.serial, i.condition, i.grade, i.purchasePrice, i.latestValue, i.status, i.location, i.notes]);
+        const headers = ["Player", "Set", "Variation", "Serial", "Condition", "Grade", "Purchase Price", "Comp", "Status", "Source"];
+        const rows = state.collection.map((i) => [playerById(i.playerId).name, `${setById(i.setId).year} ${setById(i.setId).brand} ${setById(i.setId).series}`, variationById(i.variationId).name, i.serial, i.condition, i.grade, i.purchasePrice, i.latestValue, i.status, i.source]);
         const csv = [headers, ...rows].map((row) => row.map((cell) => `"${String(cell ?? "").replaceAll('"', '""')}"`).join(",")).join("\\n");
         const blob = new Blob([csv], { type: "text/csv" });
         const url = URL.createObjectURL(blob);

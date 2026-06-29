@@ -453,11 +453,16 @@
 
       function averageSetValue(session, field) {
         const values = (session?.sets || [])
+          .filter((set) => set.completed)
           .map((set) => Number(set[field]))
           .filter((value) => Number.isFinite(value) && value > 0);
 
         if (!values.length) return null;
         return values.reduce((total, value) => total + value, 0) / values.length;
+      }
+
+      function completedSetCount(session) {
+        return (session?.sets || []).filter((set) => set.completed).length;
       }
 
       function formatAverage(value) {
@@ -522,8 +527,10 @@
         if (!session) return "";
         const averageWeight = averageSetValue(session, "weight");
         const averageReps = averageSetValue(session, "reps");
+        const completedSets = completedSetCount(session);
         const summaryParts = [];
 
+        summaryParts.push(`${completedSets} completed set${completedSets === 1 ? "" : "s"}`);
         if (averageWeight !== null) summaryParts.push(`${formatAverage(averageWeight)} lb avg`);
         if (averageReps !== null) summaryParts.push(`${formatAverage(averageReps)} reps avg`);
         return summaryParts.length ? `Previous: ${summaryParts.join(" · ")}` : "";

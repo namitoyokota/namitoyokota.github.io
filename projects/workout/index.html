@@ -32,10 +32,28 @@
           <p class="text-xs font-semibold uppercase tracking-[0.28em]">Personal log</p>
           <h1 class="mt-2 text-3xl font-black leading-none sm:text-5xl">Workout Tracker</h1>
         </div>
-        <div id="todaySummary" class="border border-black px-4 py-3 text-sm font-semibold"></div>
+        <div class="flex flex-col gap-3 sm:items-end">
+          <nav class="grid grid-cols-2 border border-black text-xs font-black uppercase tracking-[0.16em]" aria-label="Views">
+            <button
+              id="trackerViewButton"
+              type="button"
+              class="px-4 py-3 hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            >
+              Log
+            </button>
+            <button
+              id="statsViewButton"
+              type="button"
+              class="border-l border-black px-4 py-3 hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            >
+              Stats
+            </button>
+          </nav>
+          <div id="todaySummary" class="border border-black px-4 py-3 text-sm font-semibold"></div>
+        </div>
       </header>
 
-      <section class="grid gap-6 lg:grid-cols-[17rem_1fr]">
+      <section id="trackerView" class="grid gap-6 lg:grid-cols-[17rem_1fr]">
         <aside class="lg:sticky lg:top-5 lg:self-start">
           <h2 class="mb-3 text-sm font-black uppercase tracking-[0.2em]">Body Part</h2>
           <nav id="bodyPartNav" class="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1" aria-label="Body parts"></nav>
@@ -103,6 +121,30 @@
                 </button>
               </div>
             </section>
+          </section>
+        </div>
+      </section>
+
+      <section id="statsView" class="hidden grid gap-6" aria-labelledby="statsTitle">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="text-xs font-black uppercase tracking-[0.24em]">Dashboard</p>
+            <h2 id="statsTitle" class="mt-2 text-3xl font-black leading-tight">Workout Stats</h2>
+          </div>
+          <div id="statsDateRange" class="text-sm font-semibold"></div>
+        </div>
+
+        <div id="statsOverview" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"></div>
+
+        <div class="grid gap-6 lg:grid-cols-[1fr_1fr]">
+          <section class="border border-black p-4 sm:p-5" aria-labelledby="bodyPartStatsTitle">
+            <h3 id="bodyPartStatsTitle" class="text-sm font-black uppercase tracking-[0.2em]">Body Part Breakdown</h3>
+            <div id="bodyPartStats" class="mt-4 grid gap-3"></div>
+          </section>
+
+          <section class="border border-black p-4 sm:p-5" aria-labelledby="recentStatsTitle">
+            <h3 id="recentStatsTitle" class="text-sm font-black uppercase tracking-[0.2em]">Recent Activity</h3>
+            <div id="recentActivity" class="mt-4 grid gap-3"></div>
           </section>
         </div>
       </section>
@@ -202,6 +244,7 @@
       const state = {
         activeBodyPart: getDefaultBodyPartId(),
         activeExerciseId: null,
+        activeView: "tracker",
         entries: loadEntries(),
         timer: {
           elapsedSeconds: 0,
@@ -211,6 +254,10 @@
       };
 
       const elements = {
+        trackerViewButton: document.querySelector("#trackerViewButton"),
+        statsViewButton: document.querySelector("#statsViewButton"),
+        trackerView: document.querySelector("#trackerView"),
+        statsView: document.querySelector("#statsView"),
         bodyPartNav: document.querySelector("#bodyPartNav"),
         exerciseListTitle: document.querySelector("#exerciseListTitle"),
         exerciseCount: document.querySelector("#exerciseCount"),
@@ -226,6 +273,10 @@
         timerDisplay: document.querySelector("#timerDisplay"),
         timerToggle: document.querySelector("#timerToggle"),
         timerReset: document.querySelector("#timerReset"),
+        statsDateRange: document.querySelector("#statsDateRange"),
+        statsOverview: document.querySelector("#statsOverview"),
+        bodyPartStats: document.querySelector("#bodyPartStats"),
+        recentActivity: document.querySelector("#recentActivity"),
       };
 
       function loadEntries() {
@@ -287,6 +338,7 @@
 
       function restoreSelectionFromUrl() {
         const params = new URLSearchParams(window.location.search);
+        state.activeView = params.get("view") === "stats" ? "stats" : "tracker";
         const requestedBodyPart = params.get("bodyPart");
         const requestedExercise = params.get("exercise");
         const exercise = requestedExercise ? getExerciseById(requestedExercise) : null;
@@ -311,6 +363,12 @@
       function updateUrlSelection() {
         const url = new URL(window.location.href);
 
+        if (state.activeView === "stats") {
+          url.searchParams.set("view", "stats");
+        } else {
+          url.searchParams.delete("view");
+        }
+
         if (state.activeBodyPart) {
           url.searchParams.set("bodyPart", state.activeBodyPart);
         } else {
@@ -328,6 +386,12 @@
         if (nextUrl !== currentUrl) {
           window.history.replaceState(null, "", nextUrl);
         }
+      }
+
+      function setActiveView(view) {
+        state.activeView = view === "stats" ? "stats" : "tracker";
+        updateUrlSelection();
+        render();
       }
 
       function todayDateString() {
@@ -463,6 +527,63 @@
 
       function completedSetCount(session) {
         return (session?.sets || []).filter((set) => set.completed).length;
+      }
+
+      function completedWorkoutVolume(session) {
+        return (session?.sets || []).reduce((total, set) => {
+          if (!set.completed) return total;
+          const weight = Number(set.weight);
+          const reps = Number(set.reps);
+          return Number.isFinite(weight) && Number.isFinite(reps) ? total + weight * reps : total;
+        }, 0);
+      }
+
+      function getAllLoggedSessions() {
+        const sessions = [];
+
+        bodyParts.forEach((bodyPart) => {
+          bodyPart.exercises.forEach((fileName) => {
+            const exerciseId = getExerciseId(bodyPart.id, fileName);
+            const exerciseName = formatExerciseName(fileName);
+            getLoggedSessions(state.entries[exerciseId]).forEach((session) => {
+              sessions.push({
+                exerciseId,
+                exerciseName,
+                bodyPartId: bodyPart.id,
+                bodyPartName: bodyPart.name,
+                session,
+                completedSets: completedSetCount(session),
+                volume: completedWorkoutVolume(session),
+              });
+            });
+          });
+        });
+
+        return sessions.sort((a, b) => {
+          const dateComparison = String(b.session.workoutDate || "").localeCompare(String(a.session.workoutDate || ""));
+          return dateComparison || String(b.session.updatedAt || "").localeCompare(String(a.session.updatedAt || ""));
+        });
+      }
+
+      function uniqueWorkoutDateCount(sessions) {
+        return new Set(sessions.map((item) => item.session.workoutDate).filter(Boolean)).size;
+      }
+
+      function getCurrentStreak(sessions) {
+        const dates = new Set(sessions.map((item) => item.session.workoutDate).filter(Boolean));
+        let streak = 0;
+        const cursor = new Date(`${todayDateString()}T00:00:00`);
+
+        while (dates.has(cursor.toISOString().slice(0, 10))) {
+          streak += 1;
+          cursor.setDate(cursor.getDate() - 1);
+        }
+
+        return streak;
+      }
+
+      function formatWholeNumber(value) {
+        return new Intl.NumberFormat().format(Math.round(value));
       }
 
       function formatAverage(value) {
@@ -709,18 +830,131 @@
         });
       }
 
+      function renderViewNavigation() {
+        const isStatsView = state.activeView === "stats";
+        elements.trackerView.classList.toggle("hidden", isStatsView);
+        elements.trackerView.classList.toggle("grid", !isStatsView);
+        elements.statsView.classList.toggle("hidden", !isStatsView);
+        elements.statsView.classList.toggle("grid", isStatsView);
+
+        elements.trackerViewButton.classList.toggle("bg-black", !isStatsView);
+        elements.trackerViewButton.classList.toggle("text-white", !isStatsView);
+        elements.statsViewButton.classList.toggle("bg-black", isStatsView);
+        elements.statsViewButton.classList.toggle("text-white", isStatsView);
+        elements.trackerViewButton.setAttribute("aria-current", isStatsView ? "false" : "page");
+        elements.statsViewButton.setAttribute("aria-current", isStatsView ? "page" : "false");
+      }
+
+      function makeStatCard(label, value, detail) {
+        const card = document.createElement("div");
+        card.className = "border border-black p-4";
+        card.innerHTML = `
+          <p class="text-xs font-black uppercase tracking-[0.18em]">${label}</p>
+          <p class="mt-3 text-3xl font-black leading-none">${value}</p>
+          <p class="mt-2 min-h-5 text-sm font-semibold">${detail}</p>
+        `;
+        return card;
+      }
+
+      function renderStats() {
+        const sessions = getAllLoggedSessions();
+        const totalSets = sessions.reduce((total, item) => total + item.completedSets, 0);
+        const totalVolume = sessions.reduce((total, item) => total + item.volume, 0);
+        const totalWorkoutDays = uniqueWorkoutDateCount(sessions);
+        const latestSession = sessions[0];
+        const earliestSession = sessions[sessions.length - 1];
+        const currentStreak = getCurrentStreak(sessions);
+
+        elements.statsDateRange.textContent =
+          earliestSession && latestSession
+            ? `${prettyDate(earliestSession.session.workoutDate)} - ${prettyDate(latestSession.session.workoutDate)}`
+            : "No completed sets yet";
+
+        elements.statsOverview.innerHTML = "";
+        [
+          ["Workouts", formatWholeNumber(sessions.length), `${formatWholeNumber(totalWorkoutDays)} logged day${totalWorkoutDays === 1 ? "" : "s"}`],
+          ["Sets", formatWholeNumber(totalSets), "Completed sets"],
+          ["Volume", `${formatWholeNumber(totalVolume)} lb`, "Weight x reps"],
+          ["Streak", `${formatWholeNumber(currentStreak)} day${currentStreak === 1 ? "" : "s"}`, "Through today"],
+        ].forEach(([label, value, detail]) => {
+          elements.statsOverview.append(makeStatCard(label, value, detail));
+        });
+
+        const maxBodyPartSessions = Math.max(
+          1,
+          ...bodyParts.map((bodyPart) => sessions.filter((item) => item.bodyPartId === bodyPart.id).length)
+        );
+        elements.bodyPartStats.innerHTML = "";
+        bodyParts.forEach((bodyPart) => {
+          const bodyPartSessions = sessions.filter((item) => item.bodyPartId === bodyPart.id);
+          const bodyPartSets = bodyPartSessions.reduce((total, item) => total + item.completedSets, 0);
+          const percent = Math.round((bodyPartSessions.length / maxBodyPartSessions) * 100);
+          const row = document.createElement("div");
+          row.className = "grid gap-2";
+          row.innerHTML = `
+            <div class="flex items-center justify-between gap-3 text-sm font-black">
+              <span>${bodyPart.name}</span>
+              <span>${bodyPartSessions.length} workout${bodyPartSessions.length === 1 ? "" : "s"} · ${bodyPartSets} set${bodyPartSets === 1 ? "" : "s"}</span>
+            </div>
+            <div class="h-3 border border-black">
+              <div class="h-full bg-black" style="width: ${percent}%"></div>
+            </div>
+          `;
+          elements.bodyPartStats.append(row);
+        });
+
+        elements.recentActivity.innerHTML = "";
+        if (!sessions.length) {
+          const empty = document.createElement("div");
+          empty.className = "border border-black p-5 text-sm font-bold";
+          empty.textContent = "Complete a set to start building your dashboard.";
+          elements.recentActivity.append(empty);
+          return;
+        }
+
+        sessions.slice(0, 8).forEach((item) => {
+          const row = document.createElement("button");
+          row.type = "button";
+          row.className =
+            "grid gap-1 border border-black p-3 text-left hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2";
+          row.innerHTML = `
+            <span class="flex items-start justify-between gap-3">
+              <span class="text-base font-black leading-tight">${item.exerciseName}</span>
+              <span class="shrink-0 text-xs font-black uppercase tracking-[0.14em]">${prettyDate(item.session.workoutDate)}</span>
+            </span>
+            <span class="text-sm font-semibold">${item.bodyPartName} · ${item.completedSets} set${item.completedSets === 1 ? "" : "s"} · ${formatWholeNumber(item.volume)} lb</span>
+          `;
+          row.addEventListener("click", () => {
+            state.activeBodyPart = item.bodyPartId;
+            state.activeExerciseId = item.exerciseId;
+            setActiveView("tracker");
+          });
+          elements.recentActivity.append(row);
+        });
+      }
+
       function renderSummary() {
         const loggedToday = Object.values(state.entries).filter((entry) => isCompletedToday(entry)).length;
         elements.todaySummary.textContent = `${loggedToday} exercises completed`;
       }
 
       function render() {
+        renderViewNavigation();
         renderBodyParts();
         renderExercises();
         renderTracker();
         renderSummary();
+        renderStats();
         renderTimer();
       }
+
+      elements.trackerViewButton.addEventListener("click", () => {
+        setActiveView("tracker");
+      });
+
+      elements.statsViewButton.addEventListener("click", () => {
+        setActiveView("stats");
+      });
 
       elements.setRows.addEventListener("input", (event) => {
         const input = event.target.closest("input[data-set-index]");
@@ -746,6 +980,7 @@
         currentSession.updatedAt = new Date().toISOString();
         saveEntries();
         renderSummary();
+        renderStats();
         renderBodyParts();
         renderExercises();
         renderPreviousInfo(getPreviousSession(entry));
@@ -766,6 +1001,7 @@
         currentSession.updatedAt = new Date().toISOString();
         saveEntries();
         renderSummary();
+        renderStats();
         renderBodyParts();
         renderExercises();
         renderTracker();

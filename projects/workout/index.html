@@ -74,13 +74,23 @@
                 <p id="selectedBodyPart" class="text-xs font-black uppercase tracking-[0.24em]"></p>
                 <h2 id="selectedExercise" class="mt-2 text-2xl font-black leading-tight"></h2>
               </div>
-              <button
-                id="clearExercise"
-                type="button"
-                class="hidden shrink-0 border border-black px-3 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-              >
-                Clear
-              </button>
+              <div class="flex shrink-0 flex-wrap justify-end gap-2">
+                <button
+                  id="previousExercise"
+                  type="button"
+                  class="border border-black px-3 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-black"
+                  disabled
+                >
+                  Previous exercise
+                </button>
+                <button
+                  id="clearExercise"
+                  type="button"
+                  class="hidden border border-black px-3 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+                >
+                  Clear
+                </button>
+              </div>
             </div>
 
             <img id="selectedImage" class="mt-5 aspect-square w-full border border-black object-contain" alt="" />
@@ -250,6 +260,8 @@
       const state = {
         activeBodyPart: getDefaultBodyPartId(),
         activeExerciseId: null,
+        lastChangedExerciseId: null,
+        previousChangedExerciseId: null,
         activeView: "tracker",
         entries: loadEntries(),
         timer: {
@@ -274,6 +286,7 @@
         selectedImage: document.querySelector("#selectedImage"),
         lastWorkedOut: document.querySelector("#lastWorkedOut"),
         setRows: document.querySelector("#setRows"),
+        previousExercise: document.querySelector("#previousExercise"),
         clearExercise: document.querySelector("#clearExercise"),
         todaySummary: document.querySelector("#todaySummary"),
         timerDisplay: document.querySelector("#timerDisplay"),
@@ -677,6 +690,32 @@
         return getExerciseById(state.activeExerciseId);
       }
 
+      function rememberExerciseChange(exerciseId) {
+        if (state.lastChangedExerciseId === exerciseId) return;
+        state.previousChangedExerciseId = state.lastChangedExerciseId;
+        state.lastChangedExerciseId = exerciseId;
+      }
+
+      function getPreviousChangedExercise() {
+        const targetId =
+          state.lastChangedExerciseId !== state.activeExerciseId
+            ? state.lastChangedExerciseId
+            : state.previousChangedExerciseId;
+        return targetId ? getExerciseById(targetId) : null;
+      }
+
+      function renderPreviousExerciseButton() {
+        const previousExercise = getPreviousChangedExercise();
+        elements.previousExercise.disabled = !previousExercise;
+        elements.previousExercise.textContent = previousExercise
+          ? `Back to ${previousExercise.name}`
+          : "Previous exercise";
+        elements.previousExercise.setAttribute(
+          "aria-label",
+          previousExercise ? `Go back to ${previousExercise.name}` : "No previous exercise to return to"
+        );
+      }
+
       function renderBodyParts() {
         elements.bodyPartNav.innerHTML = "";
 
@@ -764,6 +803,7 @@
           elements.selectedImage.classList.add("hidden");
           elements.lastWorkedOut.textContent = "";
           elements.setRows.innerHTML = "";
+          renderPreviousExerciseButton();
           elements.clearExercise.classList.add("hidden");
           return;
         }
@@ -777,6 +817,7 @@
         elements.selectedImage.alt = activeExercise.name;
         elements.selectedImage.classList.remove("hidden");
         elements.clearExercise.classList.remove("hidden");
+        renderPreviousExerciseButton();
 
         renderPreviousInfo(previousSession);
 
@@ -984,6 +1025,7 @@
 
         currentSession.workoutDate = todayDateString();
         currentSession.updatedAt = new Date().toISOString();
+        rememberExerciseChange(state.activeExerciseId);
         saveEntries();
         renderSummary();
         renderStats();
@@ -1005,6 +1047,7 @@
         set.completed = !set.completed;
         currentSession.workoutDate = todayDateString();
         currentSession.updatedAt = new Date().toISOString();
+        rememberExerciseChange(state.activeExerciseId);
         saveEntries();
         renderSummary();
         renderStats();
@@ -1017,6 +1060,16 @@
         if (!state.activeExerciseId) return;
         delete state.entries[state.activeExerciseId];
         saveEntries();
+        render();
+      });
+
+      elements.previousExercise.addEventListener("click", () => {
+        const previousExercise = getPreviousChangedExercise();
+        if (!previousExercise) return;
+
+        state.activeBodyPart = previousExercise.bodyPart.id;
+        state.activeExerciseId = previousExercise.id;
+        updateUrlSelection();
         render();
       });
 

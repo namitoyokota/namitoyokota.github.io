@@ -69,16 +69,16 @@
           </section>
 
           <section id="trackerPanel" class="border border-black bg-white p-4 sm:p-5">
-            <div class="flex items-start justify-between gap-4">
-              <div>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div class="min-w-0">
                 <p id="selectedBodyPart" class="text-xs font-black uppercase tracking-[0.24em]"></p>
                 <h2 id="selectedExercise" class="mt-2 text-2xl font-black leading-tight"></h2>
               </div>
-              <div class="flex shrink-0 flex-wrap justify-end gap-2">
+              <div class="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:shrink-0 sm:flex-wrap sm:justify-end">
                 <button
                   id="previousExercise"
                   type="button"
-                  class="border border-black px-3 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-black"
+                  class="min-w-0 break-words border border-black px-3 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-black"
                   disabled
                 >
                   Previous exercise

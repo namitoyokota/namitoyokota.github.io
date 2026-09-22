@@ -18,36 +18,6 @@
         "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_6916.jpg"
     },
     {
-        "id": 1,
-        "alt": "Condo - Isabella",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_6166.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_6166.webp"
-    },
-    {
-        "id": 2,
-        "alt": "Condo - Girls Porch Swing",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_5989.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_5989.webp"
-    },
-    {
-        "id": 3,
-        "alt": "Condo - Girls Close Up",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_5978.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_5978.webp"
-    },
-    {
-        "id": 4,
-        "alt": "Hiking - Isabella",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_5869.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_5869.webp"
-    },
-    {
-        "id": 32,
-        "alt": "Kappa Delta Formal",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/IMG_8555.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/IMG_8555.webp"
-    },
-    {
         "id": 31,
         "alt": "Phoenix - Church",
         "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_5066.webp",
@@ -66,34 +36,10 @@
         "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3852.webp"
     },
     {
-        "id": 7,
-        "alt": "Horse - Isabella Portrait",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3736.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3736.webp"
-    },
-    {
-        "id": 8,
-        "alt": "Horse - Isabella Ride",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3726.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3726.webp"
-    },
-    {
         "id": 9,
         "alt": "Beach - Chloe Portrait",
         "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3564.webp",
         "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3564.webp"
-    },
-    {
-        "id": 10,
-        "alt": "Beach - Girls Portrait",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3375.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3375.webp"
-    },
-    {
-        "id": 11,
-        "alt": "Beach - Isabella Thumbs Up",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_3144.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_3144.webp"
     },
     {
         "id": 12,
@@ -136,12 +82,6 @@
         "alt": "Beach - Girls Tattoos",
         "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2214.webp",
         "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2214.webp"
-    },
-    {
-        "id": 19,
-        "alt": "Beach - Girls Porch Portrait",
-        "fullImageUrl": "https://api.namitoyokota.com/assets/images/JAN_2113.webp",
-        "blurredImageUrl": "https://api.namitoyokota.com/assets/images-compressed/JAN_2113.webp"
     },
     {
         "id": 20,

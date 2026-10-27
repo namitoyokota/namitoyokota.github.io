@@ -1,7 +1,5 @@
 # Gianna's Road to an Asian Squat
 
----
-
 ## 1. Dynamic Stretching
 
 ### 1.1 Arm Circles & Torso Rotations
@@ -38,8 +36,6 @@
 ![Lateral side steps](images/dynamic/lateral-side-steps.png)
 - **Do:** Bend knees slightly; step sideways, then return.
 - **Amount:** 10 steps each way.
-
----
 
 ## 2. Massage
 
@@ -84,8 +80,6 @@
 - **Position:** Foot resting in your hands.
 - **Do:** Gently press and glide thumbs along the soft arch, not the heel bone.
 - **Time:** 1 min per foot.
-
----
 
 ## 3. Static Stretching
 

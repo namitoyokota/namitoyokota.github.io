@@ -1,5 +1,7 @@
 # Gianna's Road to an Asian Squat
 
+![Cover](images/cover.png)
+
 ## Table of Contents
 
 - [1 - Dynamic Stretching](#1-dynamic-stretching)

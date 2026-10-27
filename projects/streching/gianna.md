@@ -1,5 +1,33 @@
 # Gianna's Road to an Asian Squat
 
+## Table of Contents
+
+- [1 - Dynamic Stretching](#1-dynamic-stretching)
+  - [1.1 - Arm Circles & Torso Rotations](#11-arm-circles--torso-rotations)
+  - [1.2 - Standing Hip Circles](#12-standing-hip-circles)
+  - [1.3 - Forward & Side Leg Swings](#13-forward--side-leg-swings)
+  - [1.4 - Walking Lunges](#14-walking-lunges)
+  - [1.5 - Ankle Circles & Rocks](#15-ankle-circles--rocks)
+  - [1.6 - Gentle Calf Raises](#16-gentle-calf-raises)
+  - [1.7 - Lateral Side Steps](#17-lateral-side-steps)
+- [2 - Massage](#2-massage)
+  - [2.1 - Lower Back Palm Massage](#21-lower-back-palm-massage)
+  - [2.2 - Glute Massage](#22-glute-massage)
+  - [2.3 - Upper Back & Shoulder Massage](#23-upper-back--shoulder-massage)
+  - [2.4 - Hamstring Massage](#24-hamstring-massage)
+  - [2.5 - Calf Massage](#25-calf-massage)
+  - [2.6 - Gentle Achilles-Area Massage](#26-gentle-achilles-area-massage)
+  - [2.7 - Foot Arch Massage](#27-foot-arch-massage)
+- [3 - Static Stretching](#3-static-stretching)
+  - [3.1 - Child’s Pose](#31-childs-pose)
+  - [3.2 - Knee-to-Chest](#32-knee-to-chest)
+  - [3.3 - Figure-Four Stretch](#33-figure-four-stretch)
+  - [3.4 - Kneeling Hip Flexor Stretch](#34-kneeling-hip-flexor-stretch)
+  - [3.5 - Supine Hamstring Stretch](#35-supine-hamstring-stretch)
+  - [3.6 - Seated Spinal Twist](#36-seated-spinal-twist)
+  - [3.7 - Sphinx Pose](#37-sphinx-pose)
+  - [3.8 - Seated Forward Fold](#38-seated-forward-fold)
+
 ## 1. Dynamic Stretching
 
 ### 1.1 Arm Circles & Torso Rotations
